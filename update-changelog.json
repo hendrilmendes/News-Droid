@@ -1,10 +1,11 @@
 {
-  "latestVersion": "0.1.2_20210303",
+  "latestVersion": "0.1.2_20210516",
   "latestVersionCode": "12000",
   "url": "https://drive.google.com/file/d/1B7Ep6AhnR3tg-Cv9Yu99eKFcS_f-C9Vs/view?usp=sharing",
   "releaseNotes": [
-    "- First evolution",
-    "- Second evolution",
-    "- Bug fixes"
+    "- Melhorias na UI",
+    "- Corrigido bug onde os ícones não acompanhavam o estilo do modo escuro",
+    "- Corrigido erro do ícone do app",
+    "- Bibliotecas atualizadas"
   ]
 }
