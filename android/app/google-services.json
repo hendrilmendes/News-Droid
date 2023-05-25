@@ -1,0 +1,83 @@
+{
+  "project_info": {
+    "project_number": "920692713896",
+    "firebase_url": "https://newdroid-4cff8.firebaseio.com",
+    "project_id": "newdroid-4cff8",
+    "storage_bucket": "newdroid-4cff8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920692713896:android:db06243d3d9126a01d959d",
+        "android_client_info": {
+          "package_name": "com.example.newsdroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920692713896-8voguv8q5m8kjjcmqp8lv5l5tv4bm87v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs8g9Xa6NwwkWcwXNIZ07n7I93PiVGT3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920692713896-8voguv8q5m8kjjcmqp8lv5l5tv4bm87v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "920692713896-c0to09sbdsn1e78k005q65grsjl25fk6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newsdroid.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:920692713896:android:c654f529196aabd21d959d",
+        "android_client_info": {
+          "package_name": "com.github.hendrilmendes.news"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "920692713896-8voguv8q5m8kjjcmqp8lv5l5tv4bm87v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCs8g9Xa6NwwkWcwXNIZ07n7I93PiVGT3w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "920692713896-8voguv8q5m8kjjcmqp8lv5l5tv4bm87v.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "920692713896-c0to09sbdsn1e78k005q65grsjl25fk6.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.newsdroid.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
