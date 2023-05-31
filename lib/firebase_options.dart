@@ -47,33 +47,28 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCs8g9Xa6NwwkWcwXNIZ07n7I93PiVGT3w',
-    appId: '1:920692713896:android:c654f529196aabd21d959d',
-    messagingSenderId: '920692713896',
-    projectId: 'newdroid-4cff8',
-    databaseURL: 'https://newdroid-4cff8.firebaseio.com',
-    storageBucket: 'newdroid-4cff8.appspot.com',
+    apiKey: 'AIzaSyDh2lGCHDaSEConjHkRp7Ny6fZq3L7g65E',
+    appId: '1:728569554138:android:44d66ca44bb6bf948471e3',
+    messagingSenderId: '728569554138',
+    projectId: 'news-droid-app-1670874618271',
+    storageBucket: 'news-droid-app-1670874618271.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCVs8KwSrxo5ByWRBwBKwog-UIvCmgx7ic',
-    appId: '1:920692713896:ios:fdbfb3c9e5d588b71d959d',
-    messagingSenderId: '920692713896',
-    projectId: 'newdroid-4cff8',
-    databaseURL: 'https://newdroid-4cff8.firebaseio.com',
-    storageBucket: 'newdroid-4cff8.appspot.com',
-    iosClientId: '920692713896-h3pmutcpv1ig9njn42mprqsvdgeopuo8.apps.googleusercontent.com',
+    apiKey: 'AIzaSyACvJFaikcjYaXMTzDR2YQSbCbQUxgF9aE',
+    appId: '1:728569554138:ios:145e8d595761f37f8471e3',
+    messagingSenderId: '728569554138',
+    projectId: 'news-droid-app-1670874618271',
+    storageBucket: 'news-droid-app-1670874618271.appspot.com',
     iosBundleId: 'com.github.hendrilmendes.news',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCVs8KwSrxo5ByWRBwBKwog-UIvCmgx7ic',
-    appId: '1:920692713896:ios:fdbfb3c9e5d588b71d959d',
-    messagingSenderId: '920692713896',
-    projectId: 'newdroid-4cff8',
-    databaseURL: 'https://newdroid-4cff8.firebaseio.com',
-    storageBucket: 'newdroid-4cff8.appspot.com',
-    iosClientId: '920692713896-h3pmutcpv1ig9njn42mprqsvdgeopuo8.apps.googleusercontent.com',
+    apiKey: 'AIzaSyACvJFaikcjYaXMTzDR2YQSbCbQUxgF9aE',
+    appId: '1:728569554138:ios:145e8d595761f37f8471e3',
+    messagingSenderId: '728569554138',
+    projectId: 'news-droid-app-1670874618271',
+    storageBucket: 'news-droid-app-1670874618271.appspot.com',
     iosBundleId: 'com.github.hendrilmendes.news',
   );
 }

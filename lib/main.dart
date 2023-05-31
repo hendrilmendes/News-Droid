@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_performance/firebase_performance.dart';
 import 'firebase_options.dart';
 import 'telas/web/webview.dart';
 import 'tema/propriedade_tema.dart';
@@ -18,20 +20,24 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const MyApp());
 
   HttpOverrides.global = MyHttpOverrides();
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
-  OneSignal.shared.setAppId("d02a874a-6b10-43ac-a65b-747ceca1e323");
-  OneSignal.shared.promptUserForPushNotificationPermission().then((accepted) {
-    print("Accepted permission: $accepted");
-  });
+  OneSignal.shared.setAppId("93a92029-c592-4c02-b492-d32d3cf6225e");
+  OneSignal.shared.promptUserForPushNotificationPermission();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  FirebasePerformance performance = FirebasePerformance.instance;
 }
 
 class MyApp extends StatelessWidget {

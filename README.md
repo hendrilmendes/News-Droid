@@ -11,7 +11,7 @@ Um app simples que utiliza webview para exibir um site de notícias. Um projeto 
 ### Versão
 Última versão:
 
-    $version_release = 1.0.12
+    $version_release = 1.0.14
 ##
 
 ### Screenshots
@@ -24,10 +24,10 @@ Um app simples que utiliza webview para exibir um site de notícias. Um projeto 
 ### Créditos também a:
 
 <div>
-<a href = "https://github.com/OneSignal/OneSignal-Flutter-SDK" target="_blank">@OneSignal</a><br>
-<a href = "https://github.com/firebase/flutterfire" target="_blank">@Firebase</a><br>
-<a href = "https://github.com/pichillilorenzo/flutter_inappwebview" target="_blank">@Lorenzo Pichilli</a><br>
-<a href = "https://github.com/fluttercommunity/plus_plugins/tree/main/packages/connectivity_plus/connectivity_plus" target="_blank">@Flutter Community</a>
+<a href = "https://github.com/OneSignal" target="_blank">@OneSignal</a><br>
+<a href = "https://github.com/firebase" target="_blank">@Firebase</a><br>
+<a href = "https://github.com/pichillilorenzo" target="_blank">@Lorenzo Pichilli</a><br>
+<a href = "https://github.com/fluttercommunity" target="_blank">@Flutter Community</a>
 </div><br>
 
 Pelas bibliotecas maravilhosas que ajudou esse projeto ser possível.
