@@ -62,8 +62,8 @@ class _WebScreenState extends State<WebScreen> with TickerProviderStateMixin {
     _animationController.repeat();
     _refreshController = PullToRefreshController(
       onRefresh: () => _webViewController!.reload(),
-      options: PullToRefreshOptions(
-          color: Colors.white, backgroundColor: Colors.black87),
+      settings: PullToRefreshSettings(
+          color: Colors.white, backgroundColor: Colors.black),
     );
   }
 
