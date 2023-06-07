@@ -10,14 +10,14 @@ PODS:
   - Firebase/Performance (10.9.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 10.9.0)
-  - firebase_core (2.13.0):
+  - firebase_core (2.13.1):
     - Firebase/CoreOnly (= 10.9.0)
     - Flutter
-  - firebase_crashlytics (3.3.1):
+  - firebase_crashlytics (3.3.2):
     - Firebase/Crashlytics (= 10.9.0)
     - firebase_core
     - Flutter
-  - firebase_performance (0.9.2-1):
+  - firebase_performance (0.9.2-2):
     - Firebase/Performance (= 10.9.0)
     - firebase_core
     - Flutter
@@ -164,9 +164,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   connectivity_plus: 07c49e96d7fc92bc9920617b83238c4d178b446a
   Firebase: bd152f0f3d278c4060c5c71359db08ebcfd5a3e2
-  firebase_core: fc68c0f9eec4e800b9418deff14a7e0a504016f3
-  firebase_crashlytics: 6c82b5f80f225b2429ebc5fdadde5b7e7735ed4e
-  firebase_performance: 516fbfa3ace3c84add028be727ff08f15d8a3502
+  firebase_core: ce64b0941c6d87c6ef5022ae9116a158236c8c94
+  firebase_crashlytics: 9b80d1944507cc07fa1c4455797f7d2eb7c8873f
+  firebase_performance: d11d1fd9591547f6b75f325aaadd6550eaf7e090
   FirebaseABTesting: b2a87808d90f02766fcffb3957d3e397e7accc15
   FirebaseCore: b68d3616526ec02e4d155166bbafb8eca64af557
   FirebaseCoreExtension: 8d93ebbf6838a874b4ed82a564c9d6705f8365dd
