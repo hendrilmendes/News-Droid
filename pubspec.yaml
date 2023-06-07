@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias que usa WebView.
 
 publish_to: 'none'
-version: 1.0.14+32
+version: 1.0.15+33
 
 environment:
   sdk: '>=3.0.1 <4.0.0'
