@@ -31,7 +31,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 android {
 
     namespace 'com.github.hendrilmendes.news'
-    compileSdk 33
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -50,7 +50,7 @@ android {
     defaultConfig {
         applicationId "com.github.hendrilmendes.news"
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

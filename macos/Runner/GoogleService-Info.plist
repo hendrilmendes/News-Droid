@@ -2,22 +2,18 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLIENT_ID</key>
-	<string>920692713896-h3pmutcpv1ig9njn42mprqsvdgeopuo8.apps.googleusercontent.com</string>
-	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.920692713896-h3pmutcpv1ig9njn42mprqsvdgeopuo8</string>
 	<key>API_KEY</key>
-	<string>AIzaSyCVs8KwSrxo5ByWRBwBKwog-UIvCmgx7ic</string>
+	<string>AIzaSyACvJFaikcjYaXMTzDR2YQSbCbQUxgF9aE</string>
 	<key>GCM_SENDER_ID</key>
-	<string>920692713896</string>
+	<string>728569554138</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.github.hendrilmendes.news</string>
+	<string>com.github.hendrilmendes.newsdroid.RunnerTests</string>
 	<key>PROJECT_ID</key>
-	<string>newdroid-4cff8</string>
+	<string>news-droid-app-1670874618271</string>
 	<key>STORAGE_BUCKET</key>
-	<string>newdroid-4cff8.appspot.com</string>
+	<string>news-droid-app-1670874618271.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,8 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:920692713896:ios:fdbfb3c9e5d588b71d959d</string>
-	<key>DATABASE_URL</key>
-	<string>https://newdroid-4cff8.firebaseio.com</string>
+	<string>1:728569554138:ios:32bf23abe659fa7e8471e3</string>
 </dict>
 </plist>

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../componentes/voltar.dart';
 
-const fontFamily = 'OpenSans';
-
 class ErrorScreen extends StatelessWidget {
   ErrorScreen({
     super.key,
@@ -40,13 +38,13 @@ class ErrorScreen extends StatelessWidget {
                         : "Ocorreu um erro desconhecido. Por favor, tente novamente mais tarde",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
-                        fontSize: 18, fontFamily: fontFamily, fontWeight: FontWeight.w700),
+                        fontSize: 18, fontWeight: FontWeight.w700),
                   ),
                 ),
                 const Padding(padding: EdgeInsets.only(top: 10)),
                 ElevatedButton.icon(
                     onPressed: onPressed,
-                    icon: const Icon(Icons.refresh),
+                    icon: const Icon(Icons.refresh_outlined),
                     label: const Text("Recarregar"))
               ],
             ),

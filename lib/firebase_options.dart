@@ -65,10 +65,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyACvJFaikcjYaXMTzDR2YQSbCbQUxgF9aE',
-    appId: '1:728569554138:ios:145e8d595761f37f8471e3',
+    appId: '1:728569554138:ios:32bf23abe659fa7e8471e3',
     messagingSenderId: '728569554138',
     projectId: 'news-droid-app-1670874618271',
     storageBucket: 'news-droid-app-1670874618271.appspot.com',
-    iosBundleId: 'com.github.hendrilmendes.news',
+    iosBundleId: 'com.github.hendrilmendes.newsdroid.RunnerTests',
   );
 }

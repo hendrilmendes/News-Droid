@@ -77,11 +77,12 @@ class _WebScreenState extends State<WebScreen> with TickerProviderStateMixin {
               children: [
                 InAppWebView(
                   onWebViewCreated: (controller) =>
-                      _webViewController = controller,
-                  initialOptions: InAppWebViewGroupOptions(
-                      crossPlatform: InAppWebViewOptions(
-                    supportZoom: false,
-                  )),
+                  _webViewController = controller,
+                    initialSettings: InAppWebViewSettings(
+                    mediaPlaybackRequiresUserGesture: false,
+                    useHybridComposition: true,
+                    allowsInlineMediaPlayback: true,
+                  ),
                   initialUrlRequest: URLRequest(
                       url: WebUri(
                           "https://br-newsdroid.blogspot.com")),

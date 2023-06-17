@@ -11,7 +11,7 @@ Um app simples que utiliza webview para exibir um site de notícias. Um projeto 
 ### Versão
 Última versão:
 
-    $version_release = 1.0.14
+    $version_release = 1.0.16
 ##
 
 ### Screenshots
