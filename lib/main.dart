@@ -37,7 +37,6 @@ main() async {
   );
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  FirebasePerformance performance = FirebasePerformance.instance;
 }
 
 class MyApp extends StatelessWidget {
