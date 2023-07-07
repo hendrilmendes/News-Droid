@@ -15,7 +15,7 @@ Um app simples que utiliza webview para exibir um site de notícias. Um projeto 
 
 ### Recursos:
 
-* App feito em Flutter, disponível para iOS, Android, macOS, Windows e Linux
+* App feito em Flutter, disponível para iOS, Android
 * Firebase para monitorar o desempenho e erros do app
 * OneSignal para envio de notificações
 ##

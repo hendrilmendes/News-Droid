@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_performance/firebase_performance.dart';
 import 'firebase_options.dart';
 import 'telas/web/webview.dart';
 import 'tema/propriedade_tema.dart';
