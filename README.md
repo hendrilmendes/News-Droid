@@ -1,11 +1,9 @@
 ## News-Droid
-Um app simples que utiliza webview para exibir um site de notícias. Um projeto que surgiu em 2017 mas que existe desde 2015 e aos pouquinhos esta tomando forma, quem sabe de certo né :)
+Um app simples escrito em flutter que usa api do blogger para exibir o seu conteúdo. Um projeto que surgiu em 2017 mas que existe desde 2015 e aos pouquinhos esta tomando forma, quem sabe de certo né 😆
 
 ### Screenshots
 
-<img align="left" height="400px" src="screenshots/preview_android.png" alt="Preview Android">
-<img align="center" height="400px" src="screenshots/preview_ios.png" alt="Preview iOS">
-
+<img src="screenshots/preview.png?raw=true" width="32%"> <img src="screenshots/preview2.png?raw=true" width="32%"> <img src="screenshots/preview3.png?raw=true" width="32%"> 
 ##
 
 ### Versão
@@ -13,20 +11,24 @@ Um app simples que utiliza webview para exibir um site de notícias. Um projeto 
 ![Release](https://img.shields.io/github/v/release/hendrilmendes/News-Droid)
 ##
 
-### Recursos:
+### Download
 
-* App feito em Flutter, disponível para iOS, Android
-* Firebase para monitorar o desempenho e erros do app
-* OneSignal para envio de notificações
+[<img src="img/get_github.png"
+     alt="Download por GitHub"
+     height="90">](https://github.com/hendrilmendes/News-Droid/releases)
+
 ##
 
-### Créditos também a:
+### Recursos:
 
-<div>
-<a href = "https://github.com/OneSignal" target="_blank">@OneSignal</a><br>
-<a href = "https://github.com/firebase" target="_blank">@Firebase</a><br>
-<a href = "https://github.com/pichillilorenzo" target="_blank">@Lorenzo Pichilli</a><br>
-<a href = "https://github.com/fluttercommunity" target="_blank">@Flutter Community</a>
-</div><br>
+* App feito em Flutter, disponível para iOS e Android
+* Firebase para monitorar o desempenho, erros do app e envio de notificações
+* API Blogger v3
+##
 
-Pelas bibliotecas maravilhosas que ajudou esse projeto ser possível.
+### O que há de novo?
+
+Veja as novidades em [Changelog](https://github.com/hendrilmendes/News-Droid/blob/main/Changelog.md)
+
+## Licença
+Este projeto está licenciado sob a Licença MIT - veja [LICENSE.txt](LICENSE.txt)

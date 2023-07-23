@@ -1,6 +1,23 @@
 Changelog News-Droid
 
 ======================================================
+#### v1.1.0-beta
+- Um novo design mais moderno e prático para deixar sua experiência ainda melhor
+- Otimizado navegação mesmo em redes de baixa velocidade
+- A barra de pesquisa ficou muito mais inteligente, conforme for digitando a mágica vai acontecendo
+- Para você que tem problema de vista (como eu), agora e possível aumentar o tamanho do texto das postagens para não prejudicar a sua visão
+- Bibliotecas atualizadas
+- Migrado do serviço de notificações do OneSignal para Firebase
+
+======================================================
+#### v1.0.18
+- Ajustes no Podfile do iOS
+- Ajustes internos
+- Melhorias no WebView
+- Uma nova versão do app será lançada em breve com um novo design, muito mais otimizado e fluido, fiquei de olho por aqui 👀
+
+OBS: Essa será a última atualização da versão do App que utiliza webview. Futuras atualizações podem vir apenas para correções
+
 #### v1.0.17
 - Removido suporte ao Windows, macOS e Linux
 - Atualizado Kotlin para última versão

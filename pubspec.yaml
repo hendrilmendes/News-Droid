@@ -1,8 +1,8 @@
 name: newsdroid
-description: Um projeto amador para um app de notícias que usa WebView.
+description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 1.0.17+35
+version: 1.1.0-beta+41
 
 environment:
   sdk: '>=3.0.4 <4.0.0'
@@ -11,13 +11,66 @@ dependencies:
   flutter:
     sdk: flutter
 
+# Cached Network
+  cached_network_image: ^3.2.3
+
+# Cupertino
   cupertino_icons: ^1.0.5
-  flutter_inappwebview: ^6.0.0-beta.24+1
-  connectivity_plus: ^4.0.1
-  onesignal_flutter: ^3.5.1
-  firebase_core: ^2.14.0
-  firebase_crashlytics: ^3.3.3
-  firebase_performance: ^0.9.2+3
+
+# Firebase
+  firebase_core: ^2.15.0
+  firebase_crashlytics: ^3.3.4
+  firebase_performance: ^0.9.2+4
+  firebase_messaging: ^14.6.5
+
+# HTTP
+  http: ^1.1.0
+
+# Intl
+  intl: ^0.18.1
+
+# Licenses
+  flutter_oss_licenses: ^2.0.1
+
+# Package Info
+  package_info_plus: ^4.0.2
+
+#Provider
+  provider: ^6.0.5
+
+# Shared Plus
+  share_plus: ^7.0.2
+
+# Shared Preferences
+  shared_preferences: ^2.2.0
+
+# Widget HTML
+  flutter_widget_from_html: ^0.10.3  
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate_oss_licenses:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Flutter
+      uses: subosito/flutter-action@v1.5.3
+      with:
+        channel: "stable" # 'dev', 'alpha', 'master', default to: 'stable'
+        # flutter-version: '3.0.0' # you can also specify exact version of flutter
+
+    - name: Run pub get
+      run: flutter pub get
+
+    - name: Generate oss_licenses.dart
+      run: flutter pub run flutter_oss_licenses:generate.dart  
 
 dev_dependencies:
   flutter_test:
@@ -29,5 +82,7 @@ flutter:
 
   uses-material-design: true
 
-  assets:
-    - assets/erro/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Regular.ttf
