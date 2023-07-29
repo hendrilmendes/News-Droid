@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../oss_licenses.dart';
+import 'package:newsdroid/oss_licenses.dart';
 
 class LicencesPage extends StatelessWidget {
   const LicencesPage({super.key});
@@ -9,7 +9,7 @@ class LicencesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Licenças"),
+        title: const Text("Licenças de Código Aberto"),
       ),
       body: Card(
         child: ListView.builder(
@@ -78,7 +78,7 @@ class LicenceDetailPage extends StatelessWidget {
                 children: [
                   Text(
                     licence,
-                    style: const TextStyle(fontSize: 15),
+                    style: const TextStyle(fontSize: 16),
                   ),
                 ],
               ),

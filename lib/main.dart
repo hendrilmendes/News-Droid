@@ -65,8 +65,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          ThemeModel(), // Aqui fornecemos o estado do tema usando o ThemeModel
+      create: (_) => ThemeModel(), // Estado do tema usando o ThemeModel
       child: Consumer<ThemeModel>(
         builder: (_, theme, __) {
           return MaterialApp(

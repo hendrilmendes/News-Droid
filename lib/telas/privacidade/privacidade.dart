@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PolicyPage extends StatelessWidget {
+  const PolicyPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,6 +13,7 @@ class PolicyPage extends StatelessWidget {
         padding: EdgeInsets.all(8.0),
         child: SingleChildScrollView(
           child: Text(
+            style: TextStyle(fontSize: 16),
             """
 Aplicável em 01/08/2023
 

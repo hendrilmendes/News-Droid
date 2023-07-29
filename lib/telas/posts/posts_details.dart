@@ -24,7 +24,7 @@ class PostDetailsScreen extends StatefulWidget {
 }
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
-  double _fontSize = 16.0;
+  double _fontSize = 18.0;
 
   // Metodo para compatilhar os posts
   void sharePost(String shared) {

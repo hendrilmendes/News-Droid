@@ -1,6 +1,22 @@
 Changelog News-Droid
 
 ======================================================
+#### v1.1.2
+Novo:
+- Toque em cima de Versão em Ajustes para verificar se há novas atualizações disponíveis
+- No menu de Ajustes foi incluido a opção Informações Legais onde reune Licenças e termos da Política de Privacidade do app
+- Agora há uma tela de erro para te informar sempre que não for possível conectar na internet
+- Puxe para baixo para atualizar a página inicial para carregar novos posts
+
+Correções:
+- Ajustes na interface
+- Ajustes na fonte do texto na tela dos termos de privacidade e licenças
+- Alterado o tamanho padrão da fonte na tela dos posts
+- Corrigido bug onde mesmo desativando as notificações em Ajustes continuava recebendo notificação
+- Corrigido bug que fazia o app não salvar o tema definido quando fechado
+- Corrigido bug onde não estava abrindo URLs no Android 12 ou superior 
+
+======================================================
 #### v1.1.0-beta
 - Um novo design mais moderno e prático para deixar sua experiência ainda melhor
 - Otimizado navegação mesmo em redes de baixa velocidade
@@ -18,11 +34,13 @@ Changelog News-Droid
 
 OBS: Essa será a última atualização da versão do App que utiliza webview. Futuras atualizações podem vir apenas para correções
 
+======================================================
 #### v1.0.17
 - Removido suporte ao Windows, macOS e Linux
 - Atualizado Kotlin para última versão
 - Bibliotecas atualizadas
 
+======================================================
 #### v1.0.16
 - Atualizado Bibliotecas flutter_inappwebview, firebase_core, firebase_crashlytics, firebase_performance para útilma versão
 - Código  da WebView atualizado

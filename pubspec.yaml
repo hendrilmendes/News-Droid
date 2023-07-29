@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 1.1.0-beta+41
+version: 1.1.2+43
 
 environment:
   sdk: '>=3.0.4 <4.0.0'
@@ -13,6 +13,9 @@ dependencies:
 
 # Cached Network
   cached_network_image: ^3.2.3
+
+# Connectivity Plus
+  connectivity_plus: ^4.0.1
 
 # Cupertino
   cupertino_icons: ^1.0.5
@@ -43,6 +46,9 @@ dependencies:
 
 # Shared Preferences
   shared_preferences: ^2.2.0
+
+# Url Launcher
+  url_launcher: ^6.1.12
 
 # Widget HTML
   flutter_widget_from_html: ^0.10.3  
@@ -81,6 +87,9 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  assets:
+    - assets/erro/
 
   fonts:
     - family: OpenSans

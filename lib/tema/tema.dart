@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Metodo para tema escuro e claro
 class ThemeModel extends ChangeNotifier {
   bool _isDarkMode = true;
+
+  ThemeModel() {
+    _loadThemePreference(); // Verifica o tema definido quando abre o app
+  }
 
   bool get isDarkMode => _isDarkMode;
 
   void toggleDarkMode() {
     _isDarkMode = !_isDarkMode;
-    _saveThemePreference(_isDarkMode);
+    saveThemePreference(_isDarkMode);
     notifyListeners();
   }
 
-  // Salvar o tema definifo pelo usuário
-  void _saveThemePreference(bool value) async {
+  // Carregar o tema salvo
+  Future<void> _loadThemePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool('darkModeEnabled') ?? true;
+    notifyListeners();
+  }
+
+  // Salvar o tema
+  void saveThemePreference(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('darkModeEnabled', value);
   }

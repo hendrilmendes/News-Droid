@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/telas/config/config.dart';
 import 'package:newsdroid/api/api.dart';
@@ -24,6 +26,7 @@ class _HomeState extends State<Home> {
 
   bool isDarkMode = false;
   int currentIndex = 0;
+  bool isOnline = true;
 
   final TextEditingController _searchController = TextEditingController();
 
@@ -31,6 +34,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchPosts();
+    checkConnectivity();
   }
 
   // GET API
@@ -82,9 +86,35 @@ class _HomeState extends State<Home> {
     }
   }
 
+  // Verifica se tem conexao
+  Future<void> checkConnectivity() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    setState(() {
+      isOnline = connectivityResult != ConnectivityResult.none;
+    });
+  }
+
+  // Atualizar Home
+  Future<void> _refreshPosts() async {
+    await fetchPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
+
+    if (!isOnline) {
+      // Verifica se esta conectado ou nao
+      return ErrorScreen(
+        onReload: () {
+          setState(() {
+            isOnline = true;
+          });
+          fetchPosts();
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('News-Droid'),
@@ -122,89 +152,92 @@ class _HomeState extends State<Home> {
 
           // GET data do blogger
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredPosts.length,
-              itemBuilder: (BuildContext context, int index) {
-                final post = filteredPosts[index];
-                final title = post['title'];
-                final url = post['url'];
-                final publishedDate = post['published'];
-                final formattedDate = formatDate(publishedDate);
+            child: RefreshIndicator(
+              onRefresh: _refreshPosts,
+              child: ListView.builder(
+                itemCount: filteredPosts.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final post = filteredPosts[index];
+                  final title = post['title'];
+                  final url = post['url'];
+                  final publishedDate = post['published'];
+                  final formattedDate = formatDate(publishedDate);
 
-                var imageUrl =
-                    post['images'] != null ? post['images'][0]['url'] : null;
+                  var imageUrl =
+                      post['images'] != null ? post['images'][0]['url'] : null;
 
-                if (imageUrl == null) {
-                  final content = post['content'];
-                  final match =
-                      RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
-                  if (match != null) {
-                    imageUrl = match.group(1);
+                  if (imageUrl == null) {
+                    final content = post['content'];
+                    final match =
+                        RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
+                    if (match != null) {
+                      imageUrl = match.group(1);
+                    }
                   }
-                }
 
-                // PostDetails
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PostDetailsScreen(
-                          title: title,
-                          imageUrl: imageUrl,
-                          content: post['content'],
-                          url: url,
-                          formattedDate: formattedDate,
-                        ),
-                      ),
-                    );
-                  },
-
-                  // Card da imgem e titulo da postagem
-                  child: Card(
-                    margin: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10.0),
-                            bottom: Radius.circular(10.0),
-                          ),
-                          child: CachedNetworkImage(
+                  // PostDetails
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostDetailsScreen(
+                            title: title,
                             imageUrl: imageUrl,
-                            fit: BoxFit.cover,
-                            height: 200,
-                            width: double.infinity,
-                            placeholder: (context, url) =>
-                                const CircularProgressIndicator(
-                              value: 0.3,
+                            content: post['content'],
+                            url: url,
+                            formattedDate: formattedDate,
+                          ),
+                        ),
+                      );
+                    },
+
+                    // Card da imgem e titulo da postagem
+                    child: Card(
+                      margin: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10.0),
+                              bottom: Radius.circular(10.0),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error_outline_outlined),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                title,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.cover,
+                              height: 200,
+                              width: double.infinity,
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(
+                                value: 0.3,
                               ),
-                              const SizedBox(height: 8),
-                            ],
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error_outline_outlined),
+                            ),
                           ),
-                        ),
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  title,
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ],
@@ -212,6 +245,7 @@ class _HomeState extends State<Home> {
 
       // Bottom Nav
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         onTap: onTabTapped,
         currentIndex: currentIndex,
         selectedItemColor: Colors.blue,

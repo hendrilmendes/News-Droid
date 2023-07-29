@@ -4,6 +4,7 @@ Um app simples escrito em flutter que usa api do blogger para exibir o seu conte
 ### Screenshots
 
 <img src="screenshots/preview.png?raw=true" width="32%"> <img src="screenshots/preview2.png?raw=true" width="32%"> <img src="screenshots/preview3.png?raw=true" width="32%"> 
+
 ##
 
 ### Versão
