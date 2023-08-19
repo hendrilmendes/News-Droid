@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -42,6 +45,16 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     setState(() {
       _fontSize = _fontSize + 2.0;
     });
+  }
+
+  // Icon de Compartilhamento
+  // ignore: non_constant_identifier_names
+  Icon _SharedIcon() {
+    if (Platform.isAndroid) {
+      return const Icon(Icons.share_outlined);
+    } else {
+      return const Icon(CupertinoIcons.share_solid);
+    }
   }
 
   @override
@@ -98,7 +111,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       //Floating Action de Compartilhamento
       floatingActionButton: FloatingActionButton(
         foregroundColor: Colors.blue,
-        child: const Icon(Icons.share_outlined),
+        child: Center(
+          child: _SharedIcon(),
+        ),
         onPressed: () => sharePost(widget.url),
       ),
     );

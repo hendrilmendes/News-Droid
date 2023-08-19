@@ -28,7 +28,7 @@ class GitHubUpdater {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) => AlertDialog.adaptive(
               title: const Text('Nova Versão Disponível'),
               content: const Text(
                   'Uma nova versão do app esta disponível. Deseja Baixar?'),
@@ -37,8 +37,9 @@ class GitHubUpdater {
                   onPressed: () => Navigator.pop(context),
                   child: const Text('AGORA NÃO'),
                 ),
-                ElevatedButton(
+                TextButton(
                   onPressed: () {
+                    // ignore: deprecated_member_use
                     launch(
                         'https://github.com/hendrilmendes/News-Droid/releases/latest');
                     Navigator.pop(context);
@@ -52,11 +53,11 @@ class GitHubUpdater {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) => AlertDialog.adaptive(
               title: const Text('Nenhuma Atualização Disponível'),
               content: const Text('Tudo em dias parceiro 🤠'),
               actions: [
-                ElevatedButton(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: const Text('OK'),
                 ),

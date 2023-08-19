@@ -1,6 +1,19 @@
 Changelog News-Droid
 
 ======================================================
+#### v1.2.0
+Novo:
+- Suporte ao Dynamic Colors do Android 12 ou Superior
+- Nova barra de navegação inspirada no Material Design 3
+- Agora a data de publicação e exibida na Home
+
+Correções/Melhorias:
+- Alterado Layout da tela de Ajustes
+- Pequenos refinamentos na interface
+- Correções de bugs
+- Bibliotecas atualizadas
+
+======================================================
 #### v1.1.2
 Novo:
 - Toque em cima de Versão em Ajustes para verificar se há novas atualizações disponíveis

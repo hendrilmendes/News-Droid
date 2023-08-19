@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/telas/licencas/licencas.dart';
 import 'package:newsdroid/telas/privacidade/privacidade.dart';
@@ -17,14 +16,6 @@ class _InfoScreenState extends State<InfoScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Informações Legais'),
-        leading: InkWell(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const Icon(
-            CupertinoIcons.back,
-          ),
-        ),
       ),
       body: ListView(
         children: [

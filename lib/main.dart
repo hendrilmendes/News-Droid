@@ -1,9 +1,12 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:newsdroid/telas/home/home.dart';
 import 'package:newsdroid/tema/tema.dart';
 import 'firebase_options.dart';
@@ -16,6 +19,8 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await initializeDateFormatting();
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
@@ -68,16 +73,44 @@ class MyApp extends StatelessWidget {
       create: (_) => ThemeModel(), // Estado do tema usando o ThemeModel
       child: Consumer<ThemeModel>(
         builder: (_, theme, __) {
-          return MaterialApp(
-            theme: ThemeData.light(useMaterial3: true).copyWith(
-              textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
-            ),
-            darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-              textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
-            ),
-            themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-            debugShowCheckedModeBanner: false,
-            home: const Home(),
+          return DynamicColorBuilder(
+            builder: (lightColorScheme, darkColorScheme) {
+              if (Platform.isIOS) {
+                return MaterialApp(
+                  theme: ThemeData.light(useMaterial3: true).copyWith(
+                    textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
+                  ),
+                  darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
+                    textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
+                  ),
+                  themeMode:
+                      theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                  debugShowCheckedModeBanner: false,
+                  home: const Home(),
+                );
+              } else {
+                return MaterialApp(
+                  theme: ThemeData(
+                    colorScheme: lightColorScheme?.copyWith(
+                      primary: theme.isDarkMode ? Colors.black : Colors.white,
+                    ),
+                    useMaterial3: true,
+                    textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
+                  ),
+                  darkTheme: ThemeData(
+                    colorScheme: darkColorScheme?.copyWith(
+                      primary: theme.isDarkMode ? Colors.white : Colors.black,
+                    ),
+                    useMaterial3: true,
+                    textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
+                  ),
+                  themeMode:
+                      theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+                  debugShowCheckedModeBanner: false,
+                  home: const Home(),
+                );
+              }
+            },
           );
         },
       ),

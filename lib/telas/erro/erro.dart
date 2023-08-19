@@ -30,7 +30,7 @@ class ErrorScreen extends StatelessWidget {
               ElevatedButton.icon(
                   onPressed: onReload,
                   icon: const Icon(Icons.refresh_outlined),
-                  label: const Text("Recarregar"))
+                  label: const Text("Recarregar")),
             ],
           ),
         ),

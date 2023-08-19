@@ -1,12 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:newsdroid/telas/info/info.dart';
+import 'package:newsdroid/telas/sobre/sobre.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:newsdroid/tema/tema.dart';
-import 'package:newsdroid/api/github_updater.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -103,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Notificacoes
           Card(
             margin: const EdgeInsets.all(8.0),
-            child: SwitchListTile(
+            child: SwitchListTile.adaptive(
               activeColor: Colors.blue,
               title: const Text('Notificações'),
               subtitle: const Text(
@@ -122,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           // Temas
           Card(
             margin: const EdgeInsets.all(8.0),
-            child: SwitchListTile(
+            child: SwitchListTile.adaptive(
               activeColor: Colors.blue,
               title: const Text('Modo Escuro'),
               subtitle: const Text(
@@ -135,49 +134,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
-
           // Sobre
-          const Card(
-            margin: EdgeInsets.all(8.0),
-            child: ListTile(
-              title: Text('Sobre'),
-              subtitle: Text(
-                'Um projeto amador para um app de notícias. Um projeto que surgiu em 2017 mas que existe desde 2015 e aos pouquinhos esta tomando forma, quem sabe de certo né 😆',
-              ),
-            ),
-          ),
-
-          // Versao
           Card(
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
-              title: const Text('Versão'),
-              subtitle: Text('News-Droid: v$appVersion Build: ($appBuild)'),
-              onTap: () {
-                GitHubUpdater.checkForUpdates(context);
-              },
-            ),
-          ),
-
-          // Licencas
-          Card(
-            margin: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: const Text('Informações Legais'),
-              subtitle: Text(
-                  "Copyright © ${DateTime.now().year} Hendril Mendes. Todos os direitos reservados."),
+              title: const Text('Sobre'),
+              subtitle: const Text("Um pouco mais sobre nozes 🫰🏻"),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const InfoScreen()),
+                  MaterialPageRoute(builder: (context) => const AboutPage()),
                 );
               },
             ),
           ),
-
+          const SizedBox(height: 400),
           // Dev
           const Text(
-            "Feito com ♥ em Flutter",
+            "Feito com ♥ por Hendril Mendes",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 12),
           ),
