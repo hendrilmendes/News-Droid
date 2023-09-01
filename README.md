@@ -30,6 +30,7 @@ Um app simples escrito em flutter que usa api do blogger para exibir o seu conte
 ### O que há de novo?
 
 Veja as novidades em [Changelog](https://github.com/hendrilmendes/News-Droid/blob/main/Changelog.md)
+##
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT - veja [LICENSE](LICENSE.txt)

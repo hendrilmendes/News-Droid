@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 1.2.0+45
+version: 1.2.1+46
 
 environment:
   sdk: '>=3.0.4 <4.0.0'
@@ -39,7 +39,7 @@ dependencies:
   flutter_oss_licenses: ^2.0.1
 
 # MDI
-  material_design_icons_flutter: 5.0.5955-rc.1
+  material_design_icons_flutter: ^5.0.5955-rc.1
 
 # Overlay
   overlay_support: ^2.1.0
@@ -57,8 +57,8 @@ dependencies:
   shared_preferences: ^2.2.0
 
 # Snackbar
-  floating_snackbar: ^1.0.3+1
-
+  flutter_icon_snackbar: ^1.1.4
+  
 # Toast
   fluttertoast: ^8.2.2
   

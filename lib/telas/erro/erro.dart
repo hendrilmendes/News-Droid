@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -29,7 +30,7 @@ class ErrorScreen extends StatelessWidget {
               const Padding(padding: EdgeInsets.only(top: 10)),
               ElevatedButton.icon(
                   onPressed: onReload,
-                  icon: const Icon(Icons.refresh_outlined),
+                  icon: const Icon(CupertinoIcons.refresh),
                   label: const Text("Recarregar")),
             ],
           ),

@@ -281,14 +281,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.4+5"
-  floating_snackbar:
-    dependency: "direct main"
-    description:
-      name: floating_snackbar
-      sha256: d3e860f21d6e77e4c2427e62226124957abff7ea4cbccd08f61343c9931342da
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3+1"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -310,6 +302,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  flutter_icon_snackbar:
+    dependency: "direct main"
+    description:
+      name: flutter_icon_snackbar
+      sha256: "859400d43c67c27d40ac00110460d5db895cdc70fc5050ec6fab3510088cfee4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.4"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -448,6 +448,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  icon_animated:
+    dependency: transitive
+    description:
+      name: icon_animated
+      sha256: "0847039648c98e53ac9be16cac170c025461caeb4d890cf4f88c78578ef9e7aa"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   intl:
     dependency: "direct main"
     description:

@@ -10,18 +10,18 @@ class LicencesPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Licenças de Código Aberto"),
       ),
-      body: Card(
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          itemCount: ossLicenses.length,
-          itemBuilder: (_, index) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+      body: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemCount: ossLicenses.length,
+        itemBuilder: (_, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Card(
                 child: ListTile(
                   onTap: () {
                     Navigator.push(
@@ -42,9 +42,9 @@ class LicencesPage extends StatelessWidget {
                   subtitle: Text(ossLicenses[index].description),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -62,24 +62,22 @@ class LicenceDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
-                borderRadius: BorderRadius.circular(10)),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  Text(
-                    licence,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
-              ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              color: Theme.of(context).cardColor,
+              borderRadius: BorderRadius.circular(10)),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Text(
+                  licence,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
             ),
           ),
         ),

@@ -53,7 +53,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     if (Platform.isAndroid) {
       return const Icon(Icons.share_outlined);
     } else {
-      return const Icon(CupertinoIcons.share_solid);
+      return const Icon(CupertinoIcons.share);
     }
   }
 

@@ -200,7 +200,6 @@ class _AboutPageState extends State<AboutPage> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 100),
                   // Dev
                   const Text(
                     "Feito com ♥ em Flutter",

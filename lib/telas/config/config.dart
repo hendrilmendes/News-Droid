@@ -148,7 +148,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
-          const SizedBox(height: 400),
           // Dev
           const Text(
             "Feito com ♥ por Hendril Mendes",

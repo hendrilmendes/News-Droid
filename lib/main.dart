@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -74,44 +73,29 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeModel>(
         builder: (_, theme, __) {
           return DynamicColorBuilder(
-            builder: (lightColorScheme, darkColorScheme) {
-              if (Platform.isIOS) {
-                return MaterialApp(
-                  theme: ThemeData.light(useMaterial3: true).copyWith(
-                    textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
-                  ),
-                  darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-                    textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
-                  ),
-                  themeMode:
-                      theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-                  debugShowCheckedModeBanner: false,
-                  home: const Home(),
-                );
-              } else {
-                return MaterialApp(
-                  theme: ThemeData(
-                    colorScheme: lightColorScheme?.copyWith(
-                      primary: theme.isDarkMode ? Colors.black : Colors.white,
-                    ),
-                    useMaterial3: true,
-                    textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
-                  ),
-                  darkTheme: ThemeData(
-                    colorScheme: darkColorScheme?.copyWith(
-                      primary: theme.isDarkMode ? Colors.white : Colors.black,
-                    ),
-                    useMaterial3: true,
-                    textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
-                  ),
-                  themeMode:
-                      theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-                  debugShowCheckedModeBanner: false,
-                  home: const Home(),
-                );
-              }
-            },
-          );
+              builder: (lightColorScheme, darkColorScheme) {
+            return MaterialApp(
+              theme: ThemeData(
+                brightness: Brightness.light,
+                colorScheme: lightColorScheme?.copyWith(
+                  primary: theme.isDarkMode ? Colors.black : Colors.white,
+                ),
+                useMaterial3: true,
+                textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
+              ),
+              darkTheme: ThemeData(
+                brightness: Brightness.dark,
+                colorScheme: darkColorScheme?.copyWith(
+                  primary: theme.isDarkMode ? Colors.white : Colors.black,
+                ),
+                useMaterial3: true,
+                textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
+              ),
+              themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+              debugShowCheckedModeBanner: false,
+              home: const Home(),
+            );
+          });
         },
       ),
     );

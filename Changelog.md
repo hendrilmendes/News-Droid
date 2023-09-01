@@ -1,7 +1,13 @@
 Changelog News-Droid
 
 ======================================================
-#### v1.2.0
+#### v1.2.1 - 01/09/2023
+Correções/Melhorias:
+- Corrigido bug relacionado do Dynamic Colors em versões anteriores ao Android 12
+- Ajustes aqui e ali para deixar sua experiência melhor
+
+======================================================
+#### v1.2.0 - 19/08/2023
 Novo:
 - Suporte ao Dynamic Colors do Android 12 ou Superior
 - Nova barra de navegação inspirada no Material Design 3
@@ -14,7 +20,7 @@ Correções/Melhorias:
 - Bibliotecas atualizadas
 
 ======================================================
-#### v1.1.2
+#### v1.1.2 - 29/07/2023
 Novo:
 - Toque em cima de Versão em Ajustes para verificar se há novas atualizações disponíveis
 - No menu de Ajustes foi incluido a opção Informações Legais onde reune Licenças e termos da Política de Privacidade do app
@@ -30,7 +36,7 @@ Correções:
 - Corrigido bug onde não estava abrindo URLs no Android 12 ou superior 
 
 ======================================================
-#### v1.1.0-beta
+#### v1.1.0-beta - 23/07/2023
 - Um novo design mais moderno e prático para deixar sua experiência ainda melhor
 - Otimizado navegação mesmo em redes de baixa velocidade
 - A barra de pesquisa ficou muito mais inteligente, conforme for digitando a mágica vai acontecendo
@@ -39,7 +45,7 @@ Correções:
 - Migrado do serviço de notificações do OneSignal para Firebase
 
 ======================================================
-#### v1.0.18
+#### v1.0.18 - 15/07/2023
 - Ajustes no Podfile do iOS
 - Ajustes internos
 - Melhorias no WebView
@@ -48,13 +54,13 @@ Correções:
 OBS: Essa será a última atualização da versão do App que utiliza webview. Futuras atualizações podem vir apenas para correções
 
 ======================================================
-#### v1.0.17
+#### v1.0.17 - 07/07/2023
 - Removido suporte ao Windows, macOS e Linux
 - Atualizado Kotlin para última versão
 - Bibliotecas atualizadas
 
 ======================================================
-#### v1.0.16
+#### v1.0.16 - 17/06/2023
 - Atualizado Bibliotecas flutter_inappwebview, firebase_core, firebase_crashlytics, firebase_performance para útilma versão
 - Código  da WebView atualizado
 
@@ -68,13 +74,13 @@ OBS: Essa será a última atualização da versão do App que utiliza webview. F
 - Compatibilidade com Xcode 15.0
 
 ======================================================
-#### v1.0.14
+#### v1.0.14 - 31/05/2023
 - Bibliotecas do Android atualizadas
 - O Firebase foi ajustado para inclusão do modulo Performance e CrashLytics
 - Vários outros ajustes internos
 
 ======================================================
-#### v1.0.12
+#### v1.0.12 - 25/05/2023
 - Ajustes no Firebase
 - Bibliotecas atualizadas
 - Melhorias internas

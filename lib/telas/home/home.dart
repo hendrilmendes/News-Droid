@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:floating_snackbar/floating_snackbar.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/telas/config/config.dart';
@@ -61,7 +61,7 @@ class _HomeState extends State<Home> {
         isLoading = false; // Desativando o indicador de carregamento
       });
     } else {
-      // Caso ocorra um erro na requisição, desativamos o indicador de carregamento
+      // Caso ocorra um erro na requisição, desativa o indicador de carregamento
       setState(() {
         isLoading = false;
       });
@@ -143,13 +143,10 @@ class _HomeState extends State<Home> {
 
   // Sem resultados
   void showSearchErrorMessage() {
-    FloatingSnackBar(
-      message: 'Nenhum resultado encontrado 😭',
-      context: context,
-      textColor: Colors.black,
-      textStyle: const TextStyle(color: Colors.blue),
-      duration: const Duration(seconds: 3),
-    );
+    IconSnackBar.show(
+        context: context,
+        snackBarType: SnackBarType.fail,
+        label: 'Nenhum resultado encontrado');
   }
 
   @override
