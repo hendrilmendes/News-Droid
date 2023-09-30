@@ -10,6 +10,7 @@ Um app simples escrito em flutter que usa api do blogger para exibir o seu conte
 ### Versão
 [![made-with-flutter](https://img.shields.io/badge/Made%20with-Flutter-1f425f.svg)](https://flutter.dev/)
 ![Release](https://img.shields.io/github/v/release/hendrilmendes/News-Droid)
+![GitHub all releases](https://img.shields.io/github/downloads/hendrilmendes/News-Droid/total?color=white&style=plastic)
 ##
 
 ### Download

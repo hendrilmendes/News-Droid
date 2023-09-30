@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -106,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               activeColor: Colors.blue,
               title: const Text('Notificações'),
               subtitle: const Text(
-                "Desative as notificações caso não queira ser notificado com novos posts",
+                "Notificações serão enviadas quando publicarmos novos posts",
               ),
               value: _notificationsEnabled,
               onChanged: (value) {
@@ -125,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               activeColor: Colors.blue,
               title: const Text('Modo Escuro'),
               subtitle: const Text(
-                "Habilite o modo escuro para uma experiência melhor ao usar o app em ambientes noturnos",
+                "O modo escuro possibilita uma experiência melhor ao usar o app em ambientes noturnos",
               ),
               value: themeModel.isDarkMode,
               onChanged: (value) {
@@ -139,11 +140,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
               title: const Text('Sobre'),
-              subtitle: const Text("Um pouco mais sobre nozes 🫰🏻"),
+              subtitle: const Text("Um pouco mais sobre o app"),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const AboutPage()),
+                  CupertinoPageRoute(builder: (context) => const AboutPage()),
                 );
               },
             ),

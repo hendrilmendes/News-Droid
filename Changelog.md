@@ -1,6 +1,17 @@
 Changelog News-Droid
 
 ======================================================
+#### v1.3.0 - **/10/2023 (Em construção)
+Novo:
+- Nova barra de pesquisa
+- Salve as suas postagens Favoritas para ler mais tarde
+
+Correções/Melhorias:
+- As animacções no Android alteradas
+- Refinamentos na interface
+- Ajustes nos botões da tela de diálogo ao procurar por novas versões
+
+======================================================
 #### v1.2.1 - 01/09/2023
 Correções/Melhorias:
 - Corrigido bug relacionado do Dynamic Colors em versões anteriores ao Android 12

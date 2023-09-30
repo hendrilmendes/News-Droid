@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -32,19 +33,21 @@ class GitHubUpdater {
               title: const Text('Nova Versão Disponível'),
               content: const Text(
                   'Uma nova versão do app esta disponível. Deseja Baixar?'),
-              actions: [
-                TextButton(
+              actions: <Widget>[
+                adaptiveAction(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('AGORA NÃO'),
+                  child: const Text('Agora Não'),
+                  context: context,
                 ),
-                TextButton(
+                adaptiveAction(
                   onPressed: () {
                     // ignore: deprecated_member_use
                     launch(
                         'https://github.com/hendrilmendes/News-Droid/releases/latest');
                     Navigator.pop(context);
                   },
-                  child: const Text('BAIXAR'),
+                  child: const Text('Baixar'),
+                  context: context,
                 ),
               ],
             ),
@@ -56,10 +59,11 @@ class GitHubUpdater {
             builder: (context) => AlertDialog.adaptive(
               title: const Text('Nenhuma Atualização Disponível'),
               content: const Text('Tudo em dias parceiro 🤠'),
-              actions: [
-                TextButton(
+              actions: <Widget>[
+                adaptiveAction(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
+                  child: const Text('Ok'),
+                  context: context,
                 ),
               ],
             ),

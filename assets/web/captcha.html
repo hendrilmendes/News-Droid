@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>hCAPTCHA</title>
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    <meta content='user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi' name='viewport'/>
+  </head>
+  <body>
+    <div style='height: 60px;'></div>
+    <form action="?" method="POST">
+      <div class="h-captcha" 
+        data-sitekey="c813018f-a6e1-4dec-9436-9291eedb6953"
+        data-callback="captchaCallback"></div>
+
+    </form>
+    <script>
+      function captchaCallback(response) {
+        if (typeof Captcha!=="undefined") {
+          Captcha.postMessage(response);
+        }
+      }
+    </script>
+  </body>
+</html>

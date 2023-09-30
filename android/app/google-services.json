@@ -12,7 +12,20 @@
           "package_name": "com.github.hendrilmendes.news"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "728569554138-jsf74cdlai6utiucsgcm5dbphbac7cec.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.hendrilmendes.news",
+            "certificate_hash": "f908ff68223b34e5917a340a4da01895217becdf"
+          }
+        },
+        {
+          "client_id": "728569554138-h3dgnhdn7q3jnadq8p950gs8jn4mropa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDh2lGCHDaSEConjHkRp7Ny6fZq3L7g65E"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728569554138-h3dgnhdn7q3jnadq8p950gs8jn4mropa.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "728569554138-7ael6vp7rfvkkq0qf657h6d9vp77qpuh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.github.hendrilmendes.news"
+              }
+            }
+          ]
         }
       }
     }

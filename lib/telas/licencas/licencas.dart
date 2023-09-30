@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/oss_licenses.dart';
 
@@ -26,7 +27,7 @@ class LicencesPage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                         builder: (_) => LicenceDetailPage(
                           title: ossLicenses[index].name[0].toUpperCase() +
                               ossLicenses[index].name.substring(1),

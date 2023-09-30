@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/telas/licencas/licencas.dart';
 import 'package:newsdroid/telas/privacidade/privacidade.dart';
@@ -25,11 +26,12 @@ class _InfoScreenState extends State<InfoScreen> {
             child: ListTile(
               title: const Text('Licenças de Código Aberto'),
               subtitle: const Text(
-                  "Softwares de terceiros usados na construção do app"),
+                  "Softwares de terceiros usados na construção do News-Droid"),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const LicencesPage()),
+                  CupertinoPageRoute(
+                      builder: (context) => const LicencesPage()),
                 );
               },
             ),
@@ -44,7 +46,7 @@ class _InfoScreenState extends State<InfoScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PolicyPage()),
+                  CupertinoPageRoute(builder: (context) => const PolicyPage()),
                 );
               },
             ),

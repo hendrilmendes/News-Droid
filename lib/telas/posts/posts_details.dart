@@ -1,9 +1,16 @@
 import 'dart:io';
-
+import 'package:animated_floating_buttons/widgets/animated_floating_action_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:newsdroid/models/favorito_model.dart';
+import 'package:newsdroid/telas/comentarios/comentarios.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+
+final GlobalKey<AnimatedFloatingActionButtonState> key =
+    GlobalKey<AnimatedFloatingActionButtonState>();
 
 class PostDetailsScreen extends StatefulWidget {
   final String title;
@@ -11,6 +18,8 @@ class PostDetailsScreen extends StatefulWidget {
   final String imageUrl;
   final String url;
   final String formattedDate;
+  final String blogId;
+  final String postId;
 
   const PostDetailsScreen({
     Key? key,
@@ -19,6 +28,8 @@ class PostDetailsScreen extends StatefulWidget {
     required this.imageUrl,
     required this.url,
     required this.formattedDate,
+    required this.blogId,
+    required this.postId,
   }) : super(key: key);
 
   @override
@@ -28,6 +39,19 @@ class PostDetailsScreen extends StatefulWidget {
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
   double _fontSize = 18.0;
+
+  bool _isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Verificar se o post atual já está nos favoritos ao entrar na tela
+    final favoritePostsModel =
+        Provider.of<FavoritePostsModel>(context, listen: false);
+    _isFavorite = favoritePostsModel.favoritePosts
+        .any((post) => post.postId == widget.postId);
+  }
 
   // Metodo para compatilhar os posts
   void sharePost(String shared) {
@@ -47,6 +71,42 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     });
   }
 
+  void _toggleFavorite(BuildContext context) {
+    final favoritePostsModel =
+        Provider.of<FavoritePostsModel>(context, listen: false);
+
+    final post = FavoritePost(
+      postId: widget.postId,
+      title: widget.title,
+      content: widget.content,
+      imageUrl: widget.imageUrl,
+      url: widget.url,
+      formattedDate: widget.formattedDate,
+      blogId: widget.blogId,
+    );
+
+    if (_isFavorite) {
+      favoritePostsModel.removeFavorite(widget.postId);
+      _showToast('Removido dos Favoritos');
+    } else {
+      favoritePostsModel.addFavorite(post);
+      _showToast('Salvo em Favoritos');
+    }
+
+    setState(() {
+      _isFavorite = !_isFavorite; // Alternar o estado do post favorito
+    });
+  }
+
+  void _showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      textColor: Colors.white,
+    );
+  }
+
   // Icon de Compartilhamento
   // ignore: non_constant_identifier_names
   Icon _SharedIcon() {
@@ -55,6 +115,48 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     } else {
       return const Icon(CupertinoIcons.share);
     }
+  }
+
+  // ignore: non_constant_identifier_names
+  Icon _CommentIcon() {
+    if (Platform.isAndroid) {
+      return const Icon(Icons.comment_outlined);
+    } else {
+      return const Icon(CupertinoIcons.text_bubble);
+    }
+  }
+
+  Widget float1() {
+    return FloatingActionButton(
+      onPressed: () => sharePost(widget.url),
+      heroTag: "btn1",
+      tooltip: 'Compartilhar',
+      child: _SharedIcon(),
+    );
+  }
+
+  Widget float2(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) {
+            return ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20.0),
+                topRight: Radius.circular(20.0),
+              ),
+              child: CommentScreen(
+                postId: widget.postId,
+              ),
+            );
+          },
+        );
+      },
+      heroTag: "btn2",
+      tooltip: 'Comentar',
+      child: _CommentIcon(),
+    );
   }
 
   @override
@@ -66,12 +168,23 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         // Actions para aumentar e diminuir tamanho do texto nos posts
         actions: [
           IconButton(
+            color: Colors.blue,
             icon: const Icon(Icons.text_decrease_outlined),
             onPressed: _decrementFontSize,
           ),
           IconButton(
+            color: Colors.blue,
             icon: const Icon(Icons.text_increase_outlined),
             onPressed: _incrementFontSize,
+          ),
+          IconButton(
+            color: Colors.blue,
+            icon: _isFavorite
+                ? const Icon(Icons.favorite)
+                : const Icon(Icons.favorite_border),
+            onPressed: () {
+              _toggleFavorite(context);
+            },
           ),
         ],
       ),
@@ -109,13 +222,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       ),
 
       //Floating Action de Compartilhamento
-      floatingActionButton: FloatingActionButton(
-        foregroundColor: Colors.blue,
-        child: Center(
-          child: _SharedIcon(),
-        ),
-        onPressed: () => sharePost(widget.url),
-      ),
+      floatingActionButton: AnimatedFloatingActionButton(
+          fabButtons: <Widget>[float1(), float2(context)],
+          key: key,
+          tooltip: 'Mais',
+          colorStartAnimation: Colors.blue,
+          colorEndAnimation: Colors.blue,
+          animatedIconData: AnimatedIcons.menu_close),
     );
   }
 }

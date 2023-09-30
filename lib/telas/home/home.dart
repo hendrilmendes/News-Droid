@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/telas/config/config.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/tema/tema.dart';
 
@@ -26,6 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<dynamic> posts = [];
   List<dynamic> filteredPosts = [];
+  List<dynamic> favoritePosts = [];
 
   bool isDarkMode = false;
   int currentIndex = 0;
@@ -35,7 +35,11 @@ class _HomeState extends State<Home> {
   Timer? _debounceTimer;
   Color progressIndicatorColor = Colors.blue;
 
+  // Defina uma variável para armazenar o postId da postagem atual
+  String? postId;
+
   final TextEditingController _searchController = TextEditingController();
+  final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
 
   @override
   void initState() {
@@ -71,7 +75,7 @@ class _HomeState extends State<Home> {
   // Data da postagem
   String formatDate(String originalDate) {
     final parsedDate = DateTime.parse(originalDate);
-    final formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+    final formattedDate = DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
     return formattedDate;
   }
 
@@ -86,6 +90,22 @@ class _HomeState extends State<Home> {
   // Atualizar Home
   Future<void> _refreshPosts() async {
     await fetchPosts();
+  }
+
+  Future<String> getPostId(String postId) async {
+    final response = await http.get(Uri.parse(
+        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (data['id'] != null) {
+        return data['id'];
+      } else {
+        throw Exception('No post found');
+      }
+    } else {
+      throw Exception('Failed to get post');
+    }
   }
 
   // Carregamento dos posts
@@ -120,25 +140,6 @@ class _HomeState extends State<Home> {
         }
       });
     });
-  }
-
-  // Metodo da button nav
-  void onTabTapped(int index) {
-    setState(() {
-      currentIndex = index;
-    });
-
-    if (index == 0) {
-      currentIndex = 0;
-    }
-
-    if (index == 1) {
-      currentIndex = 0;
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const SettingsScreen()),
-      );
-    }
   }
 
   // Sem resultados
@@ -184,17 +185,39 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           // Barra de pesquisa
-          Padding(
-            padding: const EdgeInsets.all(0.2),
-            child: TextField(
-              controller: _searchController,
-              onChanged: (value) => searchPosts(value),
-              decoration: InputDecoration(
-                hintText: 'Pesquisar...',
-                prefixIcon: const Icon(CupertinoIcons.search),
-                contentPadding: const EdgeInsets.only(bottom: 20.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(100.0),
+          Card(
+            margin: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 0.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                100.0,
+              ),
+            ),
+            child: SizedBox(
+              height: 55.0,
+              child: Center(
+                child: ValueListenableBuilder(
+                  builder: (BuildContext context, String query, Widget? child) {
+                    return TextField(
+                      controller: _searchController,
+                      onChanged: (value) => searchPosts(value),
+                      textAlignVertical: TextAlignVertical.center,
+                      decoration: const InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 1.5,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        prefixIcon:
+                            Icon(CupertinoIcons.search, color: Colors.blue),
+                        border: InputBorder.none,
+                        hintText: 'Procurar por...',
+                      ),
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.search,
+                    );
+                  },
+                  valueListenable: searchQuery,
                 ),
               ),
             ),
@@ -234,16 +257,24 @@ class _HomeState extends State<Home> {
 
                   // PostDetails
                   return InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      // Chame getPostId para buscar o postId da postagem atual
+                      final postId = await getPostId(post['id']);
+                      setState(() {
+                        this.postId = postId;
+                      });
+                      // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
+                        CupertinoPageRoute(
                           builder: (context) => PostDetailsScreen(
                             title: title,
                             imageUrl: imageUrl,
                             content: post['content'],
                             url: url,
                             formattedDate: formattedDate,
+                            blogId: blogId,
+                            postId: postId,
                           ),
                         ),
                       );
@@ -305,31 +336,6 @@ class _HomeState extends State<Home> {
             ),
           ),
         ],
-      ),
-
-      // Bottom Nav
-      bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
-          shadowColor: Colors.blue,
-          labelTextStyle: MaterialStateProperty.all(
-            const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-          ),
-        ),
-        child: NavigationBar(
-          onDestinationSelected: onTabTapped,
-          selectedIndex: currentIndex,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(CupertinoIcons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(CupertinoIcons.settings),
-              label: 'Ajustes',
-            ),
-          ],
-        ),
       ),
     );
   }

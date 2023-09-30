@@ -3,11 +3,14 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:newsdroid/adapter/favorito_adapter.dart';
 import 'package:provider/provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
-import 'package:newsdroid/telas/home/home.dart';
 import 'package:newsdroid/tema/tema.dart';
+import 'package:newsdroid/widgets/bottom_navigation.dart';
+import 'package:newsdroid/models/favorito_model.dart';
 import 'firebase_options.dart';
 
 main() async {
@@ -18,6 +21,10 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  await Hive.initFlutter();
+  Hive.registerAdapter(FavoritePostAdapter());
+  await Hive.openBox('favorite_posts');
 
   await initializeDateFormatting();
 
@@ -68,8 +75,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeModel(), // Estado do tema usando o ThemeModel
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<FavoritePostsModel>(
+            create: (_) => FavoritePostsModel()),
+        ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
+      ],
       child: Consumer<ThemeModel>(
         builder: (_, theme, __) {
           return DynamicColorBuilder(
@@ -93,7 +104,7 @@ class MyApp extends StatelessWidget {
               ),
               themeMode: theme.isDarkMode ? ThemeMode.dark : ThemeMode.light,
               debugShowCheckedModeBanner: false,
-              home: const Home(),
+              home: const BottomNavigationContainer(),
             );
           });
         },

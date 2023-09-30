@@ -63,6 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '728569554138',
     projectId: 'news-droid-app-1670874618271',
     storageBucket: 'news-droid-app-1670874618271.appspot.com',
+    androidClientId: '728569554138-0hnrimvh57nj9b031o1oo42m6u22nc3d.apps.googleusercontent.com',
+    iosClientId: '728569554138-73g71bimlj72m8926unne24fdgi2p8l9.apps.googleusercontent.com',
     iosBundleId: 'com.github.hendrilmendes.news',
   );
 }
