@@ -9,13 +9,12 @@ class PolicyPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Política de Privacidade'),
       ),
-      body: const Card(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            child: Text(
-              style: TextStyle(fontSize: 16),
-              """
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: SingleChildScrollView(
+          child: Text(
+            style: TextStyle(fontSize: 16),
+            """
       Aplicável em 01/08/2023
       
           Este aplicativo respeita sua privacidade e está comprometido em proteger suas informações pessoais. Esta política de privacidade descreve como coletamos, usamos e compartilhamos suas informações pessoais quando você usa nossos produtos e serviços.
@@ -80,7 +79,6 @@ class PolicyPage extends StatelessWidget {
       
           Se você tiver alguma dúvida sobre esta política de privacidade, entre em contato conosco através do email hendrilmendes2015@gmail.com.
           """,
-            ),
           ),
         ),
       ),

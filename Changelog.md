@@ -7,7 +7,6 @@ Novo:
 - Salve as suas postagens Favoritas para ler mais tarde
 
 Correções/Melhorias:
-- As animacções no Android alteradas
 - Refinamentos na interface
 - Ajustes nos botões da tela de diálogo ao procurar por novas versões
 

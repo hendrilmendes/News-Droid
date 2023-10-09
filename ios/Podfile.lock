@@ -15,18 +15,18 @@ PODS:
   - Firebase/Performance (10.15.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 10.15.0)
-  - firebase_core (2.16.0):
+  - firebase_core (2.17.0):
     - Firebase/CoreOnly (= 10.15.0)
     - Flutter
-  - firebase_crashlytics (3.3.5):
+  - firebase_crashlytics (3.3.7):
     - Firebase/Crashlytics (= 10.15.0)
     - firebase_core
     - Flutter
-  - firebase_messaging (14.6.7):
+  - firebase_messaging (14.6.9):
     - Firebase/Messaging (= 10.15.0)
     - firebase_core
     - Flutter
-  - firebase_performance (0.9.2-5):
+  - firebase_performance (0.9.2-7):
     - Firebase/Performance (= 10.15.0)
     - firebase_core
     - Flutter
@@ -235,10 +235,10 @@ SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   connectivity_plus: 07c49e96d7fc92bc9920617b83238c4d178b446a
   Firebase: 66043bd4579e5b73811f96829c694c7af8d67435
-  firebase_core: 77172d0a9d8d19d07606e24406e4c2fc14d3265b
-  firebase_crashlytics: 417b9849c8b4f7624381ebe431160707f9aa093a
-  firebase_messaging: 7e286d6a66bc283b1a3dbf5444b8561e1cd05807
-  firebase_performance: cb6fe9d719edb74210f7dab7b59e80901608526b
+  firebase_core: 28e84c2a4fcf6a50ef83f47b145ded8c1fa331e4
+  firebase_crashlytics: 36b8a72e23437dbb69bd97102661ce31b6721be5
+  firebase_messaging: 91ec967913a5d144f951b3c3ac17a57796d38735
+  firebase_performance: 0cd853c1ae53c1f576dcaf3b4d0e31c4ea799792
   FirebaseABTesting: 7fa3bca17f79ac433301d20d5cd33401f7738dca
   FirebaseCore: 2cec518b43635f96afe7ac3a9c513e47558abd2e
   FirebaseCoreExtension: d3f1ea3725fb41f56e8fbfb29eeaff54e7ffb8f6

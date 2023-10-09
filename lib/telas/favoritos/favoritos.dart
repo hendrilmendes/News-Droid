@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
@@ -46,7 +45,7 @@ class FavoritesScreen extends StatelessWidget {
                     subtitle: Text(post.formattedDate),
                     onTap: () {
                       Navigator.of(context).push(
-                        CupertinoPageRoute(
+                        MaterialPageRoute(
                           builder: (context) => PostDetailsScreen(
                             postId: post.postId,
                             title: post.title,

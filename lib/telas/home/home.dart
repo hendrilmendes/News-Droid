@@ -266,7 +266,7 @@ class _HomeState extends State<Home> {
                       // ignore: use_build_context_synchronously
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(
+                        MaterialPageRoute(
                           builder: (context) => PostDetailsScreen(
                             title: title,
                             imageUrl: imageUrl,

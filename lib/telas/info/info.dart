@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/telas/licencas/licencas.dart';
 import 'package:newsdroid/telas/privacidade/privacidade.dart';
@@ -30,8 +29,7 @@ class _InfoScreenState extends State<InfoScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(
-                      builder: (context) => const LicencesPage()),
+                  MaterialPageRoute(builder: (context) => const LicencesPage()),
                 );
               },
             ),
@@ -46,7 +44,7 @@ class _InfoScreenState extends State<InfoScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(builder: (context) => const PolicyPage()),
+                  MaterialPageRoute(builder: (context) => const PolicyPage()),
                 );
               },
             ),

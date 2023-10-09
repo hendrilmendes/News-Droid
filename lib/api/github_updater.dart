@@ -36,7 +36,7 @@ class GitHubUpdater {
               actions: <Widget>[
                 adaptiveAction(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Agora Não'),
+                  child: const Text('DEPOIS'),
                   context: context,
                 ),
                 adaptiveAction(
@@ -46,7 +46,7 @@ class GitHubUpdater {
                         'https://github.com/hendrilmendes/News-Droid/releases/latest');
                     Navigator.pop(context);
                   },
-                  child: const Text('Baixar'),
+                  child: const Text('BAIXAR'),
                   context: context,
                 ),
               ],
@@ -62,7 +62,7 @@ class GitHubUpdater {
               actions: <Widget>[
                 adaptiveAction(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('Ok'),
+                  child: const Text('OK'),
                   context: context,
                 ),
               ],

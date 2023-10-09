@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
-import 'package:newsdroid/telas/captcha/captcha.dart';
 import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
 
@@ -61,7 +60,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
     final response = await http.post(
       Uri.parse(
-          'https://www.blogger.com/feeds/$blogId/$postId/comments/default'),
+          'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default'),
       headers: {
         'Content-Type': 'application/atom+xml',
         'Authorization': 'Bearer $apiKey',
@@ -116,7 +115,7 @@ class _CommentScreenState extends State<CommentScreen> {
               "Não foi possível enviar o comentário. Por favor, tente novamente mais tarde."),
           actions: <Widget>[
             adaptiveAction(
-              child: const Text("Ok"),
+              child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -126,45 +125,6 @@ class _CommentScreenState extends State<CommentScreen> {
         );
       },
     );
-  }
-
-  Future<void> openCaptchaPage() async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Resolva o CAPTCHA'),
-          content: SizedBox(
-            width: double.maxFinite,
-            height: 300, // Defina a altura apropriada para o WebView
-            child: CaptchaPage(),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                // Feche o diálogo se necessário.
-                Navigator.of(context).pop();
-              },
-              child: const Text('Fechar'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<void> addCommentWithCaptcha(
-    String commentText,
-    String authorName,
-    String authorAvatar,
-    String commentDate,
-    String postId,
-  ) async {
-    // Abra a página de CAPTCHA antes de enviar o comentário
-    await openCaptchaPage();
-
-    // Após o usuário resolver o CAPTCHA, adicione o comentário aqui
-    addComment(commentText, authorName, authorAvatar, commentDate, postId);
   }
 
   @override
@@ -235,7 +195,6 @@ class _CommentScreenState extends State<CommentScreen> {
                       final postId = widget.postId;
                       addComment(commentText, authorName, authorAvatar,
                           commentDate, postId);
-                      openCaptchaPage();
                     },
                   ),
                 ],
