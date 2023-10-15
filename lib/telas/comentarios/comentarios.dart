@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
+import 'package:newsdroid/helper/auth.dart';
 import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
 
@@ -52,56 +54,96 @@ class _CommentScreenState extends State<CommentScreen> {
 
   Future<void> addComment(String commentText, String authorName,
       String authorAvatar, String commentDate, String postId) async {
-    final commentData = '''
-    <entry xmlns='http://www.w3.org/2005/Atom'>
-      <content type='text'>$commentText</content>
-    </entry>
-    ''';
+    final oAuth2Helper = OAuth2Helper();
+    final authorizationCode = await oAuth2Helper.getAuthorizationCode();
 
-    final response = await http.post(
-      Uri.parse(
-          'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default'),
-      headers: {
-        'Content-Type': 'application/atom+xml',
-        'Authorization': 'Bearer $apiKey',
-      },
-      body: commentData,
-    );
+    if (authorizationCode != null) {
+      final accessToken = await oAuth2Helper.getAccessToken(authorizationCode);
 
-    if (response.statusCode == 201) {
-      // Comentário adicionado com sucesso.
-      if (kDebugMode) {
-        print('Comentário adicionado com sucesso.');
+      final commentId = _generateUniqueId();
+      // Agora você pode usar o accessToken para fazer solicitações autenticadas.
+      final commentData = '''
+      <entry xmlns='http://www.w3.org/2005/Atom'>
+        <id>$commentId</id>
+        <content type='text'>$commentText</content>
+      </entry>
+      ''';
+
+      final response = await http.post(
+        Uri.parse(
+            'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default'),
+        headers: {
+          'Content-Type': 'application/atom+xml',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: commentData,
+      );
+
+      if (response.statusCode == 201) {
+        // Comentário adicionado com sucesso.
+        if (kDebugMode) {
+          print('Comentário adicionado com sucesso.');
+        }
+        setState(() {
+          comments.add(Comment(
+            content: commentText,
+            authorName: authorName,
+            authorAvatar: authorAvatar,
+            postId: widget.postId,
+            id: commentId,
+            postDate: DateTime.now(),
+          ));
+          commentController.clear();
+        });
+      } else {
+        // Algo deu errado ao adicionar o comentário.
+        if (kDebugMode) {
+          print('Erro ao adicionar comentário.');
+        }
+        if (kDebugMode) {
+          print('Response body: ${response.body}');
+        }
+        // Exibe o diálogo de erro.
+        _showErrorDialog();
       }
-      setState(() {
-        comments.add(Comment(
-          content: commentText,
-          authorName: authorName,
-          authorAvatar: authorAvatar,
-          postId: widget.postId,
-          postDate: DateTime.now(),
-        ));
-        commentController.clear();
-      });
-    } else {
-      // Algo deu errado ao adicionar o comentário.
-      if (kDebugMode) {
-        print('Erro ao adicionar comentário.');
-      }
-      if (kDebugMode) {
-        print('Response body: ${response.body}');
-      }
-      // Exibe o diálogo de erro.
-      _showErrorDialog();
     }
   }
 
-  // ignore: non_constant_identifier_names
-  Icon _SendIcon() {
-    if (Platform.isAndroid) {
-      return const Icon(Icons.send_outlined);
-    } else {
-      return const Icon(CupertinoIcons.arrow_up_circle_fill);
+  Future<void> deleteComment(String commentId) async {
+    final oAuth2Helper = OAuth2Helper();
+    final authorizationCode = await oAuth2Helper.getAuthorizationCode();
+
+    if (authorizationCode != null) {
+      final accessToken = await oAuth2Helper.getAccessToken(authorizationCode);
+
+      final response = await http.delete(
+        Uri.parse(
+            'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default/$commentId'),
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // Comentário excluído com sucesso.
+        if (kDebugMode) {
+          print('Comentário excluído com sucesso.');
+        }
+        setState(() {
+          // Remove o comentário da lista.
+          comments.removeWhere((comment) => comment.id == commentId);
+        });
+      } else {
+        // Algo deu errado ao excluir o comentário.
+        if (kDebugMode) {
+          print('Erro ao excluir comentário.');
+        }
+        if (kDebugMode) {
+          print('Response body: ${response.body}');
+        }
+        // Exibe o diálogo de erro.
+        _showErrorDialog();
+      }
     }
   }
 
@@ -125,6 +167,22 @@ class _CommentScreenState extends State<CommentScreen> {
         );
       },
     );
+  }
+
+  String _generateUniqueId() {
+    final bytes = utf8.encode(
+        '${DateTime.now()}'); // Use informações relevantes para gerar o hash
+    final digest = md5.convert(bytes);
+    return digest.toString();
+  }
+
+  // ignore: non_constant_identifier_names
+  Icon _SendIcon() {
+    if (Platform.isAndroid) {
+      return const Icon(Icons.send_outlined);
+    } else {
+      return const Icon(CupertinoIcons.arrow_up_circle_fill);
+    }
   }
 
   @override
@@ -156,6 +214,13 @@ class _CommentScreenState extends State<CommentScreen> {
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
+                        ),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            deleteComment(comment
+                                .id); // Chame a função para excluir o comentário.
+                          },
                         ),
                       );
                     },
@@ -215,6 +280,7 @@ class Comment {
   final String content;
   final String authorAvatar;
   final String postId;
+  final String id;
   final DateTime postDate;
 
   Comment({
@@ -222,12 +288,14 @@ class Comment {
     required this.content,
     required this.authorAvatar,
     required this.postId,
+    required this.id,
     required this.postDate,
   });
 
   factory Comment.fromJson(Map<String, dynamic> json, String postId) {
     final userImageUrl = json['author']['image']['url'];
     return Comment(
+      id: json['id'], // Defina o 'id' com base nos dados do comentário
       authorName: json['author']['displayName'],
       content: json['content'],
       authorAvatar: "https:$userImageUrl",

@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 1.3.0+50
+version: 1.3.2+52
 
 environment:
   sdk: '>=3.0.4 <4.0.0'
@@ -23,6 +23,9 @@ dependencies:
 # Cupertino
   cupertino_icons: ^1.0.6
 
+# Crypto
+  crypto: ^3.0.3
+
 # Dynamic Colors
   dynamic_color: ^1.6.7
 
@@ -31,7 +34,7 @@ dependencies:
   firebase_crashlytics: ^3.3.7
   firebase_performance: ^0.9.2+7
   firebase_messaging: ^14.6.9
-  
+
 # Hive  
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -68,6 +71,9 @@ dependencies:
 
 # Url Launcher
   url_launcher: ^6.1.14
+
+#Flutter Auth
+  flutter_web_auth_2: ^3.0.1
 
 # Widget HTML
   flutter_widget_from_html: ^0.10.5+3
