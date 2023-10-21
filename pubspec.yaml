@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 1.3.0+50
+version: 1.4.0+54
 
 environment:
   sdk: '>=3.0.4 <4.0.0'
@@ -13,6 +13,9 @@ dependencies:
 
 # Animated Floating
   animated_floating_buttons: ^0.0.2
+
+# Auth
+  flutter_web_auth_2: ^3.0.1
 
 # Cached Network
   cached_network_image: ^3.3.0
@@ -63,6 +66,9 @@ dependencies:
 # Shared Preferences
   shared_preferences: ^2.2.1
 
+# Shimer
+  shimmer: ^3.0.0
+
 # Snackbar
   flutter_icon_snackbar: ^1.1.4
   
@@ -71,9 +77,6 @@ dependencies:
 
 # Url Launcher
   url_launcher: ^6.1.14
-
-#Flutter Auth
-  flutter_web_auth_2: ^3.0.1
 
 # Widget HTML
   flutter_widget_from_html: ^0.10.5+3

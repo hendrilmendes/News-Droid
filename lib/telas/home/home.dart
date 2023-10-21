@@ -13,6 +13,7 @@ import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/tema/tema.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -287,23 +288,28 @@ class _HomeState extends State<Home> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10.0),
-                              bottom: Radius.circular(10.0),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: imageUrl,
-                              fit: BoxFit.cover,
-                              height: 200,
-                              width: double.infinity,
-                              placeholder: (context, url) => Image.asset(
-                                "assets/img/newsdroid.png",
-                                width: double.infinity,
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(10.0),
+                                bottom: Radius.circular(10.0),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error_outline),
-                            ),
-                          ),
+                              child: CachedNetworkImage(
+                                imageUrl: imageUrl,
+                                fit: BoxFit.cover,
+                                height: 200,
+                                width: double.infinity,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(
+                                    color: Colors.white,
+                                    width: double.infinity,
+                                    height: 200,
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error_outline),
+                              )),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(

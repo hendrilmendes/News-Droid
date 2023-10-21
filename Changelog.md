@@ -1,7 +1,7 @@
 Changelog News-Droid
 
 ======================================================
-#### v1.3.0 - **/10/2023 (Em construção)
+#### v1.4.0 - 21/10/2023
 Novo:
 - Uma nova barra de pesquisa 
 - Comente nos seus posts Favoritos

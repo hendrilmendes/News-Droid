@@ -109,44 +109,6 @@ class _CommentScreenState extends State<CommentScreen> {
     }
   }
 
-  Future<void> deleteComment(String commentId) async {
-    final oAuth2Helper = OAuth2Helper();
-    final authorizationCode = await oAuth2Helper.getAuthorizationCode();
-
-    if (authorizationCode != null) {
-      final accessToken = await oAuth2Helper.getAccessToken(authorizationCode);
-
-      final response = await http.delete(
-        Uri.parse(
-            'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default/$commentId'),
-        headers: {
-          'Authorization': 'Bearer $accessToken',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        // Comentário excluído com sucesso.
-        if (kDebugMode) {
-          print('Comentário excluído com sucesso.');
-        }
-        setState(() {
-          // Remove o comentário da lista.
-          comments.removeWhere((comment) => comment.id == commentId);
-        });
-      } else {
-        // Algo deu errado ao excluir o comentário.
-        if (kDebugMode) {
-          print('Erro ao excluir comentário.');
-        }
-        if (kDebugMode) {
-          print('Response body: ${response.body}');
-        }
-        // Exibe o diálogo de erro.
-        _showErrorDialog();
-      }
-    }
-  }
-
   Future<void> _showErrorDialog() async {
     await showDialog(
       context: context,
@@ -214,13 +176,6 @@ class _CommentScreenState extends State<CommentScreen> {
                               style: const TextStyle(fontSize: 12),
                             ),
                           ],
-                        ),
-                        trailing: IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            deleteComment(comment
-                                .id); // Chame a função para excluir o comentário.
-                          },
                         ),
                       );
                     },
