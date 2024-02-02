@@ -1,16 +1,14 @@
 import 'dart:io';
-import 'package:animated_floating_buttons/widgets/animated_floating_action_button.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/comentarios/comentarios.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-
-final GlobalKey<AnimatedFloatingActionButtonState> key =
-    GlobalKey<AnimatedFloatingActionButtonState>();
 
 class PostDetailsScreen extends StatefulWidget {
   final String title;
@@ -22,7 +20,7 @@ class PostDetailsScreen extends StatefulWidget {
   final String postId;
 
   const PostDetailsScreen({
-    Key? key,
+    super.key,
     required this.title,
     required this.content,
     required this.imageUrl,
@@ -30,7 +28,7 @@ class PostDetailsScreen extends StatefulWidget {
     required this.formattedDate,
     required this.blogId,
     required this.postId,
-  }) : super(key: key);
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -39,7 +37,6 @@ class PostDetailsScreen extends StatefulWidget {
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
   double _fontSize = 18.0;
-
   bool _isFavorite = false;
 
   @override
@@ -117,6 +114,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     }
   }
 
+  // Icon de Comentario
   // ignore: non_constant_identifier_names
   Icon _CommentIcon() {
     if (Platform.isAndroid) {
@@ -126,46 +124,12 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     }
   }
 
-  Widget float1() {
-    return FloatingActionButton(
-      onPressed: () => sharePost(widget.url),
-      heroTag: "btn1",
-      tooltip: 'Compartilhar',
-      child: _SharedIcon(),
-    );
-  }
-
-  Widget float2(BuildContext context) {
-    return FloatingActionButton(
-      onPressed: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (BuildContext context) {
-            return ClipRRect(
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(20.0),
-                topRight: Radius.circular(20.0),
-              ),
-              child: CommentScreen(
-                postId: widget.postId,
-              ),
-            );
-          },
-        );
-      },
-      heroTag: "btn2",
-      tooltip: 'Comentar',
-      child: _CommentIcon(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('News-Droid'),
-
-        // Actions para aumentar e diminuir tamanho do texto nos posts
+        // Actions
         actions: [
           IconButton(
             color: Colors.blue,
@@ -177,58 +141,79 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
             icon: const Icon(Icons.text_increase_outlined),
             onPressed: _incrementFontSize,
           ),
-          IconButton(
-            color: Colors.blue,
-            icon: _isFavorite
-                ? const Icon(Icons.favorite)
-                : const Icon(Icons.favorite_border),
-            onPressed: () {
-              _toggleFavorite(context);
-            },
-          ),
         ],
       ),
 
       // Titulo e data publicação do post
-      body: SingleChildScrollView(
+      body: ListView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+        children: [
+          Text(
+            widget.title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Publicado em ${widget.formattedDate}",
+                style: const TextStyle(fontSize: 12),
               ),
-            ),
-            const SizedBox(height: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Publicado em ${widget.formattedDate}",
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-
-            // Widget que recebe os conteúdos do blogger
-            HtmlWidget(widget.content,
-                textStyle: TextStyle(fontSize: _fontSize)),
-          ],
-        ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          HtmlWidget(widget.content, textStyle: TextStyle(fontSize: _fontSize)),
+        ],
       ),
 
-      //Floating Action de Compartilhamento
-      floatingActionButton: AnimatedFloatingActionButton(
-          fabButtons: <Widget>[float1(), float2(context)],
-          key: key,
-          tooltip: 'Mais',
-          colorStartAnimation: Colors.blue,
-          colorEndAnimation: Colors.blue,
-          animatedIconData: AnimatedIcons.menu_close),
+      //Floating Action
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(
+        children: [
+          FloatingActionButton.small(
+            heroTag: "btn0",
+            tooltip: 'Compartilhar',
+            child: _SharedIcon(),
+            onPressed: () => sharePost(widget.url),
+          ),
+          FloatingActionButton.small(
+            heroTag: "btn1",
+            tooltip: 'Comentários',
+            child: _CommentIcon(),
+            onPressed: () {
+              showBarModalBottomSheet(
+                clipBehavior: Clip.antiAlias,
+                context: context,
+                enableDrag: true,
+                isDismissible: true,
+                builder: (modalContext) => CommentScreen(
+                  postId: widget.postId,
+                ),
+              );
+            },
+          ),
+          FloatingActionButton.small(
+            heroTag: "btn2",
+            tooltip: 'Favoritar',
+            onPressed: () {
+              _toggleFavorite(context);
+            },
+            child: GestureDetector(
+              onTap: () {
+                _toggleFavorite(context);
+              },
+              child: Icon(
+                _isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: _isFavorite ? Colors.red : null,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

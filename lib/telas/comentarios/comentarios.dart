@@ -12,9 +12,9 @@ import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
 
 class CommentScreen extends StatefulWidget {
-  final String postId; // Adicione um campo para o postId
+  final String postId;
 
-  const CommentScreen({required this.postId, Key? key}) : super(key: key);
+  const CommentScreen({required this.postId, super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -24,12 +24,12 @@ class CommentScreen extends StatefulWidget {
 class _CommentScreenState extends State<CommentScreen> {
   List<Comment> comments = [];
   TextEditingController commentController = TextEditingController();
-  bool isLoading = true; // Variável para controlar o estado de carregamento
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    fetchPostAndComments(widget.postId); // Passando o postId
+    fetchPostAndComments(widget.postId);
   }
 
   Future<void> fetchPostAndComments(String postId) async {
@@ -41,19 +41,35 @@ class _CommentScreenState extends State<CommentScreen> {
     }
     if (commentsResponse.statusCode == 200) {
       final Map<String, dynamic> data = json.decode(commentsResponse.body);
-      List<dynamic> commentsData = data['items'];
+      List<dynamic>? commentsData = data['items'];
 
       setState(() {
-        comments = commentsData
-            .map((commentData) => Comment.fromJson(commentData, widget.postId))
-            .toList();
-        isLoading = false; // Marca o carregamento como concluído.
+        if (commentsData != null && commentsData.isNotEmpty) {
+          comments = commentsData
+              .map(
+                  (commentData) => Comment.fromJson(commentData, widget.postId))
+              .toList();
+          isLoading = false;
+        } else {
+          comments = [];
+          isLoading = false;
+        }
       });
+    } else {
+      if (kDebugMode) {
+        print(
+            "Falha ao buscar comentários. Código de status: ${commentsResponse.statusCode}");
+      }
     }
   }
 
-  Future<void> addComment(String commentText, String authorName,
-      String authorAvatar, String commentDate, String postId) async {
+  Future<void> addComment(
+    String commentText,
+    String authorName,
+    String authorAvatar,
+    String commentDate,
+    String postId,
+  ) async {
     final oAuth2Helper = OAuth2Helper();
     final authorizationCode = await oAuth2Helper.getAuthorizationCode();
 
@@ -61,7 +77,6 @@ class _CommentScreenState extends State<CommentScreen> {
       final accessToken = await oAuth2Helper.getAccessToken(authorizationCode);
 
       final commentId = _generateUniqueId();
-      // Agora você pode usar o accessToken para fazer solicitações autenticadas.
       final commentData = '''
       <entry xmlns='http://www.w3.org/2005/Atom'>
         <id>$commentId</id>
@@ -80,7 +95,6 @@ class _CommentScreenState extends State<CommentScreen> {
       );
 
       if (response.statusCode == 201) {
-        // Comentário adicionado com sucesso.
         if (kDebugMode) {
           print('Comentário adicionado com sucesso.');
         }
@@ -96,14 +110,12 @@ class _CommentScreenState extends State<CommentScreen> {
           commentController.clear();
         });
       } else {
-        // Algo deu errado ao adicionar o comentário.
         if (kDebugMode) {
           print('Erro ao adicionar comentário.');
         }
         if (kDebugMode) {
           print('Response body: ${response.body}');
         }
-        // Exibe o diálogo de erro.
         _showErrorDialog();
       }
     }
@@ -114,7 +126,7 @@ class _CommentScreenState extends State<CommentScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog.adaptive(
-          title: const Text("Erro ao enviar o comentário"),
+          title: const Text("Erro ao enviar comentário"),
           content: const Text(
               "Não foi possível enviar o comentário. Por favor, tente novamente mais tarde."),
           actions: <Widget>[
@@ -132,8 +144,7 @@ class _CommentScreenState extends State<CommentScreen> {
   }
 
   String _generateUniqueId() {
-    final bytes = utf8.encode(
-        '${DateTime.now()}'); // Use informações relevantes para gerar o hash
+    final bytes = utf8.encode('${DateTime.now()}');
     final digest = md5.convert(bytes);
     return digest.toString();
   }
@@ -149,82 +160,94 @@ class _CommentScreenState extends State<CommentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+        return Scaffold(
       appBar: AppBar(
         title: const Text('Comentários'),
+        automaticallyImplyLeading: false,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: isLoading
-                ? Center(child: buildLoadingIndicator())
-                : ListView.builder(
-                    itemCount: comments.length,
-                    itemBuilder: (context, index) {
-                      final comment = comments[index];
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(comment.authorAvatar),
-                        ),
-                        title: Text(comment.authorName),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(comment.content),
-                            Text(
-                              'Em: ${DateFormat('dd/MM/yyyy - HH:mm').format(comment.postDate.toLocal())}',
-                              style: const TextStyle(fontSize: 12),
+            body: Column(
+              children: [
+                Expanded(
+                  child: isLoading
+                      ? Center(child: buildLoadingIndicator())
+                      : comments.isEmpty
+                          ? const Center(
+                              child: Text(
+                                'Nenhum comentário disponível 😅',
+                                style: TextStyle(fontSize: 16.0),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: comments.length,
+                              itemBuilder: (context, index) {
+                                final comment = comments[index];
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundImage:
+                                        NetworkImage(comment.authorAvatar),
+                                  ),
+                                  title: Text(comment.authorName),
+                                  subtitle: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(comment.content),
+                                      Text(
+                                        'Em: ${DateFormat('dd/MM/yyyy - HH:mm').format(comment.postDate.toLocal())}',
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
                             ),
-                          ],
-                        ),
-                      );
-                    },
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
                   ),
-          ),
-          Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: commentController,
-                      decoration: const InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              width: 1.5,
-                              color: Colors.transparent,
-                            ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: commentController,
+                            decoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: 'Digite seu comentário...'),
                           ),
-                          border: InputBorder.none,
-                          hintText: 'Digite seu comentário...'),
+                        ),
+                        IconButton(
+                          color: Colors.blue,
+                          icon: _SendIcon(),
+                          onPressed: () async {
+                            final commentText = commentController.text;
+                            const authorName = 'Humano';
+                            const authorAvatar =
+                                'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                            final commentDate = DateTime.now().toString();
+                            final postId = widget.postId;
+                            addComment(
+                              commentText,
+                              authorName,
+                              authorAvatar,
+                              commentDate,
+                              postId,
+                            );
+                          },
+                        ),
+                      ],
                     ),
                   ),
-                  IconButton(
-                    color: Colors.blue,
-                    icon: _SendIcon(),
-                    onPressed: () async {
-                      final commentText = commentController.text;
-                      const authorName = 'Humano';
-                      const authorAvatar =
-                          'https://banner2.cleanpng.com/20180623/iqh/kisspng-computer-icons-avatar-social-media-blog-font-aweso-avatar-icon-5b2e99c40ce333.6524068515297806760528.jpg';
-                      final commentDate = DateTime.now().toString();
-                      final postId = widget.postId;
-                      addComment(commentText, authorName, authorAvatar,
-                          commentDate, postId);
-                    },
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 16,
-          )
-        ],
+                ),
+                const SizedBox(
+                  height: 16,
+                )
+              ],
+            
+          
+        
       ),
     );
   }
@@ -250,7 +273,7 @@ class Comment {
   factory Comment.fromJson(Map<String, dynamic> json, String postId) {
     final userImageUrl = json['author']['image']['url'];
     return Comment(
-      id: json['id'], // Defina o 'id' com base nos dados do comentário
+      id: json['id'],
       authorName: json['author']['displayName'],
       content: json['content'],
       authorAvatar: "https:$userImageUrl",

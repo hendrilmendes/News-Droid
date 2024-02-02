@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:newsdroid/telas/info/info.dart';
-import 'package:newsdroid/api/github_updater.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -31,6 +28,8 @@ class _AboutPageState extends State<AboutPage> {
 
   @override
   Widget build(BuildContext context) {
+    int currentYear = DateTime.now().year;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Sobre'),
@@ -56,155 +55,85 @@ class _AboutPageState extends State<AboutPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'News-Droid',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   const SizedBox(height: 20),
-                  const Card(
-                    margin: EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(
-                          'Um app simples escrito em flutter que usa API do Blogger para exibir o seu conteúdo.\n\nUm projeto que surgiu em 2017 mas que existe desde 2015 e aos pouquinhos esta tomando forma, quem sabe de certo né 😆'),
+                  Center(
+                    child: Text(
+                      'Copyright © Hendril Mendes, 2015-$currentYear',
+                      style: const TextStyle(
+                        fontSize: 12,
+                      ),
                     ),
                   ),
-
+                  const Text(
+                    'Todos os Direitos Reservados.',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                  const Divider(),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Um projeto amador para um app de notícias',
+                    style: TextStyle(fontSize: 14.0),
+                  ),
+                  const SizedBox(height: 10),
+                  const Divider(),
                   // Versao
                   Card(
+                    clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),
                     child: ListTile(
                       title: const Text('Versão'),
                       subtitle: Text('v$appVersion Build: ($appBuild)'),
                       onTap: () {
-                        GitHubUpdater.checkForUpdates(context);
-                      },
-                    ),
-                  ),
-                  Card(
-                    child: ListTile(
-                      title: const Text(
-                        'Entre em Contato',
-                      ),
-                      subtitle: const Text(
-                        'Encontrou um bug ou deseja sugerir algo? Entre em contato com a gente 😁',
-                      ),
-                      onTap: () {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return SizedBox(
-                              height: 140,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          MdiIcons.gmail,
-                                        ),
-                                        iconSize: 40,
-                                        tooltip: 'Gmail',
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          launchUrl(
-                                            Uri.parse(
-                                              'mailto:hendrilmendes2015@gmail.com?subject=News-Droid&body=Gostaria%20de%20sugerir%20um%20recurso%20ou%20informar%20um%20bug.',
-                                            ),
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
-                                        },
-                                      ),
-                                      const Text(
-                                        'Gmail',
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          MdiIcons.telegram,
-                                        ),
-                                        iconSize: 40,
-                                        tooltip: 'Telegram',
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          launchUrl(
-                                            Uri.parse(
-                                              'https://t.me/hendril_mendes',
-                                            ),
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
-                                        },
-                                      ),
-                                      const Text(
-                                        'Telegram',
-                                      ),
-                                    ],
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      IconButton(
-                                        icon: const Icon(
-                                          MdiIcons.instagram,
-                                        ),
-                                        iconSize: 40,
-                                        tooltip: 'Instagram',
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          launchUrl(
-                                            Uri.parse(
-                                              'https://instagram.com/hendril_mendes',
-                                            ),
-                                            mode:
-                                                LaunchMode.externalApplication,
-                                          );
-                                        },
-                                      ),
-                                      const Text('Instagram'),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
+                        Navigator.pop(context);
+                        launchUrl(
+                          Uri.parse(
+                            'https://raw.githubusercontent.com/hendrilmendes/News-Droid/main/Changelog.md',
+                          ),
+                          mode: LaunchMode.inAppBrowserView,
                         );
                       },
                     ),
                   ),
-
-                  // Licencas
+                  //Politica de privacidade
                   Card(
+                    clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      title: const Text('Informações Legais'),
-                      subtitle: Text(
-                          "Copyright © ${DateTime.now().year} Hendril Mendes. Todos os direitos reservados."),
+                      title: const Text('Política de Privacidade'),
+                      subtitle:
+                          const Text("Termos que garantem a sua privacidade"),
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchUrl(
+                          Uri.parse(
+                            'https://br-newsdroid.blogspot.com/p/politica-de-privacidade.html',
+                          ),
+                          mode: LaunchMode.inAppBrowserView,
+                        );
+                      },
+                    ),
+                  ),
+                  // Licencas
+                  Card(
+                    clipBehavior: Clip.hardEdge,
+                    margin: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: const Text('Licenças de Código Aberto'),
+                      subtitle: const Text(
+                          "Softwares de terceiros usados na construção do app"),
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const InfoScreen()),
+                            builder: (context) => const LicensePage(
+                              applicationName: 'News-Droid',
+                            ),
+                          ),
                         );
                       },
                     ),
-                  ),
-                  // Dev
-                  const Text(
-                    "Feito com ♥ em Flutter",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 12),
                   ),
                 ],
               ),

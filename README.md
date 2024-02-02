@@ -1,9 +1,11 @@
 ## News-Droid
-Um app simples escrito em flutter que usa api do blogger para exibir o seu conteúdo. Um projeto que surgiu em 2017 mas que existe desde 2015 e aos pouquinhos esta tomando forma, quem sabe de certo né 😆
+Um projeto amador para um app de notícias que usa a API do Blogger, feito totalmente em flutter ❤️
+
+Surgiu como um blog no Blogger na época da escola, um blog simples de um cara apaixonado por tecnologia. Hoje depois de alguns anos, entre idas e vindas, além de um simples blog se tornou um app, tornando-se uma ponte para um novo mundo para o criador na área de programação.
 
 ### Screenshots
 
-<img src="screenshots/preview.png?raw=true" width="32%"> <img src="screenshots/preview2.png?raw=true" width="32%"> <img src="screenshots/preview3.png?raw=true" width="32%"> 
+<img src="screenshots/preview.jpeg?raw=true" width="32%"> <img src="screenshots/preview2.jpeg?raw=true" width="32%"> <img src="screenshots/preview3.jpeg?raw=true" width="32%"> <img src="screenshots/preview4.jpeg?raw=true" width="32%">  <img src="screenshots/preview5.jpeg?raw=true" width="32%">  <img src="screenshots/preview6.jpeg?raw=true" width="32%">
 
 ##
 
@@ -15,9 +17,9 @@ Um app simples escrito em flutter que usa api do blogger para exibir o seu conte
 
 ### Download
 
-[<img src="img/get_github.png"
-     alt="Download por GitHub"
-     height="90">](https://github.com/hendrilmendes/News-Droid/releases)
+[<img src="img/get_google-play.png"
+     alt="Baixar pela Google Play"
+     height="90">](https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news)
 
 ##
 
@@ -25,13 +27,15 @@ Um app simples escrito em flutter que usa api do blogger para exibir o seu conte
 
 * App feito em Flutter, disponível para iOS e Android
 * Firebase para monitorar o desempenho, erros do app e envio de notificações
+* Favoritar Postagens
+* Comentar em Posts
 * API Blogger v3
 ##
 
 ### O que há de novo?
 
-Veja as novidades em [Changelog](https://github.com/hendrilmendes/News-Droid/blob/main/Changelog.md)
+Veja as novidades em [Changelog](CHANGELOG.md)
 ##
 
 ## Licença
-Este projeto está licenciado sob a Licença MIT - veja [LICENSE](LICENSE.txt)
+Este projeto está licenciado sob a Licença MIT - veja [LICENSE](LICENSE.md)

@@ -2,11 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/widgets/progress_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({Key? key}) : super(key: key);
+  const FavoritesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,46 +18,79 @@ class FavoritesScreen extends StatelessWidget {
       ),
       body: favoritePostsModel.favoritePosts.isEmpty
           ? const Center(
-              child: Text(
-                'Nenhum post favorito encontrado 😕',
-                style: TextStyle(fontSize: 22),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    'Nenhum post favorito encontrado 😕',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                ],
               ),
             )
           : ListView.builder(
               itemCount: favoritePostsModel.favoritePosts.length,
-              itemBuilder: (context, index) {
+              itemBuilder: (BuildContext context, int index) {
                 final post = favoritePostsModel.favoritePosts[index];
-                return Card(
-                  child: ListTile(
-                    leading: ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(10.0),
-                        bottom: Radius.circular(10.0),
-                      ),
-                      child: CachedNetworkImage(
-                        imageUrl: post.imageUrl,
-                        placeholder: (context, url) => buildLoadingIndicator(),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error_outline),
-                      ),
+                return Dismissible(
+                  key: Key(post.postId),
+                  onDismissed: (direction) {
+                    favoritePostsModel.removeFavorite(post.postId);
+                  },
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerLeft,
+                    child:
+                        const Icon(Icons.delete_outline, color: Colors.white),
+                  ),
+                  secondaryBackground: Container(
+                    color: Colors.red,
+                    child: const Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(Icons.delete_outline, color: Colors.white),
                     ),
-                    title: Text(post.title),
-                    subtitle: Text(post.formattedDate),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => PostDetailsScreen(
-                            postId: post.postId,
-                            title: post.title,
-                            content: post.content,
+                  ),
+                  child: Card(
+                    margin: const EdgeInsets.all(8.0),
+                    clipBehavior: Clip.hardEdge,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PostDetailsScreen(
+                              postId: post.postId,
+                              title: post.title,
+                              content: post.content,
+                              imageUrl: post.imageUrl,
+                              url: post.url,
+                              formattedDate: post.formattedDate,
+                              blogId: post.blogId,
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        leading: ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(10.0),
+                            bottom: Radius.circular(10.0),
+                          ),
+                          child: CachedNetworkImage(
                             imageUrl: post.imageUrl,
-                            url: post.url,
-                            formattedDate: post.formattedDate,
-                            blogId: post.blogId,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: Colors.grey[300]!,
+                              highlightColor: Colors.grey[100]!,
+                              child: Container(color: Colors.white),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error_outline),
                           ),
                         ),
-                      );
-                    },
+                        title: Text(post.title),
+                        subtitle: Text(post.formattedDate),
+                      ),
+                    ),
                   ),
                 );
               },

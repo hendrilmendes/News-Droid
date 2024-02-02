@@ -1,0 +1,338 @@
+import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:newsdroid/api/api.dart';
+import 'package:newsdroid/telas/erro/erro.dart';
+import 'package:newsdroid/telas/posts/posts_details.dart';
+import 'package:newsdroid/widgets/progress_indicator.dart';
+import 'package:shimmer/shimmer.dart';
+
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _SearchScreenState createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  List<dynamic> posts = [];
+  List<dynamic> filteredPosts = [];
+  String? postId;
+  bool searchResultsEmpty = false;
+  bool isOnline = true;
+  bool isLoading = true;
+  Timer? _debounceTimer;
+  final TextEditingController _searchController = TextEditingController();
+  final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
+  final FocusNode _searchFocusNode = FocusNode();
+  final List<String> trendWords = [
+    'Windows 12',
+    'Android 15',
+    'iOS 18',
+    'GTA VI'
+  ];
+  int trendIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchFocusNode.requestFocus();
+    fetchPosts();
+    checkConnectivity();
+    startTrendTimer();
+  }
+
+  Future<void> checkConnectivity() async {
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (mounted) {
+      setState(() {
+        isOnline = connectivityResult != ConnectivityResult.none;
+      });
+    }
+  }
+
+  String formatDate(String originalDate) {
+    final parsedDate = DateTime.parse(originalDate);
+    final formattedDate = DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
+    return formattedDate;
+  }
+
+  Future<void> fetchPosts() async {
+    final response = await http.get(Uri.parse(
+        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (mounted) {
+        setState(() {
+          posts = data['items'];
+          searchResultsEmpty = false;
+          if (!searchResultsEmpty) {
+            posts.sort((a, b) => (b['views'] ?? 0).compareTo(a['views'] ?? 0));
+            filteredPosts = posts;
+          }
+          isLoading = false;
+        });
+      }
+    } else {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
+  }
+
+  Future<String> getPostId(String postId) async {
+    final response = await http.get(Uri.parse(
+        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'));
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      if (data['id'] != null) {
+        return data['id'];
+      } else {
+        throw Exception('Nenhum post encontrado');
+      }
+    } else {
+      throw Exception('Falha ao obter ');
+    }
+  }
+
+  void searchPosts(String query) {
+    if (_debounceTimer != null && _debounceTimer!.isActive) {
+      _debounceTimer!.cancel();
+    }
+
+    _debounceTimer = Timer(const Duration(milliseconds: 500), () {
+      if (mounted) {
+        setState(() {
+          filteredPosts = posts
+              .where((post) =>
+                  post['title'].toLowerCase().contains(query.toLowerCase()))
+              .toList();
+
+          searchResultsEmpty = filteredPosts.isEmpty;
+        });
+      }
+    });
+  }
+
+  void startTrendTimer() {
+    const trendDuration =
+        Duration(seconds: 10); // duracao de cada palavra de tendencia
+    Timer.periodic(trendDuration, (Timer timer) {
+      if (mounted) {
+        setState(() {
+          trendIndex = (trendIndex + 1) %
+              trendWords.length; // avanca proxima palavra de tendência
+          _searchController.clear(); // limpar texto de pesquisa
+          searchQuery.value = ''; // limpar valor da pesquisa
+          _searchController.text =
+              ''; // limpa texto do controlador de pesquisa (se necessário)
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!isOnline) {
+      return ErrorScreen(
+        onReload: () {
+          fetchPosts();
+        },
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Buscar'),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(80.0),
+          child: Card(
+            margin: const EdgeInsets.all(10.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.0),
+            ),
+            child: ValueListenableBuilder(
+              builder: (BuildContext context, String query, Widget? child) {
+                return TextField(
+                  controller: _searchController,
+                  focusNode: _searchFocusNode,
+                  onChanged: (value) {
+                    searchQuery.value = value;
+                    searchPosts(value);
+                  },
+                  textAlignVertical: TextAlignVertical.center,
+                  decoration: InputDecoration(
+                    focusedBorder: const UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 1.5,
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    prefixIcon:
+                        const Icon(Icons.search_outlined, color: Colors.blue),
+                    border: InputBorder.none,
+                    hintText: 'Procurar por "${trendWords[trendIndex]}"',
+                    suffixIcon: searchQuery.value.isNotEmpty
+                        ? IconButton(
+                            icon: const Icon(Icons.clear_outlined),
+                            onPressed: () {
+                              _searchController.clear();
+                              searchQuery.value = '';
+                              searchPosts('');
+                            },
+                          )
+                        : null,
+                  ),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.search,
+                );
+              },
+              valueListenable: searchQuery,
+            ),
+          ),
+        ),
+      ),
+      body: isLoading
+          ? Center(
+              child: buildLoadingIndicator(),
+            )
+          : filteredPosts.isEmpty
+              ? const Center(
+                  child: Text(
+                    'Nenhum resultado encontrado 😱',
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                )
+              : GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 200.0,
+                    mainAxisExtent: 300.0,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  itemCount: filteredPosts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final post = filteredPosts[index];
+                    final title = post['title'];
+                    final url = post['url'];
+                    final publishedDate = post['published'];
+                    final formattedDate = formatDate(publishedDate);
+
+                    var imageUrl = post['images'] != null
+                        ? post['images'][0]['url']
+                        : null;
+
+                    if (imageUrl == null) {
+                      final content = post['content'];
+                      final match = RegExp(r'<img[^>]+src="([^">]+)"')
+                          .firstMatch(content);
+                      if (match != null) {
+                        imageUrl = match.group(1);
+                      }
+                    }
+
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      clipBehavior: Clip.hardEdge,
+                      margin: const EdgeInsets.all(10.0),
+                      child: InkWell(
+                        onTap: () async {
+                          final postId = await getPostId(post['id']);
+                          if (mounted) {
+                            setState(() {
+                              this.postId = postId;
+                            });
+                          }
+
+                          // ignore: use_build_context_synchronously
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PostDetailsScreen(
+                                title: title,
+                                imageUrl: imageUrl,
+                                content: post['content'],
+                                url: url,
+                                formattedDate: formattedDate,
+                                blogId: blogId,
+                                postId: postId,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(20.0),
+                                bottom: Radius.circular(20.0),
+                              ),
+                              child: AspectRatio(
+                                aspectRatio: 16 / 9,
+                                child: imageUrl != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: imageUrl,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(color: Colors.white),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error_outline),
+                                      )
+                                    : Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(color: Colors.white),
+                                      ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    title,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Publicado em $formattedDate",
+                                        style: const TextStyle(fontSize: 12),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+    );
+  }
+}

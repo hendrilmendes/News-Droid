@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -6,7 +7,7 @@ import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class GitHubUpdater {
+class Updater {
   static Future<void> checkForUpdates(BuildContext context) async {
     try {
       final response = await http.get(
@@ -32,7 +33,7 @@ class GitHubUpdater {
             builder: (context) => AlertDialog.adaptive(
               title: const Text('Nova Versão Disponível'),
               content: const Text(
-                  'Uma nova versão do app esta disponível. Deseja Baixar?'),
+                  'Uma nova versão do app está disponível. Deseja Baixar?'),
               actions: <Widget>[
                 adaptiveAction(
                   onPressed: () => Navigator.pop(context),
@@ -41,10 +42,17 @@ class GitHubUpdater {
                 ),
                 adaptiveAction(
                   onPressed: () {
-                    // ignore: deprecated_member_use
-                    launch(
-                        'https://github.com/hendrilmendes/News-Droid/releases/latest');
-                    Navigator.pop(context);
+                    if (Platform.isAndroid) {
+                      // Android
+                      launchUrl(Uri.parse(
+                          'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news'));
+                      Navigator.pop(context); // Fecha o diálogo interno
+                    } else {
+                      // iOS
+                      launchUrl(Uri.parse(
+                          'https://github.com/hendrilmendes/News-Droid/releases/latest'));
+                      Navigator.pop(context); // Fecha o diálogo interno
+                    }
                   },
                   child: const Text('BAIXAR'),
                   context: context,
@@ -71,7 +79,7 @@ class GitHubUpdater {
         }
       } else {
         if (kDebugMode) {
-          print('Erro ao buscar versao: ${response.statusCode}');
+          print('Erro ao buscar versão: ${response.statusCode}');
         }
       }
     } catch (e) {

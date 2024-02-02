@@ -1,11 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:newsdroid/api/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/tema/tema.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -18,6 +21,8 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   String appVersion = '';
   String appBuild = '';
+  String authorApp = '';
+  String descApp = '';
   bool _notificationsEnabled = true;
 
   // Metodo para exibir a versao
@@ -28,6 +33,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         appVersion = packageInfo.version;
         appBuild = packageInfo.buildNumber;
+        authorApp = 'Hendril Mendes';
+        descApp =
+            'Um projeto amador para um app de notícias que usa a API do Blogger';
       });
     });
 
@@ -101,6 +109,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           // Notificacoes
           Card(
+            clipBehavior: Clip.hardEdge,
             margin: const EdgeInsets.all(8.0),
             child: SwitchListTile.adaptive(
               activeColor: Colors.blue,
@@ -120,6 +129,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
           // Temas
           Card(
+            clipBehavior: Clip.hardEdge,
             margin: const EdgeInsets.all(8.0),
             child: SwitchListTile.adaptive(
               activeColor: Colors.blue,
@@ -134,8 +144,99 @@ class _SettingsScreenState extends State<SettingsScreen> {
               },
             ),
           ),
+
+          // Versao
+          Card(
+            clipBehavior: Clip.hardEdge,
+            margin: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: const Text('Atualizações'),
+              subtitle:
+                  const Text('Toque para buscar por novas versões do app'),
+              onTap: () {
+                Updater.checkForUpdates(context);
+              },
+            ),
+          ),
+          // Suporte
+          Card(
+            clipBehavior: Clip.hardEdge,
+            margin: const EdgeInsets.all(8.0),
+            child: ListTile(
+              title: const Text(
+                'Suporte',
+              ),
+              subtitle: const Text(
+                'Encontrou um bug ou deseja sugerir algo? Entre em contato com a gente 😁',
+              ),
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 100,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  MdiIcons.gmail,
+                                ),
+                                iconSize: 40,
+                                tooltip: 'Gmail',
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  launchUrl(
+                                    Uri.parse(
+                                      'mailto:hendrilmendes2015@gmail.com?subject=News-Droid&body=Gostaria%20de%20sugerir%20um%20recurso%20ou%20informar%20um%20bug.',
+                                    ),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
+                              ),
+                              const Text(
+                                'Gmail',
+                              ),
+                            ],
+                          ),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: const Icon(
+                                  MdiIcons.telegram,
+                                ),
+                                iconSize: 40,
+                                tooltip: 'Telegram',
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  launchUrl(
+                                    Uri.parse(
+                                      'https://t.me/hendril_mendes',
+                                    ),
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                },
+                              ),
+                              const Text(
+                                'Telegram',
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
           // Sobre
           Card(
+            clipBehavior: Clip.hardEdge,
             margin: const EdgeInsets.all(8.0),
             child: ListTile(
               title: const Text('Sobre'),
@@ -147,12 +248,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 );
               },
             ),
-          ),
-          // Dev
-          const Text(
-            "Feito com ♥ por Hendril Mendes",
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12),
           ),
         ],
       ),

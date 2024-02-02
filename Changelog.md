@@ -1,6 +1,20 @@
 Changelog News-Droid
 
 ======================================================
+#### 2.0.6 - 02/02/2024
+OBS: Para usúarios que desejam atualizar pela Play Store, será necessário desinstalar e instalar novamente a apartir da loja, pois foi alterado a assinatura do app.
+
+Novo:
+- Primeiro Lançamento na Google Play Store
+- Uma nova tela para as Buscas
+- Deslize para os lados para remover um post dos Favoritos
+- Suporte minimo iOS 16
+- Suporte minimo Android 8
+
+Correções/Melhorias:
+- Correções de bugs, melhorias de desempenho, além de alguns retoques visuais
+
+======================================================
 #### v1.4.0 - 21/10/2023
 Novo:
 - Uma nova barra de pesquisa 

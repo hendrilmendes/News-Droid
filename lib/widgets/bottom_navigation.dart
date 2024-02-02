@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/telas/config/config.dart';
 import 'package:newsdroid/telas/favoritos/favoritos.dart';
 import 'package:newsdroid/telas/home/home.dart';
+import 'package:newsdroid/telas/pesquisa/pesquisa.dart';
 
 class BottomNavigationContainer extends StatefulWidget {
-  const BottomNavigationContainer({Key? key}) : super(key: key);
+  const BottomNavigationContainer({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -17,7 +17,8 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
   int currentIndex = 0;
 
   final List<Widget> screens = const [
-    Home(),
+    HomeScreen(),
+    SearchScreen(),
     FavoritesScreen(),
     SettingsScreen(),
   ];
@@ -36,14 +37,8 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
     return Scaffold(
       body: screens[currentIndex],
       // Bottom Nav
-      bottomNavigationBar: ClipRRect(
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
-        ),
-        child: NavigationBarTheme(
+      bottomNavigationBar: NavigationBarTheme(
           data: NavigationBarThemeData(
-            shadowColor: Colors.blue,
             labelTextStyle: MaterialStateProperty.all(
               const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
             ),
@@ -54,24 +49,28 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
             labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
             destinations: const [
               NavigationDestination(
-                icon: Icon(CupertinoIcons.house),
-                selectedIcon: Icon(CupertinoIcons.house_fill),
-                label: 'Home',
+                icon: Icon(Icons.home),
+                selectedIcon: Icon(Icons.home_outlined),
+                label: 'Início',
               ),
               NavigationDestination(
-                icon: Icon(CupertinoIcons.heart),
-                selectedIcon: Icon(CupertinoIcons.heart_fill),
+                icon: Icon(Icons.search),
+                selectedIcon: Icon(Icons.search_outlined),
+                label: 'Buscar',
+              ),
+              NavigationDestination(
+                icon: Icon(Icons.favorite),
+                selectedIcon: Icon(Icons.favorite_outline),
                 label: 'Favoritos',
               ),
               NavigationDestination(
-                icon: Icon(CupertinoIcons.settings),
-                selectedIcon: Icon(CupertinoIcons.settings_solid),
+                icon: Icon(Icons.settings),
+                selectedIcon: Icon(Icons.settings_outlined),
                 label: 'Ajustes',
               ),
             ],
           ),
         ),
-      ),
     );
   }
 }

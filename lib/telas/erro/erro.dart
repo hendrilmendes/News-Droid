@@ -15,15 +15,15 @@ class ErrorScreen extends StatelessWidget {
             children: [
               Image.asset(
                 "assets/erro/offline.png",
-                width: MediaQuery.of(context).size.width * 0.6,
-                height: MediaQuery.of(context).size.width * 0.6,
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: MediaQuery.of(context).size.width * 0.8,
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "Sem conexão com a Internet. Verifique sua conexão e tente novamente.",
+                  "Sem conexão com a Internet\nVerifique sua conexão e tente novamente.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
                 ),
               ),
               const Padding(padding: EdgeInsets.only(top: 10)),
