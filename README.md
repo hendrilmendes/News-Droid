@@ -34,7 +34,7 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 
 ### O que há de novo?
 
-Veja as novidades em [Changelog](CHANGELOG.md)
+Veja as novidades em [Changelog](Changelog.md)
 ##
 
 ## Licença
