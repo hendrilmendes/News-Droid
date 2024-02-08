@@ -100,7 +100,7 @@ class _SearchScreenState extends State<SearchScreen> {
         throw Exception('Nenhum post encontrado');
       }
     } else {
-      throw Exception('Falha ao obter ');
+      throw Exception('Falha ao obter post');
     }
   }
 
@@ -125,16 +125,12 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void startTrendTimer() {
     const trendDuration =
-        Duration(seconds: 10); // duracao de cada palavra de tendencia
+        Duration(seconds: 8); // duracao de cada palavra de tendencia
     Timer.periodic(trendDuration, (Timer timer) {
       if (mounted) {
         setState(() {
           trendIndex = (trendIndex + 1) %
               trendWords.length; // avanca proxima palavra de tendência
-          _searchController.clear(); // limpar texto de pesquisa
-          searchQuery.value = ''; // limpar valor da pesquisa
-          _searchController.text =
-              ''; // limpa texto do controlador de pesquisa (se necessário)
         });
       }
     });

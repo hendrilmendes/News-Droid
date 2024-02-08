@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
+import 'package:newsdroid/widgets/progress_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -16,7 +17,11 @@ class FavoritesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Favoritos'),
       ),
-      body: favoritePostsModel.favoritePosts.isEmpty
+      body: favoritePostsModel.isLoading
+          ? Center(
+              child: buildLoadingIndicator(),
+            )
+          :favoritePostsModel.favoritePosts.isEmpty
           ? const Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -71,20 +76,23 @@ class FavoritesScreen extends StatelessWidget {
                         );
                       },
                       child: ListTile(
-                        leading: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10.0),
-                            bottom: Radius.circular(10.0),
-                          ),
-                          child: CachedNetworkImage(
-                            imageUrl: post.imageUrl,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(color: Colors.white),
+                        leading: SizedBox(
+                          width: 95,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10.0),
+                              bottom: Radius.circular(10.0),
                             ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error_outline),
+                            child: CachedNetworkImage(
+                              imageUrl: post.imageUrl,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(color: Colors.white),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error_outline),
+                            ),
                           ),
                         ),
                         title: Text(post.title),

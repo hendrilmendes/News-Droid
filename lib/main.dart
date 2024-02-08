@@ -1,8 +1,10 @@
+import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorito_adapter.dart';
@@ -16,7 +18,18 @@ import 'firebase_options.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(BetterFeedback(
+    theme: FeedbackThemeData.light(),
+    darkTheme: FeedbackThemeData.dark(),
+    localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalFeedbackLocalizationsDelegate(),
+      ],
+      localeOverride: const Locale('pt'),
+    child: const MyApp(),
+  ));
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -1,14 +1,17 @@
+import 'dart:io';
+
+import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:newsdroid/api/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/tema/tema.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -97,6 +100,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     }
   }
 
+  Future<String> writeImageToStorage(Uint8List feedbackScreenshot) async {
+    final Directory output = await getTemporaryDirectory();
+    final String screenshotFilePath = '${output.path}/feedback.png';
+    final File screenshotFile = File(screenshotFilePath);
+    await screenshotFile.writeAsBytes(feedbackScreenshot);
+    return screenshotFilePath;
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeModel = Provider.of<ThemeModel>(context);
@@ -170,67 +181,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 'Encontrou um bug ou deseja sugerir algo? Entre em contato com a gente 😁',
               ),
               onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return SizedBox(
-                      height: 100,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  MdiIcons.gmail,
-                                ),
-                                iconSize: 40,
-                                tooltip: 'Gmail',
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  launchUrl(
-                                    Uri.parse(
-                                      'mailto:hendrilmendes2015@gmail.com?subject=News-Droid&body=Gostaria%20de%20sugerir%20um%20recurso%20ou%20informar%20um%20bug.',
-                                    ),
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                },
-                              ),
-                              const Text(
-                                'Gmail',
-                              ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  MdiIcons.telegram,
-                                ),
-                                iconSize: 40,
-                                tooltip: 'Telegram',
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  launchUrl(
-                                    Uri.parse(
-                                      'https://t.me/hendril_mendes',
-                                    ),
-                                    mode: LaunchMode.externalApplication,
-                                  );
-                                },
-                              ),
-                              const Text(
-                                'Telegram',
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+                BetterFeedback.of(context).show((feedback) async {
+                  final screenshotFilePath =
+                      await writeImageToStorage(feedback.screenshot);
+
+                  final Email email = Email(
+                    body: feedback.text,
+                    subject: 'News-Droid',
+                    recipients: ['hendrilmendes2015@gmail.com'],
+                    attachmentPaths: [screenshotFilePath],
+                    isHTML: false,
+                  );
+                  await FlutterEmailSender.send(email);
+                });
               },
             ),
           ),

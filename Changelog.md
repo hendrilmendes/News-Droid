@@ -1,6 +1,16 @@
 Changelog News-Droid
 
 ======================================================
+#### 2.*.* - **/**/2024
+
+Novo:
+- Novo sistema de feedback, para reportar bugs e melhorias
+
+Correções/Melhorias:
+- Corrigido bug na tela de Favoritos
+- Alterado tempo de transição de tendências na barra de Buscas
+
+======================================================
 #### 2.0.6 - 02/02/2024
 OBS: Para usúarios que desejam atualizar pela Play Store, será necessário desinstalar e instalar novamente a apartir da loja, pois foi alterado a assinatura do app.
 

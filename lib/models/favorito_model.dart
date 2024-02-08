@@ -3,9 +3,17 @@ import 'package:hive/hive.dart';
 
 class FavoritePostsModel extends ChangeNotifier {
   final Box _favoritePostsBox = Hive.box('favorite_posts');
+  bool _isLoading = false;
 
   List<FavoritePost> get favoritePosts =>
       _favoritePostsBox.values.toList().cast<FavoritePost>();
+
+  bool get isLoading => _isLoading;
+
+  set isLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
 
   void addFavorite(FavoritePost post) {
     _favoritePostsBox.put(post.postId, post);
