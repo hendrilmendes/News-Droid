@@ -32,7 +32,7 @@ class OAuth2Helper {
     } catch (e) {
       // Lida com erros de autenticação.
       if (kDebugMode) {
-        print('Erro de autenticação: $e');
+        print("Erro de autenticação: $e");
       }
       return null;
     }
@@ -59,7 +59,7 @@ class OAuth2Helper {
       return accessToken;
     } else {
       if (kDebugMode) {
-        print('Erro ao obter o token de acesso: ${response.body}');
+        print("Erro ao obter o token de acesso: ${response.body}");
       }
       return null;
     }

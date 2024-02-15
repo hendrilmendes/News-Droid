@@ -3,7 +3,6 @@ import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -22,6 +21,7 @@ class Updater {
         final Map<String, dynamic> releaseInfo = json.decode(response.body);
 
         final String latestVersion = releaseInfo['tag_name'];
+        final String releaseNotes = releaseInfo['body'];
 
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         final String currentVersion = packageInfo.version;
@@ -30,17 +30,36 @@ class Updater {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (context) => AlertDialog.adaptive(
-              title: const Text('Nova Versão Disponível'),
-              content: const Text(
-                  'Uma nova versão do app está disponível. Deseja Baixar?'),
+            builder: (context) => AlertDialog(
+              title: const Text("Nova Versão Disponível"),
+              content: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    "A versão $latestVersion do News-Droid está disponível. Você esta usando a versão $currentVersion.",
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Novidades:",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 5),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Text(
+                        releaseNotes,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               actions: <Widget>[
-                adaptiveAction(
+                TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('DEPOIS'),
-                  context: context,
+                  child: const Text("DEPOIS"),
                 ),
-                adaptiveAction(
+                FilledButton.tonal(
                   onPressed: () {
                     if (Platform.isAndroid) {
                       // Android
@@ -54,8 +73,7 @@ class Updater {
                       Navigator.pop(context); // Fecha o diálogo interno
                     }
                   },
-                  child: const Text('BAIXAR'),
-                  context: context,
+                  child: const Text("BAIXAR"),
                 ),
               ],
             ),
@@ -64,14 +82,13 @@ class Updater {
           // ignore: use_build_context_synchronously
           showDialog(
             context: context,
-            builder: (context) => AlertDialog.adaptive(
-              title: const Text('Nenhuma Atualização Disponível'),
-              content: const Text('Tudo em dias parceiro 🤠'),
+            builder: (context) => AlertDialog(
+              title: const Text("Nenhuma Atualização Disponível"),
+              content: const Text("Tudo em dias parceiro 🤠"),
               actions: <Widget>[
-                adaptiveAction(
+                FilledButton.tonal(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text('OK'),
-                  context: context,
+                  child: const Text("OK"),
                 ),
               ],
             ),
@@ -79,12 +96,12 @@ class Updater {
         }
       } else {
         if (kDebugMode) {
-          print('Erro ao buscar versão: ${response.statusCode}');
+          print("Erro ao buscar versão: ${response.statusCode}");
         }
       }
     } catch (e) {
       if (kDebugMode) {
-        print('Ocorreu um erro: $e');
+        print("Ocorreu um erro: $e");
       }
     }
   }

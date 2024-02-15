@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -104,26 +102,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     );
   }
 
-  // Icon de Compartilhamento
-  // ignore: non_constant_identifier_names
-  Icon _SharedIcon() {
-    if (Platform.isAndroid) {
-      return const Icon(Icons.share_outlined);
-    } else {
-      return const Icon(CupertinoIcons.share);
-    }
-  }
-
-  // Icon de Comentario
-  // ignore: non_constant_identifier_names
-  Icon _CommentIcon() {
-    if (Platform.isAndroid) {
-      return const Icon(Icons.comment_outlined);
-    } else {
-      return const Icon(CupertinoIcons.text_bubble);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,9 +137,19 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Publicado em ${widget.formattedDate}",
-                style: const TextStyle(fontSize: 12),
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today_outlined,
+                      size: 12, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Text(
+                    widget.formattedDate,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -177,13 +165,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           FloatingActionButton.small(
             heroTag: "btn0",
             tooltip: 'Compartilhar',
-            child: _SharedIcon(),
+            child: const Icon(Icons.share_outlined),
             onPressed: () => sharePost(widget.url),
           ),
           FloatingActionButton.small(
             heroTag: "btn1",
             tooltip: 'Comentários',
-            child: _CommentIcon(),
+            child: const Icon(Icons.comment_outlined),
             onPressed: () {
               showBarModalBottomSheet(
                 clipBehavior: Clip.antiAlias,

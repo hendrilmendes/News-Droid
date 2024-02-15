@@ -32,7 +32,7 @@ class _AboutPageState extends State<AboutPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sobre'),
+        title: const Text("Sobre"),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -65,7 +65,7 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                   ),
                   const Text(
-                    'Todos os Direitos Reservados.',
+                    "Todos os Direitos Reservados.",
                     style: TextStyle(
                       fontSize: 12,
                     ),
@@ -73,7 +73,7 @@ class _AboutPageState extends State<AboutPage> {
                   const Divider(),
                   const SizedBox(height: 10),
                   const Text(
-                    'Um projeto amador para um app de notícias',
+                    "Um projeto amador para um app de notícias",
                     style: TextStyle(fontSize: 14.0),
                   ),
                   const SizedBox(height: 10),
@@ -83,8 +83,9 @@ class _AboutPageState extends State<AboutPage> {
                     clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      title: const Text('Versão'),
+                      title: const Text("Versão"),
                       subtitle: Text('v$appVersion Build: ($appBuild)'),
+                      leading: const Icon(Icons.apps_rounded),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -101,9 +102,10 @@ class _AboutPageState extends State<AboutPage> {
                     clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      title: const Text('Política de Privacidade'),
+                      title: const Text("Política de Privacidade"),
                       subtitle:
                           const Text("Termos que garantem a sua privacidade"),
+                          leading: const Icon(Icons.privacy_tip),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -115,14 +117,35 @@ class _AboutPageState extends State<AboutPage> {
                       },
                     ),
                   ),
+                  // Versao
+                  Card(
+                    clipBehavior: Clip.hardEdge,
+                    margin: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: const Text("Código Fonte"),
+                      subtitle: const Text("Projeto disponível no GitHub"),
+                      leading: const Icon(Icons.code),
+                      onTap: () {
+                        Navigator.pop(context);
+                        launchUrl(
+                          Uri.parse(
+                            'https://github.com/hendrilmendes/News-Droid/',
+                          ),
+                          mode: LaunchMode.inAppBrowserView,
+                        );
+                      },
+                    ),
+                  ),
                   // Licencas
                   Card(
                     clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),
                     child: ListTile(
-                      title: const Text('Licenças de Código Aberto'),
+                      title: const Text("Licenças de Código Aberto"),
                       subtitle: const Text(
                           "Softwares de terceiros usados na construção do app"),
+                          leading: const Icon(Icons.flutter_dash
+                        ),
                       onTap: () {
                         Navigator.push(
                           context,

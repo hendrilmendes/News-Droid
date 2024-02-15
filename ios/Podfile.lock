@@ -123,6 +123,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (7.12.0):
     - GoogleUtilities/Logger
+  - in_app_review (0.2.0):
+    - Flutter
   - just_audio (0.0.1):
     - Flutter
   - nanopb (2.30909.1):
@@ -169,6 +171,7 @@ DEPENDENCIES:
   - flutter_email_sender (from `.symlinks/plugins/flutter_email_sender/ios`)
   - flutter_web_auth_2 (from `.symlinks/plugins/flutter_web_auth_2/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - in_app_review (from `.symlinks/plugins/in_app_review/ios`)
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
@@ -224,6 +227,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_web_auth_2/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  in_app_review:
+    :path: ".symlinks/plugins/in_app_review/ios"
   just_audio:
     :path: ".symlinks/plugins/just_audio/ios"
   package_info_plus:
@@ -271,6 +276,7 @@ SPEC CHECKSUMS:
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleDataTransport: 57c22343ab29bc686febbf7cbb13bad167c2d8fe
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
+  in_app_review: 318597b3a06c22bb46dc454d56828c85f444f99d
   just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   nanopb: d4d75c12cd1316f4a64e3c6963f879ecd4b5e0d5
   package_info_plus: 115f4ad11e0698c8c1c5d8a689390df880f47e85

@@ -105,6 +105,12 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void searchPosts(String query) {
+    if (query.isEmpty) {
+      filteredPosts = posts;
+      searchResultsEmpty = false;
+      return;
+    }
+
     if (_debounceTimer != null && _debounceTimer!.isActive) {
       _debounceTimer!.cancel();
     }
@@ -124,13 +130,11 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   void startTrendTimer() {
-    const trendDuration =
-        Duration(seconds: 8); // duracao de cada palavra de tendencia
+    const trendDuration = Duration(seconds: 8);
     Timer.periodic(trendDuration, (Timer timer) {
       if (mounted) {
         setState(() {
-          trendIndex = (trendIndex + 1) %
-              trendWords.length; // avanca proxima palavra de tendência
+          trendIndex = (trendIndex + 1) % trendWords.length;
         });
       }
     });
@@ -198,16 +202,11 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       body: isLoading
-          ? Center(
-              child: buildLoadingIndicator(),
-            )
+          ? Center(child: buildLoadingIndicator())
           : filteredPosts.isEmpty
               ? const Center(
-                  child: Text(
-                    'Nenhum resultado encontrado 😱',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
-                )
+                  child: Text("Nenhum resultado encontrado 😱",
+                      style: TextStyle(fontSize: 18.0)))
               : GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200.0,
@@ -310,13 +309,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                     ),
                                   ),
                                   const SizedBox(height: 4),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                  Row(
                                     children: [
+                                      const Icon(Icons.calendar_today_outlined,
+                                          size: 12, color: Colors.grey),
+                                      const SizedBox(width: 4),
                                       Text(
-                                        "Publicado em $formattedDate",
-                                        style: const TextStyle(fontSize: 12),
+                                        formattedDate,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
                                       ),
                                     ],
                                   ),

@@ -51,22 +51,22 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               NavigationDestination(
                 icon: Icon(Icons.home),
                 selectedIcon: Icon(Icons.home_outlined),
-                label: 'Início',
+                label: "Início",
               ),
               NavigationDestination(
                 icon: Icon(Icons.search),
                 selectedIcon: Icon(Icons.search_outlined),
-                label: 'Buscar',
+                label: "Buscar",
               ),
               NavigationDestination(
                 icon: Icon(Icons.favorite),
                 selectedIcon: Icon(Icons.favorite_outline),
-                label: 'Favoritos',
+                label: "Favoritos",
               ),
               NavigationDestination(
                 icon: Icon(Icons.settings),
                 selectedIcon: Icon(Icons.settings_outlined),
-                label: 'Ajustes',
+                label: "Ajustes",
               ),
             ],
           ),

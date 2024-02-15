@@ -15,94 +15,113 @@ class FavoritesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Favoritos'),
+        title: const Text("Favoritos"),
       ),
       body: favoritePostsModel.isLoading
           ? Center(
               child: buildLoadingIndicator(),
             )
-          :favoritePostsModel.favoritePosts.isEmpty
-          ? const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'Nenhum post favorito encontrado 😕',
-                    style: TextStyle(fontSize: 20),
+          : favoritePostsModel.favoritePosts.isEmpty
+              ? const Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Nenhum post favorito encontrado 😕",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: favoritePostsModel.favoritePosts.length,
-              itemBuilder: (BuildContext context, int index) {
-                final post = favoritePostsModel.favoritePosts[index];
-                return Dismissible(
-                  key: Key(post.postId),
-                  onDismissed: (direction) {
-                    favoritePostsModel.removeFavorite(post.postId);
-                  },
-                  background: Container(
-                    color: Colors.red,
-                    alignment: Alignment.centerLeft,
-                    child:
-                        const Icon(Icons.delete_outline, color: Colors.white),
-                  ),
-                  secondaryBackground: Container(
-                    color: Colors.red,
-                    child: const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(Icons.delete_outline, color: Colors.white),
-                    ),
-                  ),
-                  child: Card(
-                    margin: const EdgeInsets.all(8.0),
-                    clipBehavior: Clip.hardEdge,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => PostDetailsScreen(
-                              postId: post.postId,
-                              title: post.title,
-                              content: post.content,
-                              imageUrl: post.imageUrl,
-                              url: post.url,
-                              formattedDate: post.formattedDate,
-                              blogId: post.blogId,
-                            ),
-                          ),
-                        );
+                )
+              : ListView.builder(
+                  itemCount: favoritePostsModel.favoritePosts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final post = favoritePostsModel.favoritePosts[index];
+                    return Dismissible(
+                      key: Key(post.postId),
+                      onDismissed: (direction) {
+                        favoritePostsModel.removeFavorite(post.postId);
                       },
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 95,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(10.0),
-                              bottom: Radius.circular(10.0),
-                            ),
-                            child: CachedNetworkImage(
-                              imageUrl: post.imageUrl,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey[300]!,
-                                highlightColor: Colors.grey[100]!,
-                                child: Container(color: Colors.white),
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        child: const Icon(Icons.delete_outline,
+                            color: Colors.white),
+                      ),
+                      secondaryBackground: Container(
+                        color: Colors.red,
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child:
+                              Icon(Icons.delete_outline, color: Colors.white),
+                        ),
+                      ),
+                      child: Card(
+                        margin: const EdgeInsets.all(8.0),
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => PostDetailsScreen(
+                                  postId: post.postId,
+                                  title: post.title,
+                                  content: post.content,
+                                  imageUrl: post.imageUrl,
+                                  url: post.url,
+                                  formattedDate: post.formattedDate,
+                                  blogId: post.blogId,
+                                ),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error_outline),
+                            );
+                          },
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.all(8.0),
+                            leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(10.0),
+                              child: CachedNetworkImage(
+                                imageUrl: post.imageUrl,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(color: Colors.white),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error_outline),
+                              ),
                             ),
+                            title: Text(
+                              post.title,
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            subtitle: Row(
+                                    children: [
+                                      const Icon(Icons.calendar_today_outlined,
+                                          size: 12,
+                                          color: Colors
+                                              .grey),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                       post.formattedDate,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                           ),
                         ),
-                        title: Text(post.title),
-                        subtitle: Text(post.formattedDate),
                       ),
-                    ),
-                  ),
-                );
-              },
-            ),
+                    );
+                  },
+                ),
     );
   }
 }

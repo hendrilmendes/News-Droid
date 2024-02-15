@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:crypto/crypto.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/helper/auth.dart';
-import 'package:newsdroid/widgets/adaptative_action.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -96,7 +93,7 @@ class _CommentScreenState extends State<CommentScreen> {
 
       if (response.statusCode == 201) {
         if (kDebugMode) {
-          print('Comentário adicionado com sucesso.');
+          print("Comentário adicionado com sucesso.");
         }
         setState(() {
           comments.add(Comment(
@@ -111,10 +108,10 @@ class _CommentScreenState extends State<CommentScreen> {
         });
       } else {
         if (kDebugMode) {
-          print('Erro ao adicionar comentário.');
+          print("Erro ao adicionar comentário.");
         }
         if (kDebugMode) {
-          print('Response body: ${response.body}');
+          print("Response body: ${response.body}");
         }
         _showErrorDialog();
       }
@@ -125,17 +122,16 @@ class _CommentScreenState extends State<CommentScreen> {
     await showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog.adaptive(
+        return AlertDialog(
           title: const Text("Erro ao enviar comentário"),
           content: const Text(
               "Não foi possível enviar o comentário. Por favor, tente novamente mais tarde."),
           actions: <Widget>[
-            adaptiveAction(
+            FilledButton(
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              context: context,
             ),
           ],
         );
@@ -149,105 +145,93 @@ class _CommentScreenState extends State<CommentScreen> {
     return digest.toString();
   }
 
-  // ignore: non_constant_identifier_names
-  Icon _SendIcon() {
-    if (Platform.isAndroid) {
-      return const Icon(Icons.send_outlined);
-    } else {
-      return const Icon(CupertinoIcons.arrow_up_circle_fill);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    return Scaffold(
       appBar: AppBar(
-        title: const Text('Comentários'),
+        title: const Text("Comentários"),
         automaticallyImplyLeading: false,
       ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: isLoading
-                      ? Center(child: buildLoadingIndicator())
-                      : comments.isEmpty
-                          ? const Center(
-                              child: Text(
-                                'Nenhum comentário disponível 😅',
-                                style: TextStyle(fontSize: 16.0),
-                              ),
-                            )
-                          : ListView.builder(
-                              itemCount: comments.length,
-                              itemBuilder: (context, index) {
-                                final comment = comments[index];
-                                return ListTile(
-                                  leading: CircleAvatar(
-                                    backgroundImage:
-                                        NetworkImage(comment.authorAvatar),
-                                  ),
-                                  title: Text(comment.authorName),
-                                  subtitle: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(comment.content),
-                                      Text(
-                                        'Em: ${DateFormat('dd/MM/yyyy - HH:mm').format(comment.postDate.toLocal())}',
-                                        style: const TextStyle(fontSize: 12),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
+      body: Column(
+        children: [
+          Expanded(
+            child: isLoading
+                ? Center(child: buildLoadingIndicator())
+                : comments.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "Nenhum comentário disponível 😅",
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                      )
+                    : ListView.builder(
+                        itemCount: comments.length,
+                        itemBuilder: (context, index) {
+                          final comment = comments[index];
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(comment.authorAvatar),
                             ),
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: commentController,
-                            decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: 'Digite seu comentário...'),
-                          ),
-                        ),
-                        IconButton(
-                          color: Colors.blue,
-                          icon: _SendIcon(),
-                          onPressed: () async {
-                            final commentText = commentController.text;
-                            const authorName = 'Humano';
-                            const authorAvatar =
-                                'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                            final commentDate = DateTime.now().toString();
-                            final postId = widget.postId;
-                            addComment(
-                              commentText,
-                              authorName,
-                              authorAvatar,
-                              commentDate,
-                              postId,
-                            );
-                          },
-                        ),
-                      ],
+                            title: Text(comment.authorName),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(comment.content),
+                                Text(
+                                  'Em: ${DateFormat('dd/MM/yyyy - HH:mm').format(comment.postDate.toLocal())}',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(100.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: commentController,
+                      decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Digite seu comentário..."),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 16,
-                )
-              ],
-            
-          
-        
+                  IconButton(
+                    color: Colors.blue,
+                    icon: const Icon(Icons.send_outlined),
+                    onPressed: () async {
+                      final commentText = commentController.text;
+                      const authorName = "Humano";
+                      const authorAvatar =
+                          'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                      final commentDate = DateTime.now().toString();
+                      final postId = widget.postId;
+                      addComment(
+                        commentText,
+                        authorName,
+                        authorAvatar,
+                        commentDate,
+                        postId,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          )
+        ],
       ),
     );
   }

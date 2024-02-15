@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:newsdroid/api/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -36,9 +37,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       setState(() {
         appVersion = packageInfo.version;
         appBuild = packageInfo.buildNumber;
-        authorApp = 'Hendril Mendes';
+        authorApp = "Hendril Mendes";
         descApp =
-            'Um projeto amador para um app de notícias que usa a API do Blogger';
+            "Um projeto amador para um app de notícias que usa a API do Blogger";
       });
     });
 
@@ -47,14 +48,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // Ouvinte de alterações de estado para notificações
     FirebaseMessaging.instance.onTokenRefresh.listen((token) {
       if (kDebugMode) {
-        print('Token atualizado: $token');
+        print("Token atualizado: $token");
       }
     });
 
     // Ouvinte de notificações
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (kDebugMode) {
-        print('Mensagem recebida: ${message.data}');
+        print("Mensagem recebida: ${message.data}");
       }
 
       // Se a notificação contém uma ação, execute-a
@@ -75,7 +76,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       String? token = await FirebaseMessaging.instance.getToken();
       if (token != null && kDebugMode) {
         if (kDebugMode) {
-          print('Token registered: $token');
+          print("Token registrado: $token");
         }
       }
     }
@@ -89,13 +90,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       String? token = await FirebaseMessaging.instance.getToken();
       if (token != null && kDebugMode) {
         if (kDebugMode) {
-          print('Token registered: $token');
+          print("Token registtrado: $token");
         }
       }
     } else {
       await FirebaseMessaging.instance.deleteToken();
       if (kDebugMode) {
-        print('Token unregistered.');
+        print("Token não registrado.");
       }
     }
   }
@@ -114,105 +115,163 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Ajustes'),
+        title: const Text("Ajustes"),
       ),
       body: ListView(
         children: [
-          // Notificacoes
-          Card(
-            clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.all(8.0),
-            child: SwitchListTile.adaptive(
-              activeColor: Colors.blue,
-              title: const Text('Notificações'),
-              subtitle: const Text(
-                "Notificações serão enviadas quando publicarmos novos posts",
-              ),
-              value: _notificationsEnabled,
-              onChanged: (value) {
-                setState(() {
-                  _notificationsEnabled = value;
-                });
-                _notificationPreference(value);
-              },
-            ),
-          ),
-
-          // Temas
-          Card(
-            clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.all(8.0),
-            child: SwitchListTile.adaptive(
-              activeColor: Colors.blue,
-              title: const Text('Modo Escuro'),
-              subtitle: const Text(
-                "O modo escuro possibilita uma experiência melhor ao usar o app em ambientes noturnos",
-              ),
-              value: themeModel.isDarkMode,
-              onChanged: (value) {
-                themeModel.toggleDarkMode();
-                themeModel.saveThemePreference(value);
-              },
-            ),
-          ),
-
-          // Versao
-          Card(
-            clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: const Text('Atualizações'),
-              subtitle:
-                  const Text('Toque para buscar por novas versões do app'),
-              onTap: () {
-                Updater.checkForUpdates(context);
-              },
-            ),
-          ),
-          // Suporte
-          Card(
-            clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: const Text(
-                'Suporte',
-              ),
-              subtitle: const Text(
-                'Encontrou um bug ou deseja sugerir algo? Entre em contato com a gente 😁',
-              ),
-              onTap: () {
-                BetterFeedback.of(context).show((feedback) async {
-                  final screenshotFilePath =
-                      await writeImageToStorage(feedback.screenshot);
-
-                  final Email email = Email(
-                    body: feedback.text,
-                    subject: 'News-Droid',
-                    recipients: ['hendrilmendes2015@gmail.com'],
-                    attachmentPaths: [screenshotFilePath],
-                    isHTML: false,
-                  );
-                  await FlutterEmailSender.send(email);
-                });
-              },
-            ),
-          ),
-          // Sobre
-          Card(
-            clipBehavior: Clip.hardEdge,
-            margin: const EdgeInsets.all(8.0),
-            child: ListTile(
-              title: const Text('Sobre'),
-              subtitle: const Text("Um pouco mais sobre o app"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutPage()),
-                );
-              },
-            ),
-          ),
+          _buildCategoryHeader("Notificações", Icons.notifications_outlined),
+          _buildNotificationSettings(),
+          _buildCategoryHeader("Personalização", Icons.palette_outlined),
+          _buildThemeSettings(themeModel),
+          _buildCategoryHeader("Outros", Icons.more_horiz),
+          _buildUpdateSettings(),
+          _buildReview(),
+          _buildSupportSettings(),
+          _buildAboutSettings(),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCategoryHeader(String title, IconData icon) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+        leading: Icon(icon),
+        title: Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNotificationSettings() {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Notificações"),
+        subtitle: const Text(
+          "Notificações serão enviadas quando publicarmos novos posts",
+        ),
+        trailing: Switch(
+          activeColor: Colors.blue,
+          value: _notificationsEnabled,
+          onChanged: (value) {
+            setState(() {
+              _notificationsEnabled = value;
+            });
+            _notificationPreference(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildThemeSettings(ThemeModel themeModel) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Modo Escuro"),
+        subtitle: const Text(
+          "O modo escuro possibilita uma experiência melhor ao usar o app em ambientes noturnos",
+        ),
+        trailing: Switch(
+          activeColor: Colors.blue,
+          value: themeModel.isDarkMode,
+          onChanged: (value) {
+            themeModel.toggleDarkMode();
+            themeModel.saveThemePreference(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUpdateSettings() {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Atualizações"),
+        subtitle: const Text("Toque para buscar por novas versões do app"),
+        leading: const Icon(Icons.update),
+        onTap: () {
+          Updater.checkForUpdates(context);
+        },
+      ),
+    );
+  }
+
+  Widget _buildSupportSettings() {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text(
+          "Suporte",
+        ),
+        subtitle: const Text(
+          "Encontrou um bug ou deseja sugerir algo? Entre em contato conosco 😁",
+        ),
+        leading: const Icon(Icons.support),
+        onTap: () {
+          BetterFeedback.of(context).show((feedback) async {
+            final screenshotFilePath =
+                await writeImageToStorage(feedback.screenshot);
+
+            final Email email = Email(
+              body: feedback.text,
+              subject: 'News-Droid',
+              recipients: ['hendrilmendes2015@gmail.com'],
+              attachmentPaths: [screenshotFilePath],
+              isHTML: false,
+            );
+            await FlutterEmailSender.send(email);
+          });
+        },
+      ),
+    );
+  }
+
+  Widget _buildReview() {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Avalie o App"),
+        subtitle: const Text("Faça uma avaliação do nosso app"),
+        leading: const Icon(Icons.rate_review_outlined),
+        onTap: () async {
+          final InAppReview inAppReview = InAppReview.instance;
+
+          if (await inAppReview.isAvailable()) {
+            inAppReview.requestReview();
+          }
+        },
+      ),
+    );
+  }
+
+  Widget _buildAboutSettings() {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Sobre"),
+        subtitle: const Text("Um pouco mais sobre o app"),
+        leading: const Icon(Icons.info),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AboutPage()),
+          );
+        },
       ),
     );
   }

@@ -2,9 +2,17 @@ Changelog News-Droid
 
 ======================================================
 #### 2.*.* - **/**/2024
-
 Novo:
-- Novo sistema de feedback, para reportar bugs e melhorias
+- Avalie o app sem abrir a loja de aplicativos
+
+Correções/Melhorias:
+- Correções e melhorias visuais
+- Ajustes internos
+
+======================================================
+#### 2.0.7 - 15/02/2024
+Novo:
+- Sistema de feedback, para reportar bugs e melhorias
 
 Correções/Melhorias:
 - Corrigido bug na tela de Favoritos

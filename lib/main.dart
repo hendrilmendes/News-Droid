@@ -22,12 +22,12 @@ main() async {
     theme: FeedbackThemeData.light(),
     darkTheme: FeedbackThemeData.dark(),
     localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalFeedbackLocalizationsDelegate(),
-      ],
-      localeOverride: const Locale('pt'),
+      GlobalMaterialLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalFeedbackLocalizationsDelegate(),
+    ],
+    localeOverride: const Locale('pt'),
     child: const MyApp(),
   ));
 
@@ -35,12 +35,15 @@ main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
+  // Favoritos
   await Hive.initFlutter();
   Hive.registerAdapter(FavoritePostAdapter());
   await Hive.openBox('favorite_posts');
 
+  //Data da publicacao formatada
   await initializeDateFormatting();
 
+  //Firebase
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -54,7 +57,7 @@ main() async {
   );
 
   if (kDebugMode) {
-    print('User granted permission: ${settings.authorizationStatus}');
+    print("Permissão concedida ao usuário: ${settings.authorizationStatus}");
   }
 
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
@@ -62,15 +65,15 @@ main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
-      print('Got a message whilst in the foreground!');
+      print("Recebi uma mensagem enquanto estava em primeiro plano!");
     }
     if (kDebugMode) {
-      print('Message data: ${message.data}');
+      print("Dados da mensagem: ${message.data}");
     }
 
     if (message.notification != null) {
       if (kDebugMode) {
-        print('Message also contained a notification: ${message.notification}');
+        print("A mensagem continha uma notificação: ${message.notification}");
       }
     }
   });
@@ -79,7 +82,7 @@ main() async {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   if (kDebugMode) {
-    print("Handling a background message: ${message.messageId}");
+    print("Lidando com uma mensagem em segundo plano: ${message.messageId}");
   }
 }
 

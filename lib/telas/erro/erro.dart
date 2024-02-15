@@ -9,28 +9,48 @@ class ErrorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/erro/offline.png",
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: MediaQuery.of(context).size.width * 0.8,
-              ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  "Sem conexão com a Internet\nVerifique sua conexão e tente novamente.",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: Image.asset(
+                  "assets/erro/offline.png",
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: MediaQuery.of(context).size.width * 0.8,
                 ),
               ),
-              const Padding(padding: EdgeInsets.only(top: 10)),
-              FilledButton.tonal(
-                  onPressed: onReload, child: const Text("Recarregar")),
-            ],
-          ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Column(
+                children: [
+                  const Text(
+                    "Sem conexão com a Internet",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "Verifique sua conexão e tente novamente.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(top: 20)),
+                  FilledButton.tonal(
+                      onPressed: onReload, child: const Text("Recarregar")),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

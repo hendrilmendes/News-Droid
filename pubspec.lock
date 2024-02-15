@@ -174,7 +174,7 @@ packages:
     description:
       path: feedback
       ref: master
-      resolved-ref: "40129bc3a019f10339faa236274dcb8215e9d776"
+      resolved-ref: "0f13e8d23229fce8be6f1b7f5a3082ab6a15b731"
       url: "https://github.com/hendrilmendes/feedback.git"
     source: git
     version: "3.0.0"
@@ -470,6 +470,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  in_app_review:
+    dependency: "direct main"
+    description:
+      name: in_app_review
+      sha256: "41ec6f30427ab09eb6ae1c85c4a2a624a145fc5d726f023de4d97170ec9e5466"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.8"
+  in_app_review_platform_interface:
+    dependency: transitive
+    description:
+      name: in_app_review_platform_interface
+      sha256: fed2c755f2125caa9ae10495a3c163aa7fab5af3585a9c62ef4a6920c5b45f10
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   intl:
     dependency: "direct main"
     description:

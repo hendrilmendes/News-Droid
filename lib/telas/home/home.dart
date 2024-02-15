@@ -133,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News-Droid'),
+        title: const Text("News-Droid"),
         //Actions do tema escuro e claro
         actions: [
           IconButton(
@@ -257,12 +257,21 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   const SizedBox(height: 8),
-                                  Text(
-                                    "Publicado em $formattedDate",
-                                    style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey,
-                                    ),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_today_outlined,
+                                          size: 12,
+                                          color: Colors
+                                              .grey),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                       formattedDate,
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
