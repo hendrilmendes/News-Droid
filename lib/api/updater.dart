@@ -27,8 +27,8 @@ class Updater {
         final String currentVersion = packageInfo.version;
 
         if (latestVersion.compareTo(currentVersion) > 0) {
-          // ignore: use_build_context_synchronously
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (context) => AlertDialog(
               title: const Text("Nova Versão Disponível"),
@@ -79,8 +79,8 @@ class Updater {
             ),
           );
         } else {
-          // ignore: use_build_context_synchronously
           showDialog(
+            // ignore: use_build_context_synchronously
             context: context,
             builder: (context) => AlertDialog(
               title: const Text("Nenhuma Atualização Disponível"),
