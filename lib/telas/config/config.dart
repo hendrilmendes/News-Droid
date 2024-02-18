@@ -123,6 +123,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildNotificationSettings(),
           _buildCategoryHeader("Personalização", Icons.palette_outlined),
           _buildThemeSettings(themeModel),
+          _buildDynamicColors(themeModel),
           _buildCategoryHeader("Outros", Icons.more_horiz),
           _buildUpdateSettings(),
           _buildReview(),
@@ -187,6 +188,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
           onChanged: (value) {
             themeModel.toggleDarkMode();
             themeModel.saveThemePreference(value);
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDynamicColors(ThemeModel themeModel) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.all(8.0),
+      child: ListTile(
+        title: const Text("Dynamic Colors"),
+        subtitle: const Text(
+          "O Dynamic Colors proporciona uma interface agradável de acordo com o seu papel de parede (Android 12+)",
+        ),
+        trailing: Switch(
+          activeColor: Colors.blue,
+          value: themeModel.isDynamicColorsEnabled,
+          onChanged: (value) {
+            themeModel.toggleDynamicColors();
+            themeModel.saveDynamicPreference(value);
           },
         ),
       ),

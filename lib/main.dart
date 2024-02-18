@@ -40,10 +40,10 @@ main() async {
   Hive.registerAdapter(FavoritePostAdapter());
   await Hive.openBox('favorite_posts');
 
-  //Data da publicacao formatada
+  // Data da publicacao formatada
   await initializeDateFormatting();
 
-  //Firebase
+  // Firebase
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -101,6 +101,11 @@ class MyApp extends StatelessWidget {
         builder: (_, theme, __) {
           return DynamicColorBuilder(
               builder: (lightColorScheme, darkColorScheme) {
+            if (!theme.isDynamicColorsEnabled) {
+              lightColorScheme = null;
+              darkColorScheme = null;
+            }
+
             return MaterialApp(
               theme: ThemeData(
                 brightness: Brightness.light,

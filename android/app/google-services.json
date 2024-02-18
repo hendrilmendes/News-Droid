@@ -22,11 +22,11 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "728569554138-t3v3sfuti8bc8bcci5qu63vekoivd4b1.apps.googleusercontent.com",
+              "client_id": "728569554138-qqfscd01pd6vjrtl00g9bn6goc2sst19.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "728569554138-4p4n0k58ptsf1803cuf6h1bk8f3v6g0s.apps.googleusercontent.com",
+              "client_id": "728569554138-rpc6v6p3hsg0fgmeaekbm322ol6umpup.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.github.hendrilmendes.news"

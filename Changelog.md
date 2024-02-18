@@ -1,9 +1,11 @@
 Changelog News-Droid
 
 ======================================================
-#### 2.*.* - **/**/2024
+#### 2.1.0 - 04/03/2024 (Em desenvolvimento)
 Novo:
 - Avalie o app sem abrir a loja de aplicativos
+- Agora e possível desativar o Dynamic Colors (Android 12+)
+- Apague todos os posts favoritados de uma vez
 
 Correções/Melhorias:
 - Correções e melhorias visuais

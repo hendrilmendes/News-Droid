@@ -24,6 +24,11 @@ class FavoritePostsModel extends ChangeNotifier {
     _favoritePostsBox.delete(postId);
     notifyListeners();
   }
+
+  void removeAllFavorites() {
+    _favoritePostsBox.clear();
+    notifyListeners();
+  }
 }
 
 class FavoritePost {
