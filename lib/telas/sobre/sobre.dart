@@ -151,7 +151,7 @@ class _AboutPageState extends State<AboutPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => const LicensePage(
-                              applicationName: 'News-Droid',
+                              applicationName: "News-Droid",
                             ),
                           ),
                         );

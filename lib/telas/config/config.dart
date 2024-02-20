@@ -124,7 +124,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildCategoryHeader("Personalização", Icons.palette_outlined),
           _buildThemeSettings(themeModel),
           _buildDynamicColors(themeModel),
-          _buildCategoryHeader("Outros", Icons.more_horiz),
+          _buildCategoryHeader("Outros", Icons.more_horiz_outlined),
           _buildUpdateSettings(),
           _buildReview(),
           _buildSupportSettings(),
@@ -222,7 +222,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: ListTile(
         title: const Text("Atualizações"),
         subtitle: const Text("Toque para buscar por novas versões do app"),
-        leading: const Icon(Icons.update),
+        leading: const Icon(Icons.update_outlined),
         onTap: () {
           Updater.checkForUpdates(context);
         },
@@ -241,7 +241,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         subtitle: const Text(
           "Encontrou um bug ou deseja sugerir algo? Entre em contato conosco 😁",
         ),
-        leading: const Icon(Icons.support),
+        leading: const Icon(Icons.support_outlined),
         onTap: () {
           BetterFeedback.of(context).show((feedback) async {
             final screenshotFilePath =
@@ -287,7 +287,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: ListTile(
         title: const Text("Sobre"),
         subtitle: const Text("Um pouco mais sobre o app"),
-        leading: const Icon(Icons.info),
+        leading: const Icon(Icons.info_outlined),
         onTap: () {
           Navigator.push(
             context,
