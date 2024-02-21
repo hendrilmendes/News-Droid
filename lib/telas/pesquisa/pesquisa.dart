@@ -152,7 +152,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Buscar'),
+        title: const Text("Buscar"),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80.0),
           child: Card(
