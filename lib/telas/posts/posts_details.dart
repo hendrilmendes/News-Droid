@@ -106,7 +106,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News-Droid'),
+        title: const Text("News-Droid"),
         // Actions
         actions: [
           IconButton(
@@ -164,13 +164,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         children: [
           FloatingActionButton.small(
             heroTag: "btn0",
-            tooltip: 'Compartilhar',
+            tooltip: "Compartilhar",
             child: const Icon(Icons.share_outlined),
             onPressed: () => sharePost(widget.url),
           ),
           FloatingActionButton.small(
             heroTag: "btn1",
-            tooltip: 'Comentários',
+            tooltip: "Comentários",
             child: const Icon(Icons.comment_outlined),
             onPressed: () {
               showBarModalBottomSheet(
@@ -186,7 +186,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           ),
           FloatingActionButton.small(
             heroTag: "btn2",
-            tooltip: 'Favoritar',
+            tooltip: "Favoritar",
             onPressed: () {
               _toggleFavorite(context);
             },

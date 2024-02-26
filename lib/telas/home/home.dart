@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
           isLoading = false;
         });
       } else {
-        throw Exception('Failed to fetch posts');
+        throw Exception("Falha ao buscar postagens");
       }
     } catch (e) {
       // Handle exceptions
@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return formattedDate;
     } catch (e) {
       // Tratar erro ao fazer parse da data
-      return 'Data inválida';
+      return "Data inválida";
     }
   }
 
@@ -108,10 +108,10 @@ class _HomeScreenState extends State<HomeScreen> {
       if (data['id'] != null) {
         return data['id'];
       } else {
-        throw Exception('Post nao encontrado');
+        throw Exception("Post nao encontrado");
       }
     } else {
-      throw Exception('Falha ao obter post');
+      throw Exception("Falha ao obter post");
     }
   }
 

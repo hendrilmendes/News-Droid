@@ -267,7 +267,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         title: const Text("Avalie o App"),
-        subtitle: const Text("Faça uma avaliação do nosso app"),
+        subtitle: const Text("Faça uma avaliação na Google Play Store"),
         leading: const Icon(Icons.rate_review_outlined),
         onTap: () async {
           final InAppReview inAppReview = InAppReview.instance;

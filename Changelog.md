@@ -1,7 +1,15 @@
 Changelog News-Droid
 
 ======================================================
-#### 2.1.0 - 04/03/2024 (Em desenvolvimento)
+#### 2.*.* - **/**/2024
+Novo:
+- 
+
+Correções/Melhorias:
+- 
+
+======================================================
+#### 2.1.0 - 26/02/2024
 Novo:
 - Avalie o app sem abrir a loja de aplicativos
 - Agora e possível desativar o Dynamic Colors (Android 12+)
