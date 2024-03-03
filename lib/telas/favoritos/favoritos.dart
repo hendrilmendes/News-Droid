@@ -49,7 +49,7 @@ class FavoritesScreen extends StatelessWidget {
         title: const Text("Favoritos"),
         actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.delete_forever_outlined),
+            icon: const Icon(Icons.delete_outlined),
             color: Colors.blue,
             onPressed: deleteAllFavorites,
           ),

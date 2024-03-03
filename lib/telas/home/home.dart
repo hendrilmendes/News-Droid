@@ -6,11 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
-import 'package:provider/provider.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/api/api.dart';
-import 'package:newsdroid/tema/tema.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -117,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeModel = Provider.of<ThemeModel>(context);
 
     if (!isOnline) {
       // Verifica se esta conectado ou nao
@@ -134,15 +131,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("News-Droid"),
-        //Actions do tema escuro e claro
-        actions: [
-          IconButton(
-            color: Colors.blue,
-            icon: Icon(
-                themeModel.isDarkMode ? Icons.light_mode : Icons.dark_mode),
-            onPressed: themeModel.toggleDarkMode,
-          ),
-        ],
       ),
       body: Column(
         children: [

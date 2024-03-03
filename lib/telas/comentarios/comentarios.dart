@@ -127,7 +127,7 @@ class _CommentScreenState extends State<CommentScreen> {
           content: const Text(
               "Não foi possível enviar o comentário. Por favor, tente novamente mais tarde."),
           actions: <Widget>[
-            FilledButton(
+            FilledButton.tonal(
               child: const Text("OK"),
               onPressed: () {
                 Navigator.of(context).pop();
@@ -144,7 +144,6 @@ class _CommentScreenState extends State<CommentScreen> {
     final digest = md5.convert(bytes);
     return digest.toString();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -179,9 +178,20 @@ class _CommentScreenState extends State<CommentScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(comment.content),
-                                Text(
-                                  'Em: ${DateFormat('dd/MM/yyyy - HH:mm').format(comment.postDate.toLocal())}',
-                                  style: const TextStyle(fontSize: 12),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.calendar_today_outlined,
+                                        size: 12, color: Colors.grey),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      DateFormat('dd/MM/yyyy - HH:mm')
+                                          .format(comment.postDate.toLocal()),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),

@@ -58,7 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         print("Mensagem recebida: ${message.data}");
       }
 
-      // Se a notificação contém uma ação, execute-a
+      // Se a notificação contém uma ação, execute
       if (message.data['action'] != null) {
         Navigator.pushNamed(context, message.data['action']);
       }
@@ -90,7 +90,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       String? token = await FirebaseMessaging.instance.getToken();
       if (token != null && kDebugMode) {
         if (kDebugMode) {
-          print("Token registtrado: $token");
+          print("Token registrado: $token");
         }
       }
     } else {
