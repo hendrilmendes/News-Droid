@@ -20,7 +20,7 @@ class FavoritesScreen extends StatelessWidget {
           return AlertDialog(
             title: const Text("Apagar Favoritos"),
             content: const Text(
-                "Tem certeza de que deseja apagar todos os favoritos?"),
+                "Tem certeza de que deseja apagar todos os posts favoritos?"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -28,7 +28,7 @@ class FavoritesScreen extends StatelessWidget {
                 },
                 child: const Text("Cancelar"),
               ),
-              TextButton(
+              FilledButton.tonal(
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
@@ -47,13 +47,6 @@ class FavoritesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Favoritos"),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.delete_outlined),
-            color: Colors.blue,
-            onPressed: deleteAllFavorites,
-          ),
-        ],
       ),
       body: favoritePostsModel.isLoading
           ? Center(
@@ -163,6 +156,11 @@ class FavoritesScreen extends StatelessWidget {
                     );
                   },
                 ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Apagar Favoritos",
+        onPressed: deleteAllFavorites,
+        child: const Icon(Icons.delete_outline),
+      ),
     );
   }
 }

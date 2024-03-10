@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +120,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         children: [
           _buildCategoryHeader("Notificações", Icons.notifications_outlined),
           _buildNotificationSettings(),
-          _buildCategoryHeader("Personalização", Icons.palette_outlined),
+          _buildCategoryHeader("Interface", Icons.palette_outlined),
           _buildThemeSettings(themeModel),
           _buildDynamicColors(themeModel),
           _buildCategoryHeader("Outros", Icons.more_horiz_outlined),

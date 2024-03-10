@@ -161,7 +161,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     ? const Center(
                         child: Text(
                           "Nenhum comentário disponível 😅",
-                          style: TextStyle(fontSize: 16.0),
+                          style: TextStyle(fontSize: 18.0),
                         ),
                       )
                     : ListView.builder(

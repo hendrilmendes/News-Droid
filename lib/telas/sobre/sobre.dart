@@ -85,7 +85,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: const Text("Versão"),
                       subtitle: Text('v$appVersion Build: ($appBuild)'),
-                      leading: const Icon(Icons.apps_rounded),
+                      leading: const Icon(Icons.whatshot_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -105,7 +105,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: const Text("Política de Privacidade"),
                       subtitle:
                           const Text("Termos que garantem a sua privacidade"),
-                          leading: const Icon(Icons.privacy_tip),
+                          leading: const Icon(Icons.privacy_tip_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -124,7 +124,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: const Text("Código Fonte"),
                       subtitle: const Text("Projeto disponível no GitHub"),
-                      leading: const Icon(Icons.code),
+                      leading: const Icon(Icons.code_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -144,7 +144,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: const Text("Licenças de Código Aberto"),
                       subtitle: const Text(
                           "Softwares de terceiros usados na construção do app"),
-                          leading: const Icon(Icons.flutter_dash
+                          leading: const Icon(Icons.flutter_dash_outlined
                         ),
                       onTap: () {
                         Navigator.push(

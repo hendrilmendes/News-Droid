@@ -16,7 +16,7 @@ class ErrorScreen extends StatelessWidget {
               flex: 2,
               child: Center(
                 child: Image.asset(
-                 'assets/erro/offline.png',
+                  'assets/erro/offline.png',
                   width: MediaQuery.of(context).size.width * 0.8,
                   height: MediaQuery.of(context).size.width * 0.8,
                 ),
@@ -46,7 +46,9 @@ class ErrorScreen extends StatelessWidget {
                   ),
                   const Padding(padding: EdgeInsets.only(top: 20)),
                   FilledButton.tonal(
-                      onPressed: onReload, child: const Text("Recarregar")),
+                    onPressed: onReload,
+                    child: const Text("Recarregar"),
+                  ),
                 ],
               ),
             ),

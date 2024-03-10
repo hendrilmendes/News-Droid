@@ -29,7 +29,6 @@ class _SearchScreenState extends State<SearchScreen> {
   Timer? _debounceTimer;
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
-  final FocusNode _searchFocusNode = FocusNode();
   final List<String> trendWords = [
     'Windows 12',
     'Android 15',
@@ -41,7 +40,6 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    _searchFocusNode.requestFocus();
     fetchPosts();
     checkConnectivity();
     startTrendTimer();
@@ -49,11 +47,9 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Future<void> checkConnectivity() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    if (mounted) {
-      setState(() {
-        isOnline = connectivityResult != ConnectivityResult.none;
-      });
-    }
+    setState(() {
+      isOnline = connectivityResult != ConnectivityResult.none;
+    });
   }
 
   String formatDate(String originalDate) {
@@ -62,29 +58,32 @@ class _SearchScreenState extends State<SearchScreen> {
     return formattedDate;
   }
 
-  Future<void> fetchPosts() async {
-    final response = await http.get(Uri.parse(
-        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
+  Future<void> _refreshPosts() async {
+    await fetchPosts();
+  }
 
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      if (mounted) {
+  Future<void> fetchPosts() async {
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final response = await http.get(Uri.parse(
+          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
         setState(() {
           posts = data['items'];
-          searchResultsEmpty = false;
-          if (!searchResultsEmpty) {
-            posts.sort((a, b) => (b['views'] ?? 0).compareTo(a['views'] ?? 0));
-            filteredPosts = posts;
-          }
+          filteredPosts = posts;
           isLoading = false;
         });
+      } else {
+        throw Exception("Falha ao buscar postagens");
       }
-    } else {
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
@@ -97,10 +96,10 @@ class _SearchScreenState extends State<SearchScreen> {
       if (data['id'] != null) {
         return data['id'];
       } else {
-        throw Exception('Nenhum post encontrado');
+        throw Exception("Nenhum post encontrado");
       }
     } else {
-      throw Exception('Falha ao obter post');
+      throw Exception("Falha ao obter post");
     }
   }
 
@@ -145,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (!isOnline) {
       return ErrorScreen(
         onReload: () {
-          fetchPosts();
+          _refreshPosts();
         },
       );
     }
@@ -164,7 +163,6 @@ class _SearchScreenState extends State<SearchScreen> {
               builder: (BuildContext context, String query, Widget? child) {
                 return TextField(
                   controller: _searchController,
-                  focusNode: _searchFocusNode,
                   onChanged: (value) {
                     searchQuery.value = value;
                     searchPosts(value);

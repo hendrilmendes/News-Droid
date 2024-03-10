@@ -82,10 +82,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
     if (_isFavorite) {
       favoritePostsModel.removeFavorite(widget.postId);
-      _showToast('Removido dos Favoritos');
+      _showToast("Removido dos Favoritos");
     } else {
       favoritePostsModel.addFavorite(post);
-      _showToast('Salvo em Favoritos');
+      _showToast("Adicionado aos Favoritos");
     }
 
     setState(() {
@@ -186,14 +186,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           ),
           FloatingActionButton.small(
             heroTag: "btn2",
-            tooltip: "Favoritar",
+            tooltip: "Salvar",
             onPressed: () {
               _toggleFavorite(context);
             },
             child: GestureDetector(
-              onTap: () {
-                _toggleFavorite(context);
-              },
               child: Icon(
                 _isFavorite ? Icons.favorite : Icons.favorite_border,
                 color: _isFavorite ? Colors.red : null,

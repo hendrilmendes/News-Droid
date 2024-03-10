@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:newsdroid/widgets/progress_indicator.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/api/api.dart';
@@ -22,10 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> posts = [];
   List<dynamic> filteredPosts = [];
-  List<dynamic> favoritePosts = [];
 
-  bool isDarkMode = false;
-  int currentIndex = 0;
   bool isOnline = true;
   bool isLoading = false;
 
@@ -41,11 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // GET API
   Future<void> fetchPosts() async {
-    if (mounted) {
-      setState(() {
-        isLoading = true;
-      });
-    }
+    setState(() {
+      isLoading = true;
+    });
     try {
       final response = await http.get(Uri.parse(
           'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
@@ -61,38 +55,29 @@ class _HomeScreenState extends State<HomeScreen> {
         throw Exception("Falha ao buscar postagens");
       }
     } catch (e) {
-      // Handle exceptions
-      if (mounted) {
-        setState(() {
-          isLoading = false;
-        });
-      }
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
-  // Data da postagem
   String formatDate(String originalDate) {
     try {
       final parsedDate = DateTime.parse(originalDate).toLocal();
       final formattedDate = DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
       return formattedDate;
     } catch (e) {
-      // Tratar erro ao fazer parse da data
       return "Data inválida";
     }
   }
 
-  // Verifica se tem conexao
   Future<void> checkConnectivity() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
-    if (mounted) {
-      setState(() {
-        isOnline = connectivityResult != ConnectivityResult.none;
-      });
-    }
+    setState(() {
+      isOnline = connectivityResult != ConnectivityResult.none;
+    });
   }
 
-  // Atualizar Home
   Future<void> _refreshPosts() async {
     await fetchPosts();
   }
@@ -115,15 +100,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     if (!isOnline) {
-      // Verifica se esta conectado ou nao
       return ErrorScreen(
         onReload: () {
           setState(() {
             isOnline = true;
           });
-          fetchPosts();
+          _refreshPosts();
         },
       );
     }
@@ -132,146 +115,138 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("News-Droid"),
       ),
-      body: Column(
+      body: Stack(
         children: [
           if (isLoading)
-            Expanded(
-              child: Align(
-                alignment: Alignment.center,
-                child: buildLoadingIndicator(),
-              ),
-            )
-          else
-            // GET data do blogger
-            Expanded(
-              child: RefreshIndicator.adaptive(
+            const Align(
+              alignment: Alignment.topCenter,
+              child: LinearProgressIndicator(
                 color: Colors.blue,
-                onRefresh: _refreshPosts,
-                child: ListView.builder(
-                  itemCount: filteredPosts.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final post = filteredPosts[index];
-                    final title = post['title'];
-                    final url = post['url'];
-                    final publishedDate = post['published'];
-                    final formattedDate = formatDate(publishedDate);
+              ),
+            ),
+          Column(
+            children: [
+              Expanded(
+                child: RefreshIndicator(
+                  color: Colors.blue,
+                  onRefresh: _refreshPosts,
+                  child: ListView.separated(
+                    itemCount: filteredPosts.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
+                    itemBuilder: (BuildContext context, int index) {
+                      final post = filteredPosts[index];
+                      final title = post['title'];
+                      final url = post['url'];
+                      final publishedDate = post['published'];
+                      final formattedDate = formatDate(publishedDate);
 
-                    var imageUrl =
-                        post['images'] != null && post['images'].isNotEmpty
-                            ? post['images'][0]['url']
-                            : null;
+                      var imageUrl =
+                          post['images'] != null && post['images'].isNotEmpty
+                              ? post['images'][0]['url']
+                              : null;
 
-                    if (imageUrl == null) {
-                      final content = post['content'];
-                      final match = RegExp(r'<img[^>]+src="([^">]+)"')
-                          .firstMatch(content);
-                      imageUrl = match?.group(1);
-                    }
+                      if (imageUrl == null) {
+                        final content = post['content'];
+                        final match = RegExp(r'<img[^>]+src="([^">]+)"')
+                            .firstMatch(content);
+                        imageUrl = match?.group(1);
+                      }
 
-                    // Card da imagem e titulo da postagem
-                    return Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      clipBehavior: Clip.hardEdge,
-                      margin: const EdgeInsets.all(10.0),
-                      // PostDetails
-                      child: InkWell(
-                        onTap: () async {
-                          // Chame getPostId para buscar o postId da postagem atual
-                          final postId = await getPostId(post['id']);
-                          setState(() {
-                            this.postId = postId;
-                          });
-                          Navigator.push(
-                            // ignore: use_build_context_synchronously
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PostDetailsScreen(
-                                title: title,
-                                imageUrl: imageUrl,
-                                content: post['content'],
-                                url: url,
-                                formattedDate: formattedDate,
-                                blogId: blogId,
-                                postId: postId,
-                              ),
-                            ),
-                          );
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(alignment: Alignment.bottomLeft, children: [
-                              ClipRRect(
-                                borderRadius: const BorderRadius.vertical(
-                                  top: Radius.circular(20.0),
-                                  bottom: Radius.circular(20.0),
+                      return Card(
+                        elevation: 4,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        child: InkWell(
+                          onTap: () async {
+                            final postId = await getPostId(post['id']);
+                            setState(() {
+                              this.postId = postId;
+                            });
+                            Navigator.push(
+                              // ignore: use_build_context_synchronously
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PostDetailsScreen(
+                                  title: title,
+                                  imageUrl: imageUrl,
+                                  content: post['content'],
+                                  url: url,
+                                  formattedDate: formattedDate,
+                                  blogId: blogId,
+                                  postId: postId,
                                 ),
-                                child: AspectRatio(
-                                  aspectRatio: 4 / 2,
-                                  child: imageUrl != null
-                                      ? CachedNetworkImage(
-                                          imageUrl: imageUrl ?? '',
-                                          fit: BoxFit.cover,
-                                          placeholder: (context, url) =>
-                                              Shimmer.fromColors(
-                                            baseColor: Colors.grey[300]!,
-                                            highlightColor: Colors.grey[100]!,
-                                            child:
-                                                Container(color: Colors.white),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              const Icon(Icons.error_outline),
-                                        )
-                                      : Shimmer.fromColors(
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 4 / 2,
+                                child: imageUrl != null
+                                    ? CachedNetworkImage(
+                                        imageUrl: imageUrl,
+                                        fit: BoxFit.cover,
+                                        placeholder: (context, url) =>
+                                            Shimmer.fromColors(
                                           baseColor: Colors.grey[300]!,
                                           highlightColor: Colors.grey[100]!,
                                           child: Container(color: Colors.white),
                                         ),
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error_outline),
+                                      )
+                                    : Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(color: Colors.white),
+                                      ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      title,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                            Icons.calendar_today_outlined,
+                                            size: 12,
+                                            color: Colors.grey),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          formattedDate,
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ]),
-                            Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    title,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 8),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.calendar_today_outlined,
-                                          size: 12,
-                                          color: Colors
-                                              .grey),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                       formattedDate,
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               ),
-            ),
+            ],
+          ),
         ],
       ),
     );
