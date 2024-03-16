@@ -32,10 +32,10 @@ dependencies:
   flutter_expandable_fab: ^2.0.0
 
 # Firebase
-  firebase_core: ^2.26.0
-  firebase_crashlytics: ^3.4.17
-  firebase_performance: ^0.9.3+16
-  firebase_messaging: ^14.7.18
+  firebase_core: ^2.27.0
+  firebase_crashlytics: ^3.4.18
+  firebase_performance: ^0.9.3+17
+  firebase_messaging: ^14.7.19
 
 # Feedback
   feedback:

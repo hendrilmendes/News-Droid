@@ -29,13 +29,13 @@ class _SearchScreenState extends State<SearchScreen> {
   Timer? _debounceTimer;
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
+  int trendIndex = 0;
   final List<String> trendWords = [
     'Windows 12',
     'Android 15',
     'iOS 18',
     'GTA VI'
   ];
-  int trendIndex = 0;
 
   @override
   void initState() {
@@ -58,17 +58,15 @@ class _SearchScreenState extends State<SearchScreen> {
     return formattedDate;
   }
 
-  Future<void> _refreshPosts() async {
-    await fetchPosts();
-  }
-
   Future<void> fetchPosts() async {
     setState(() {
       isLoading = true;
     });
     try {
-      final response = await http.get(Uri.parse(
-          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
+      final response = await http.get(
+        Uri.parse(
+            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'),
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
@@ -88,8 +86,10 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Future<String> getPostId(String postId) async {
-    final response = await http.get(Uri.parse(
-        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'));
+    final response = await http.get(
+      Uri.parse(
+          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'),
+    );
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);
@@ -144,7 +144,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (!isOnline) {
       return ErrorScreen(
         onReload: () {
-          _refreshPosts();
+          fetchPosts();
         },
       );
     }
@@ -203,8 +203,11 @@ class _SearchScreenState extends State<SearchScreen> {
           ? Center(child: buildLoadingIndicator())
           : filteredPosts.isEmpty
               ? const Center(
-                  child: Text("Nenhum resultado encontrado 😱",
-                      style: TextStyle(fontSize: 18.0)))
+                  child: Text(
+                    "Nenhum resultado encontrado 😱",
+                    style: TextStyle(fontSize: 18.0),
+                  ),
+                )
               : GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                     maxCrossAxisExtent: 200.0,

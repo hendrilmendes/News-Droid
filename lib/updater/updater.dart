@@ -63,13 +63,17 @@ class Updater {
                   onPressed: () {
                     if (Platform.isAndroid) {
                       // Android
-                      launchUrl(Uri.parse(
-                          'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news'));
+                      launchUrl(
+                        Uri.parse(
+                            'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news'),
+                      );
                       Navigator.pop(context); // Fecha o diálogo interno
                     } else {
                       // iOS
-                      launchUrl(Uri.parse(
-                          'https://github.com/hendrilmendes/News-Droid/releases/latest'));
+                      launchUrl(
+                        Uri.parse(
+                            'https://github.com/hendrilmendes/News-Droid/releases/latest'),
+                      );
                       Navigator.pop(context); // Fecha o diálogo interno
                     }
                   },
@@ -84,7 +88,10 @@ class Updater {
             context: context,
             builder: (context) => AlertDialog(
               title: const Text("Nenhuma Atualização Disponível"),
-              content: const Text("Tudo em dias parceiro 🤠"),
+              content: const Text(
+                "Tudo em dias parceiro 🤠",
+                style: TextStyle(fontSize: 14.0),
+              ),
               actions: <Widget>[
                 FilledButton.tonal(
                   onPressed: () => Navigator.pop(context),

@@ -154,7 +154,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          HtmlWidget(widget.content, textStyle: TextStyle(fontSize: _fontSize)),
+          HtmlWidget(
+            widget.content,
+            textStyle: TextStyle(fontSize: _fontSize),
+          ),
         ],
       ),
 

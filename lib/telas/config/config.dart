@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:in_app_review/in_app_review.dart';
-import 'package:newsdroid/api/updater.dart';
+import 'package:newsdroid/updater/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';

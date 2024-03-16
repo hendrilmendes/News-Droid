@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
-import 'package:newsdroid/helper/auth.dart';
+import 'package:newsdroid/auth/auth.dart';
 import 'package:newsdroid/widgets/progress_indicator.dart';
 
 class CommentScreen extends StatefulWidget {
@@ -240,7 +240,7 @@ class _CommentScreenState extends State<CommentScreen> {
           ),
           const SizedBox(
             height: 16,
-          )
+          ),
         ],
       ),
     );

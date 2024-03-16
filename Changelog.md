@@ -1,7 +1,7 @@
 Changelog News-Droid
 
 ======================================================
-#### 2.1.1 - **/**/2024
+#### 2.1.1 - 01/04/2024
 Correções/Melhorias:
 - Correções de bugs e melhorias
 

@@ -117,7 +117,7 @@ class _AboutPageState extends State<AboutPage> {
                       },
                     ),
                   ),
-                  // Versao
+                  // Codigo Fonte
                   Card(
                     clipBehavior: Clip.hardEdge,
                     margin: const EdgeInsets.all(8.0),

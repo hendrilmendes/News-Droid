@@ -41,8 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
       isLoading = true;
     });
     try {
-      final response = await http.get(Uri.parse(
-          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'));
+      final response = await http.get(
+        Uri.parse(
+            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'),
+      );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
@@ -83,8 +85,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<String> getPostId(String postId) async {
-    final response = await http.get(Uri.parse(
-        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'));
+    final response = await http.get(
+      Uri.parse(
+          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'),
+    );
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> data = jsonDecode(response.body);

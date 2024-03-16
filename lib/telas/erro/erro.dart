@@ -44,7 +44,9 @@ class ErrorScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 20)),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20),
+                  ),
                   FilledButton.tonal(
                     onPressed: onReload,
                     child: const Text("Recarregar"),

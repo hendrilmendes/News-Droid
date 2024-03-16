@@ -18,18 +18,20 @@ import 'firebase_options.dart';
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(BetterFeedback(
-    theme: FeedbackThemeData.light(),
-    darkTheme: FeedbackThemeData.dark(),
-    localizationsDelegates: [
-      GlobalMaterialLocalizations.delegate,
-      GlobalCupertinoLocalizations.delegate,
-      GlobalWidgetsLocalizations.delegate,
-      GlobalFeedbackLocalizationsDelegate(),
-    ],
-    localeOverride: const Locale('pt'),
-    child: const MyApp(),
-  ));
+  runApp(
+    BetterFeedback(
+      theme: FeedbackThemeData.light(),
+      darkTheme: FeedbackThemeData.dark(),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalFeedbackLocalizationsDelegate(),
+      ],
+      localeOverride: const Locale('pt'),
+      child: const MyApp(),
+    ),
+  );
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -37,7 +39,9 @@ main() async {
 
   // Favoritos
   await Hive.initFlutter();
-  Hive.registerAdapter(FavoritePostAdapter());
+  Hive.registerAdapter(
+    FavoritePostAdapter(),
+  );
   await Hive.openBox('favorite_posts');
 
   // Data da publicacao formatada
@@ -94,8 +98,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<FavoritePostsModel>(
-            create: (_) => FavoritePostsModel()),
-        ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
+          create: (_) => FavoritePostsModel(),
+        ),
+        ChangeNotifierProvider<ThemeModel>(
+          create: (_) => ThemeModel(),
+        ),
       ],
       child: Consumer<ThemeModel>(
         builder: (_, theme, __) {
