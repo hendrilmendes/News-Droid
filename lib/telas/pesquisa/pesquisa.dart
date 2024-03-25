@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
 import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -8,7 +8,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/widgets/progress_indicator.dart';
+import 'package:newsdroid/widgets/shimmer_loading_pesquisa.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -62,6 +63,24 @@ class _SearchScreenState extends State<SearchScreen> {
     setState(() {
       isLoading = true;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cachedData = prefs.getString('cachedPosts');
+    if (cachedData != null) {
+      final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
+      final DateTime lastCachedTime =
+          DateTime.parse(prefs.getString('cachedTime') ?? '');
+      final DateTime currentTime = DateTime.now();
+      final difference = currentTime.difference(lastCachedTime).inMinutes;
+      if (difference < 30) {
+        // reutiliza os dados em cache se forem menos de 30 minutos de idade
+        setState(() {
+          posts = cachedPosts['items'];
+          filteredPosts = posts;
+          isLoading = false;
+        });
+        return;
+      }
+    }
     try {
       final response = await http.get(
         Uri.parse(
@@ -70,6 +89,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
+        prefs.setString('cachedPosts', response.body);
+        prefs.setString(
+          'cachedTime',
+          DateTime.now().toString(),
+        );
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
@@ -200,7 +224,7 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       body: isLoading
-          ? Center(child: buildLoadingIndicator())
+          ? Center(child: buildShimmerLoadingSearch())
           : filteredPosts.isEmpty
               ? const Center(
                   child: Text(

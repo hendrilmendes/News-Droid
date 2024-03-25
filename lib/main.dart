@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_in_app_messaging/firebase_in_app_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -49,6 +50,8 @@ main() async {
 
   // Firebase
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  FirebaseInAppMessaging.instance.triggerEvent("");
 
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,

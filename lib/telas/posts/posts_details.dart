@@ -1,4 +1,3 @@
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
@@ -107,19 +106,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("News-Droid"),
-        // Actions
-        actions: [
-          IconButton(
-            color: Colors.blue,
-            icon: const Icon(Icons.text_decrease_outlined),
-            onPressed: _decrementFontSize,
-          ),
-          IconButton(
-            color: Colors.blue,
-            icon: const Icon(Icons.text_increase_outlined),
-            onPressed: _incrementFontSize,
-          ),
-        ],
       ),
 
       // Titulo e data publicação do post
@@ -153,7 +139,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 4),
+          const Divider(),
           HtmlWidget(
             widget.content,
             textStyle: TextStyle(fontSize: _fontSize),
@@ -161,46 +148,56 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
         ],
       ),
 
-      //Floating Action
-      floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: ExpandableFab(
-        children: [
-          FloatingActionButton.small(
-            heroTag: "btn0",
-            tooltip: "Compartilhar",
-            child: const Icon(Icons.share_outlined),
-            onPressed: () => sharePost(widget.url),
-          ),
-          FloatingActionButton.small(
-            heroTag: "btn1",
-            tooltip: "Comentários",
-            child: const Icon(Icons.comment_outlined),
-            onPressed: () {
-              showBarModalBottomSheet(
-                clipBehavior: Clip.antiAlias,
-                context: context,
-                enableDrag: true,
-                isDismissible: true,
-                builder: (modalContext) => CommentScreen(
-                  postId: widget.postId,
-                ),
-              );
-            },
-          ),
-          FloatingActionButton.small(
-            heroTag: "btn2",
-            tooltip: "Salvar",
-            onPressed: () {
-              _toggleFavorite(context);
-            },
-            child: GestureDetector(
-              child: Icon(
-                _isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: _isFavorite ? Colors.red : null,
-              ),
+      // Botão flutuante na parte inferior
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _toggleFavorite(context);
+        },
+        child: Icon(
+          _isFavorite ? Icons.favorite : Icons.favorite_border,
+          color: _isFavorite ? Colors.red : null,
+        ),
+      ),
+
+      // Menu de ações na parte inferior
+      bottomNavigationBar: BottomAppBar(
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              tooltip: "Diminuir Texto",
+              icon: const Icon(Icons.text_decrease_outlined),
+              onPressed: _decrementFontSize,
             ),
-          ),
-        ],
+            IconButton(
+              tooltip: "Aumentar Texto",
+              icon: const Icon(Icons.text_increase_outlined),
+              onPressed: _incrementFontSize,
+            ),
+            IconButton(
+              tooltip: "Compartilhar",
+              icon: const Icon(Icons.share_outlined),
+              onPressed: () => sharePost(widget.url),
+            ),
+            IconButton(
+              tooltip: "Comentários",
+              icon: const Icon(Icons.comment_outlined),
+              onPressed: () {
+                showBarModalBottomSheet(
+                  clipBehavior: Clip.antiAlias,
+                  context: context,
+                  enableDrag: true,
+                  isDismissible: true,
+                  builder: (modalContext) => CommentScreen(
+                    postId: widget.postId,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

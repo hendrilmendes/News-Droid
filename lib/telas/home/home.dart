@@ -8,6 +8,8 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/telas/erro/erro.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/api/api.dart';
+import 'package:newsdroid/widgets/shimmer_loading_home.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -24,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isOnline = true;
   bool isLoading = false;
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
-  // Defina uma variável para armazenar o postId da postagem atual
   String? postId;
 
   @override
@@ -33,6 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     fetchPosts();
     checkConnectivity();
+    _pageController.addListener(() {
+      setState(() {
+        _currentPage = _pageController.page!.round();
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   // GET API
@@ -40,6 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isLoading = true;
     });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final cachedData = prefs.getString('cachedPosts');
+    if (cachedData != null) {
+      final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
+      final DateTime lastCachedTime =
+          DateTime.parse(prefs.getString('cachedTime') ?? '');
+      final DateTime currentTime = DateTime.now();
+      final difference = currentTime.difference(lastCachedTime).inMinutes;
+      if (difference < 30) {
+        setState(() {
+          posts = cachedPosts['items'];
+          filteredPosts = posts;
+          isLoading = false;
+        });
+        return;
+      }
+    }
     try {
       final response = await http.get(
         Uri.parse(
@@ -48,6 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
+        prefs.setString('cachedPosts', response.body);
+        prefs.setString(
+          'cachedTime',
+          DateTime.now().toString(),
+        );
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
@@ -66,8 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
   String formatDate(String originalDate) {
     try {
       final parsedDate = DateTime.parse(originalDate).toLocal();
-      final formattedDate = DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
-      return formattedDate;
+      return DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
     } catch (e) {
       return "Data inválida";
     }
@@ -95,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
       if (data['id'] != null) {
         return data['id'];
       } else {
-        throw Exception("Post nao encontrado");
+        throw Exception("Post não encontrado");
       }
     } else {
       throw Exception("Falha ao obter post");
@@ -119,137 +154,267 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("News-Droid"),
       ),
-      body: Stack(
+      body: isLoading ? buildShimmerLoadingHome() : _buildPostList(),
+    );
+  }
+
+  Widget _buildPostList() {
+    return RefreshIndicator(
+      onRefresh: _refreshPosts,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (isLoading)
-            const Align(
-              alignment: Alignment.topCenter,
-              child: LinearProgressIndicator(
-                color: Colors.blue,
-              ),
-            ),
-          Column(
-            children: [
-              Expanded(
-                child: RefreshIndicator(
-                  color: Colors.blue,
-                  onRefresh: _refreshPosts,
-                  child: ListView.separated(
-                    itemCount: filteredPosts.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
-                    itemBuilder: (BuildContext context, int index) {
-                      final post = filteredPosts[index];
-                      final title = post['title'];
-                      final url = post['url'];
-                      final publishedDate = post['published'];
-                      final formattedDate = formatDate(publishedDate);
+          SizedBox(
+            height: 200,
+            child: PageView.builder(
+              controller: _pageController,
+              itemCount: filteredPosts.length >= 3 ? 3 : filteredPosts.length,
+              itemBuilder: (context, index) {
+                final post = filteredPosts[index];
+                final title = post['title'];
+                final url = post['url'];
+                final publishedDate = post['published'];
+                final formattedDate = formatDate(publishedDate);
 
-                      var imageUrl =
-                          post['images'] != null && post['images'].isNotEmpty
-                              ? post['images'][0]['url']
-                              : null;
+                var imageUrl = post['images']?.isNotEmpty == true
+                    ? post['images']![0]['url']
+                    : null;
 
-                      if (imageUrl == null) {
-                        final content = post['content'];
-                        final match = RegExp(r'<img[^>]+src="([^">]+)"')
-                            .firstMatch(content);
-                        imageUrl = match?.group(1);
-                      }
+                if (imageUrl == null) {
+                  final content = post['content'];
+                  final match =
+                      RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
+                  imageUrl = match?.group(1);
+                }
 
-                      return Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        clipBehavior: Clip.hardEdge,
-                        child: InkWell(
-                          onTap: () async {
-                            final postId = await getPostId(post['id']);
-                            setState(() {
-                              this.postId = postId;
-                            });
-                            Navigator.push(
-                              // ignore: use_build_context_synchronously
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => PostDetailsScreen(
-                                  title: title,
-                                  imageUrl: imageUrl,
-                                  content: post['content'],
-                                  url: url,
-                                  formattedDate: formattedDate,
-                                  blogId: blogId,
-                                  postId: postId,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AspectRatio(
-                                aspectRatio: 4 / 2,
-                                child: imageUrl != null
-                                    ? CachedNetworkImage(
-                                        imageUrl: imageUrl,
-                                        fit: BoxFit.cover,
-                                        placeholder: (context, url) =>
-                                            Shimmer.fromColors(
-                                          baseColor: Colors.grey[300]!,
-                                          highlightColor: Colors.grey[100]!,
-                                          child: Container(color: Colors.white),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            const Icon(Icons.error_outline),
-                                      )
-                                    : Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(color: Colors.white),
-                                      ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      title,
-                                      style: const TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                            Icons.calendar_today_outlined,
-                                            size: 12,
-                                            color: Colors.grey),
-                                        const SizedBox(width: 4),
-                                        Text(
-                                          formattedDate,
-                                          style: const TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                return Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      final postId = await getPostId(post['id']);
+                      setState(() {
+                        this.postId = postId;
+                      });
+                      Navigator.push(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostDetailsScreen(
+                            title: title,
+                            imageUrl: imageUrl,
+                            content: post['content'],
+                            url: url,
+                            formattedDate: formattedDate,
+                            blogId: blogId,
+                            postId: postId,
                           ),
                         ),
                       );
                     },
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20.0),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: imageUrl != null
+                                ? CachedNetworkImage(
+                                    imageUrl: imageUrl,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(color: Colors.white),
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error_outline),
+                                  )
+                                : Shimmer.fromColors(
+                                    baseColor: Colors.grey[300]!,
+                                    highlightColor: Colors.grey[100]!,
+                                    child: Container(color: Colors.white),
+                                  ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 10,
+                          right: 10,
+                          bottom: 10,
+                          child: Card(
+                            elevation: 4,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                title,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                maxLines: 2,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List<Widget>.generate(
+                filteredPosts.length >= 3 ? 3 : filteredPosts.length,
+                (int index) {
+                  return Container(
+                    width: 8.0,
+                    height: 8.0,
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentPage == index ? Colors.blue : Colors.grey,
+                    ),
+                  );
+                },
               ),
-            ],
+            ),
+          ),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
+              "Últimas Notícias",
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount:
+                  filteredPosts.length >= 3 ? filteredPosts.length - 3 : 0,
+              itemBuilder: (context, index) {
+                final postIndex = index + 3;
+                final post = filteredPosts[postIndex];
+                final title = post['title'];
+                final url = post['url'];
+                final publishedDate = post['published'];
+                final formattedDate = formatDate(publishedDate);
+
+                var imageUrl = post['images']?.isNotEmpty == true
+                    ? post['images']![0]['url']
+                    : null;
+
+                if (imageUrl == null) {
+                  final content = post['content'];
+                  final match =
+                      RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
+                  imageUrl = match?.group(1);
+                }
+
+                return Card(
+                  clipBehavior: Clip.hardEdge,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      final postId = await getPostId(post['id']);
+                      setState(() {
+                        this.postId = postId;
+                      });
+                      Navigator.push(
+                        // ignore: use_build_context_synchronously
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostDetailsScreen(
+                            title: title,
+                            imageUrl: imageUrl,
+                            content: post['content'],
+                            url: url,
+                            formattedDate: formattedDate,
+                            blogId: blogId,
+                            postId: postId,
+                          ),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: imageUrl != null
+                                  ? CachedNetworkImage(
+                                      imageUrl: imageUrl,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: Colors.grey[300]!,
+                                        highlightColor: Colors.grey[100]!,
+                                        child: Container(color: Colors.white),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error_outline),
+                                    )
+                                  : Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(color: Colors.white),
+                                    ),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  title,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 12,
+                                      color: Colors.grey,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      formattedDate,
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           ),
         ],
       ),

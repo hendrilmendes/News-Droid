@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/widgets/progress_indicator.dart';
+import 'package:newsdroid/widgets/shimmer_loading_fav.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -50,7 +50,7 @@ class FavoritesScreen extends StatelessWidget {
       ),
       body: favoritePostsModel.isLoading
           ? Center(
-              child: buildLoadingIndicator(),
+              child: buildShimmerLoadingFav(),
             )
           : favoritePostsModel.favoritePosts.isEmpty
               ? const Center(
@@ -162,5 +162,21 @@ class FavoritesScreen extends StatelessWidget {
         child: const Icon(Icons.delete_outline),
       ),
     );
+  
   }
+
+  Widget buildLoadingIndicator() {
+  return Center(
+    child: Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: 100,
+        height: 100,
+        color: Colors.white,
+      ),
+    ),
+  );
+}
+
 }

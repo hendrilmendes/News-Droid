@@ -38,4 +38,4 @@ Veja as novidades em [Changelog](Changelog.md)
 ##
 
 ## Licença
-Este projeto está licenciado sob a Licença MIT - veja [LICENSE](LICENSE.md)
+Este projeto está licenciado sob a [Licença MIT](LICENSE.md)
