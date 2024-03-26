@@ -35,42 +35,84 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[currentIndex],
-      // Bottom Nav
-      bottomNavigationBar: NavigationBarTheme(
-          data: NavigationBarThemeData(
-            labelTextStyle: MaterialStateProperty.all(
-              const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-            ),
-          ),
-          child: NavigationBar(
-            onDestinationSelected: onTabTapped,
-            selectedIndex: currentIndex,
-            labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-            destinations: const [
-              NavigationDestination(
-                icon: Icon(Icons.home),
-                selectedIcon: Icon(Icons.home_outlined),
-                label: "Início",
+      body: OrientationBuilder(
+        builder: (context, orientation) {
+          if (orientation == Orientation.landscape) {
+            return Row(
+              children: [
+                NavigationRail(
+                  selectedIndex: currentIndex,
+                  onDestinationSelected: onTabTapped,
+                  labelType: NavigationRailLabelType.all,
+                  destinations: const [
+                    NavigationRailDestination(
+                      icon: Icon(Icons.home),
+                      selectedIcon: Icon(Icons.home_outlined),
+                      label: Text("Início"),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.search),
+                      selectedIcon: Icon(Icons.search_outlined),
+                      label: Text("Buscar"),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.favorite),
+                      selectedIcon: Icon(Icons.favorite_outline),
+                      label: Text("Favoritos"),
+                    ),
+                    NavigationRailDestination(
+                      icon: Icon(Icons.settings),
+                      selectedIcon: Icon(Icons.settings_outlined),
+                      label: Text("Ajustes"),
+                    ),
+                  ],
+                ),
+                const VerticalDivider(thickness: 1, width: 1),
+                Expanded(child: screens[currentIndex]),
+              ],
+            );
+          } else {
+            return Scaffold(
+              body: screens[currentIndex],
+              // Bottom Nav
+              bottomNavigationBar: NavigationBarTheme(
+                data: NavigationBarThemeData(
+                  labelTextStyle: MaterialStateProperty.all(
+                    const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  ),
+                ),
+                child: NavigationBar(
+                  onDestinationSelected: onTabTapped,
+                  selectedIndex: currentIndex,
+                  labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+                  destinations: const [
+                    NavigationDestination(
+                      icon: Icon(Icons.home),
+                      selectedIcon: Icon(Icons.home_outlined),
+                      label: "Início",
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.search),
+                      selectedIcon: Icon(Icons.search_outlined),
+                      label: "Buscar",
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.favorite),
+                      selectedIcon: Icon(Icons.favorite_outline),
+                      label: "Favoritos",
+                    ),
+                    NavigationDestination(
+                      icon: Icon(Icons.settings),
+                      selectedIcon: Icon(Icons.settings_outlined),
+                      label: "Ajustes",
+                    ),
+                  ],
+                ),
               ),
-              NavigationDestination(
-                icon: Icon(Icons.search),
-                selectedIcon: Icon(Icons.search_outlined),
-                label: "Buscar",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.favorite),
-                selectedIcon: Icon(Icons.favorite_outline),
-                label: "Favoritos",
-              ),
-              NavigationDestination(
-                icon: Icon(Icons.settings),
-                selectedIcon: Icon(Icons.settings_outlined),
-                label: "Ajustes",
-              ),
-            ],
-          ),
-        ),
+            );
+          }
+        },
+      ),
     );
   }
 }
