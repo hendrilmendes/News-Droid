@@ -41,6 +41,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
             return Row(
               children: [
                 NavigationRail(
+                  groupAlignment: 0.0,
                   selectedIndex: currentIndex,
                   onDestinationSelected: onTabTapped,
                   labelType: NavigationRailLabelType.all,

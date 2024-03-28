@@ -165,18 +165,4 @@ class FavoritesScreen extends StatelessWidget {
   
   }
 
-  Widget buildLoadingIndicator() {
-  return Center(
-    child: Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: Container(
-        width: 100,
-        height: 100,
-        color: Colors.white,
-      ),
-    ),
-  );
-}
-
 }

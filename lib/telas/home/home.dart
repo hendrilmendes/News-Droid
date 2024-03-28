@@ -26,8 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   bool isOnline = true;
   bool isLoading = false;
-  final PageController _pageController = PageController();
+  PageController _pageController = PageController();
   int _currentPage = 0;
+  late Timer timer;
 
   String? postId;
 
@@ -36,16 +37,25 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     fetchPosts();
     checkConnectivity();
-    _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page!.round();
-      });
+    _pageController = PageController(initialPage: 0);
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+      if (_currentPage < 2) {
+        _currentPage++;
+      } else {
+        _currentPage = 0;
+      }
+      _pageController.animateToPage(
+        _currentPage,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
     });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    timer.cancel();
     super.dispose();
   }
 
@@ -159,16 +169,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPostList() {
+    final bool isTablet = MediaQuery.of(context).size.shortestSide >= 600;
     return RefreshIndicator(
       onRefresh: _refreshPosts,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 200,
+            height: isTablet ? 300 : 200,
             child: PageView.builder(
               controller: _pageController,
               itemCount: filteredPosts.length >= 3 ? 3 : filteredPosts.length,
+               onPageChanged: (int page) {
+                setState(() {
+                  _currentPage = page;
+                });
+              },
               itemBuilder: (context, index) {
                 final post = filteredPosts[index];
                 final title = post['title'];
