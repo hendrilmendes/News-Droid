@@ -5,11 +5,11 @@ Changelog News-Droid
 Novo:
 - Tela Home foi atualizada com um novo design
 - Tela de Posts recebeu uma atualização no menu de ações
-- Interface adaptada para tablets
 
 Correções/Melhorias:
+- Melhor compatibilidade para tablets
 - Melhorias no carregamento de conteúdos
-- Correções de bugs e melhorias
+- Correções de bugs e melhorias internas
 
 ======================================================
 #### 2.1.0 - 26/02/2024

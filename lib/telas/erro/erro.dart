@@ -27,7 +27,7 @@ class ErrorScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const Text(
-                    "Sem conexão com a Internet",
+                    "Sem conexão com a internet",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,

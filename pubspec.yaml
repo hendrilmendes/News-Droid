@@ -17,7 +17,7 @@ dependencies:
   cached_network_image: ^3.3.1
 
 # Connectivity Plus
-  connectivity_plus: ^5.0.2
+  connectivity_plus: ^6.0.1
 
 # Crypto
   crypto: ^3.0.3
@@ -29,10 +29,10 @@ dependencies:
   flutter_email_sender: ^6.0.2
 
 # Firebase
-  firebase_core: ^2.27.0
-  firebase_crashlytics: ^3.4.18
-  firebase_performance: ^0.9.3+17
-  firebase_messaging: ^14.7.19
+  firebase_core: ^2.28.0
+  firebase_crashlytics: ^3.5.0
+  firebase_performance: ^0.9.4
+  firebase_messaging: ^14.8.0
 
 # Feedback
   feedback:
@@ -46,7 +46,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
 # HTTP
-  http: ^1.2.0
+  http: ^1.2.1
 
 # Intl
   intl: ^0.18.1
@@ -55,7 +55,7 @@ dependencies:
   modal_bottom_sheet: ^3.0.0
 
 # Package Info
-  package_info_plus: ^5.0.1
+  package_info_plus: ^6.0.0
 
 # Path Provider
   path_provider: ^2.1.2
@@ -64,10 +64,10 @@ dependencies:
   provider: ^6.1.2
   
 # Review  
-  in_app_review: ^2.0.8
+  in_app_review: ^2.0.9
   
 # Share Plus
-  share_plus: ^7.2.2
+  share_plus: ^8.0.2
 
 # Shared Preferences
   shared_preferences: ^2.2.2
@@ -91,7 +91,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.1
+  flutter_lints: ^3.0.2
 
 flutter:
 

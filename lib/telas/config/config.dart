@@ -7,7 +7,6 @@ import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:newsdroid/updater/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -22,25 +21,12 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  String appVersion = '';
-  String appBuild = '';
-  String authorApp = '';
-  String descApp = '';
   bool _notificationsEnabled = true;
 
   // Metodo para exibir a versao
   @override
   void initState() {
     super.initState();
-    PackageInfo.fromPlatform().then((packageInfo) {
-      setState(() {
-        appVersion = packageInfo.version;
-        appBuild = packageInfo.buildNumber;
-        authorApp = "Hendril Mendes";
-        descApp =
-            "Um projeto amador para um app de notícias que usa a API do Blogger";
-      });
-    });
 
     _loadPreferences();
 

@@ -8,7 +8,7 @@ Widget buildShimmerLoadingHome() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 230,
+          height: 200,
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,

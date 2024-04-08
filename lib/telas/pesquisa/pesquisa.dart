@@ -49,7 +49,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<void> checkConnectivity() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
     setState(() {
-      isOnline = connectivityResult != ConnectivityResult.none;
+      isOnline = !connectivityResult.contains(ConnectivityResult.none);
     });
   }
 
