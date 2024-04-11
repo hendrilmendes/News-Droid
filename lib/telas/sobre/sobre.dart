@@ -65,7 +65,7 @@ class _AboutPageState extends State<AboutPage> {
                     ),
                   ),
                   const Text(
-                    "Todos os Direitos Reservados.",
+                    "Todos os direitos reservados.",
                     style: TextStyle(
                       fontSize: 12,
                     ),

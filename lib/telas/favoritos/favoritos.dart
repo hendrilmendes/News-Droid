@@ -162,7 +162,5 @@ class FavoritesScreen extends StatelessWidget {
         child: const Icon(Icons.delete_outline),
       ),
     );
-  
   }
-
 }

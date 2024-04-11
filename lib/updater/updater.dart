@@ -31,13 +31,13 @@ class Updater {
             // ignore: use_build_context_synchronously
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text("Nova Versão Disponível"),
+              title: const Text("Nova versão disponível"),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "A versão $latestVersion do News-Droid está disponível. Você esta usando a versão $currentVersion.",
+                    "A versão $latestVersion do News-Droid está disponível. Atualmente você esta usando a versão $currentVersion.",
                   ),
                   const SizedBox(height: 10),
                   const Text(
@@ -87,10 +87,10 @@ class Updater {
             // ignore: use_build_context_synchronously
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text("Nenhuma Atualização Disponível"),
+              title: const Text("Nenhuma atualização disponível"),
               content: const Text(
                 "Tudo em dias parceiro 🤠",
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(fontSize: 16.0),
               ),
               actions: <Widget>[
                 FilledButton.tonal(

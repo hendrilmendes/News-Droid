@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/comentarios/comentarios.dart';
 import 'package:provider/provider.dart';
@@ -188,14 +187,45 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
               tooltip: "Comentários",
               icon: const Icon(Icons.comment_outlined),
               onPressed: () {
-                showBarModalBottomSheet(
-                  clipBehavior: Clip.antiAlias,
+                showModalBottomSheet(
                   context: context,
-                  enableDrag: true,
-                  isDismissible: true,
-                  builder: (modalContext) => CommentScreen(
-                    postId: widget.postId,
-                  ),
+                  isScrollControlled: true,
+                  builder: (_) {
+                    return DraggableScrollableSheet(
+                      initialChildSize: 0.9,
+                      minChildSize: 0.3,
+                      maxChildSize: 0.9,
+                      expand: false,
+                      builder: (_, controller) {
+                        return Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                          ),
+                          child: ListView(
+                            controller: controller,
+                            children: [
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.9,
+                                width: MediaQuery.of(context).size.width,
+                                child: ClipRRect(
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                  child: CommentScreen(postId: widget.postId),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 );
               },
             ),

@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           const Padding(
-            padding: EdgeInsets.all(6.0),
+            padding: EdgeInsets.all(8.0),
             child: Text(
               "Últimas Notícias",
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

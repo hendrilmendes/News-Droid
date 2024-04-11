@@ -51,9 +51,6 @@ dependencies:
 # Intl
   intl: ^0.18.1
 
-# Modal Bottom Sheet
-  modal_bottom_sheet: ^3.0.0
-
 # Package Info
   package_info_plus: ^6.0.0
 
