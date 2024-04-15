@@ -171,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildPostList() {
     final bool isTablet = MediaQuery.of(context).size.shortestSide >= 600;
     return RefreshIndicator(
+      color: Colors.blue,
       onRefresh: _refreshPosts,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
