@@ -78,7 +78,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
-                  labelTextStyle: MaterialStateProperty.all(
+                  labelTextStyle: WidgetStateProperty.all(
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                 ),
