@@ -1,10 +1,11 @@
 Changelog News-Droid
 
 ======================================================
-#### 2.2.0 - (Em desenvolvimento)
+#### 3.0.0 - 25/04/2024
 Novo:
 - Tela Home foi atualizada com um novo design
 - Tela de Posts recebeu uma atualização no menu de ações
+- Implementado suporte ao modo claro/escuro de acordo com dispositivo
 
 Correções/Melhorias:
 - Melhor compatibilidade para tablets

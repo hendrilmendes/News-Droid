@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/posts/posts_details.dart';
 import 'package:newsdroid/widgets/shimmer_loading_fav.dart';
@@ -14,53 +15,55 @@ class FavoritesScreen extends StatelessWidget {
     final favoritePostsModel = Provider.of<FavoritePostsModel>(context);
 
     Future<void> deleteAllFavorites() async {
-      bool confirmDelete = await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text("Apagar Favoritos"),
-            content: const Text(
-                "Tem certeza de que deseja apagar todos os posts favoritos?"),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: const Text("Cancelar"),
-              ),
-              FilledButton.tonal(
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: const Text("Apagar"),
-              ),
-            ],
-          );
-        },
-      );
+      final appLocalizations = AppLocalizations.of(context);
+      if (appLocalizations != null) {
+        bool confirmDelete = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(appLocalizations.deleteFavorites),
+              content: Text(appLocalizations.deleteFavoritesSub),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                  child: Text(appLocalizations.cancel),
+                ),
+                FilledButton.tonal(
+                  onPressed: () {
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Text(appLocalizations.delete),
+                ),
+              ],
+            );
+          },
+        );
 
-      if (confirmDelete == true) {
-        favoritePostsModel.removeAllFavorites();
+        if (confirmDelete == true) {
+          favoritePostsModel.removeAllFavorites();
+        }
       }
     }
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Favoritos"),
+        title: Text(AppLocalizations.of(context)!.favorites),
       ),
       body: favoritePostsModel.isLoading
           ? Center(
               child: buildShimmerLoadingFav(),
             )
           : favoritePostsModel.favoritePosts.isEmpty
-              ? const Center(
+              ? Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        "Nenhum post favorito encontrado 😕",
-                        style: TextStyle(fontSize: 20),
+                        AppLocalizations.of(context)!.noFavorites,
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
@@ -157,7 +160,7 @@ class FavoritesScreen extends StatelessWidget {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        tooltip: "Apagar Favoritos",
+        tooltip: AppLocalizations.of(context)!.deleteFavorites,
         onPressed: deleteAllFavorites,
         child: const Icon(Icons.delete_outline),
       ),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -27,22 +28,21 @@ class Updater {
         final String currentVersion = packageInfo.version;
 
         if (latestVersion.compareTo(currentVersion) > 0) {
+          // ignore: use_build_context_synchronously
+          final AppLocalizations? localizations = AppLocalizations.of(context);
+          final String titleText = localizations?.newUpdate ?? '';
           showDialog(
             // ignore: use_build_context_synchronously
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text("Nova versão disponível"),
+              title: Text(titleText),
               content: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "A versão $latestVersion do News-Droid está disponível. Atualmente você esta usando a versão $currentVersion.",
-                  ),
-                  const SizedBox(height: 10),
-                  const Text(
-                    "Novidades:",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    localizations?.news ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   Expanded(
@@ -57,7 +57,7 @@ class Updater {
               actions: <Widget>[
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: const Text("DEPOIS"),
+                  child: Text(localizations?.after ?? ''),
                 ),
                 FilledButton.tonal(
                   onPressed: () {
@@ -77,29 +77,33 @@ class Updater {
                       Navigator.pop(context); // Fecha o diálogo interno
                     }
                   },
-                  child: const Text("BAIXAR"),
+                  child: Text(localizations?.download ?? ''),
                 ),
               ],
             ),
           );
         } else {
-          showDialog(
-            // ignore: use_build_context_synchronously
-            context: context,
-            builder: (context) => AlertDialog(
-              title: const Text("Nenhuma atualização disponível"),
-              content: const Text(
-                "Tudo em dias parceiro 🤠",
-                style: TextStyle(fontSize: 16.0),
-              ),
-              actions: <Widget>[
-                FilledButton.tonal(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text("OK"),
+          // ignore: use_build_context_synchronously
+          final AppLocalizations? localizations = AppLocalizations.of(context);
+          if (localizations != null) {
+            showDialog(
+              // ignore: use_build_context_synchronously
+              context: context,
+              builder: (context) => AlertDialog(
+                title: Text(localizations.noUpdate),
+                content: Text(
+                  localizations.noUpdateSub,
+                  style: const TextStyle(fontSize: 16.0),
                 ),
-              ],
-            ),
-          );
+                actions: <Widget>[
+                  FilledButton.tonal(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(localizations.ok),
+                  ),
+                ],
+              ),
+            );
+          }
         }
       } else {
         if (kDebugMode) {

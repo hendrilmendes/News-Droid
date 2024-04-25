@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
@@ -119,24 +120,26 @@ class _CommentScreenState extends State<CommentScreen> {
   }
 
   Future<void> _showErrorDialog() async {
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Erro ao enviar comentário"),
-          content: const Text(
-              "Não foi possível enviar o comentário. Por favor, tente novamente mais tarde."),
-          actions: <Widget>[
-            FilledButton.tonal(
-              child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+    final appLocalizations = AppLocalizations.of(context);
+    if (appLocalizations != null) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(appLocalizations.errorComments),
+            content: Text(appLocalizations.errorCommentsSub),
+            actions: <Widget>[
+              FilledButton.tonal(
+                child: Text(appLocalizations.ok),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   String _generateUniqueId() {
@@ -149,7 +152,7 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Comentários"),
+        title: Text(AppLocalizations.of(context)!.comments),
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -160,10 +163,10 @@ class _CommentScreenState extends State<CommentScreen> {
                     child: buildShimmerLoadingComments(),
                   )
                 : comments.isEmpty
-                    ? const Center(
+                    ? Center(
                         child: Text(
-                          "Nenhum comentário disponível 😅",
-                          style: TextStyle(fontSize: 18.0),
+                          AppLocalizations.of(context)!.noComment,
+                          style: const TextStyle(fontSize: 18.0),
                         ),
                       )
                     : ListView.builder(
@@ -212,9 +215,10 @@ class _CommentScreenState extends State<CommentScreen> {
                   Expanded(
                     child: TextField(
                       controller: commentController,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: "Digite seu comentário..."),
+                          hintText:
+                              AppLocalizations.of(context)!.hintTextComment),
                     ),
                   ),
                   IconButton(
@@ -222,7 +226,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     icon: const Icon(Icons.send_outlined),
                     onPressed: () async {
                       final commentText = commentController.text;
-                      const authorName = "Humano";
+                      final authorName = AppLocalizations.of(context)!.human;
                       const authorAvatar =
                           'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
                       final commentDate = DateTime.now().toString();

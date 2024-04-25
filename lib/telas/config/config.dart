@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:in_app_review/in_app_review.dart';
@@ -100,16 +102,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ajustes"),
+        title: Text(AppLocalizations.of(context)!.settings),
       ),
       body: ListView(
         children: [
-          _buildCategoryHeader("Notificações", Icons.notifications_outlined),
+          _buildCategoryHeader(AppLocalizations.of(context)!.notification,
+              Icons.notifications_outlined),
           _buildNotificationSettings(),
-          _buildCategoryHeader("Interface", Icons.palette_outlined),
-          _buildThemeSettings(themeModel),
+          _buildCategoryHeader(
+              AppLocalizations.of(context)!.interface, Icons.palette_outlined),
+          _buildThemeSettings(context, themeModel),
           _buildDynamicColors(themeModel),
-          _buildCategoryHeader("Outros", Icons.more_horiz_outlined),
+          _buildCategoryHeader(
+              AppLocalizations.of(context)!.outhers, Icons.more_horiz_outlined),
           _buildUpdateSettings(),
           _buildReview(),
           _buildSupportSettings(),
@@ -140,9 +145,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Notificações"),
-        subtitle: const Text(
-          "Notificações serão enviadas quando publicarmos novos posts",
+        title: Text(AppLocalizations.of(context)!.notification),
+        subtitle: Text(
+          AppLocalizations.of(context)!.notificationSub,
         ),
         trailing: Switch(
           activeColor: Colors.blue,
@@ -158,23 +163,72 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  Widget _buildThemeSettings(ThemeModel themeModel) {
+  void _showThemeDialog(BuildContext context, ThemeModel themeModel) {
+    final appLocalizations = AppLocalizations.of(context);
+    if (appLocalizations != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(appLocalizations.themeSelect),
+            content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    RadioListTile<ThemeModeType>(
+                      title: Text(appLocalizations.lightMode),
+                      value: ThemeModeType.light,
+                      groupValue: themeModel.themeMode,
+                      onChanged: (value) {
+                        setState(() {
+                          themeModel.changeThemeMode(value!);
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    RadioListTile<ThemeModeType>(
+                      title: Text(appLocalizations.darkMode),
+                      value: ThemeModeType.dark,
+                      groupValue: themeModel.themeMode,
+                      onChanged: (value) {
+                        setState(() {
+                          themeModel.changeThemeMode(value!);
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                    RadioListTile<ThemeModeType>(
+                      title: Text(appLocalizations.systemMode),
+                      value: ThemeModeType.system,
+                      groupValue: themeModel.themeMode,
+                      onChanged: (value) {
+                        setState(() {
+                          themeModel.changeThemeMode(value!);
+                        });
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  Widget _buildThemeSettings(BuildContext context, ThemeModel themeModel) {
     return Card(
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Modo Escuro"),
-        subtitle: const Text(
-          "O modo escuro possibilita uma experiência melhor ao usar o app em ambientes noturnos",
-        ),
-        trailing: Switch(
-          activeColor: Colors.blue,
-          value: themeModel.isDarkMode,
-          onChanged: (value) {
-            themeModel.toggleDarkMode();
-            themeModel.saveThemePreference(value);
-          },
-        ),
+        title: Text(AppLocalizations.of(context)!.theme),
+        subtitle: Text(AppLocalizations.of(context)!.themeSub),
+        onTap: () {
+          _showThemeDialog(context, themeModel);
+        },
       ),
     );
   }
@@ -184,9 +238,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Dynamic Colors"),
-        subtitle: const Text(
-          "O Dynamic Colors proporciona uma interface agradável de acordo com o seu papel de parede (Android 12+)",
+        title: Text(AppLocalizations.of(context)!.dynamicColors),
+        subtitle: Text(
+          AppLocalizations.of(context)!.dynamicColorsSub,
         ),
         trailing: Switch(
           activeColor: Colors.blue,
@@ -205,8 +259,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Atualizações"),
-        subtitle: const Text("Toque para buscar por novas versões do app"),
+        title: Text(AppLocalizations.of(context)!.update),
+        subtitle: Text(AppLocalizations.of(context)!.updateSub),
         leading: const Icon(Icons.update_outlined),
         onTap: () {
           Updater.checkForUpdates(context);
@@ -220,11 +274,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text(
-          "Suporte",
+        title: Text(
+          AppLocalizations.of(context)!.support,
         ),
-        subtitle: const Text(
-          "Encontrou um bug ou deseja sugerir algo? Entre em contato conosco 😁",
+        subtitle: Text(
+          AppLocalizations.of(context)!.supportSub,
         ),
         leading: const Icon(Icons.support_outlined),
         onTap: () {
@@ -251,8 +305,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Avalie o App"),
-        subtitle: const Text("Faça uma avaliação na Google Play Store"),
+        title: Text(AppLocalizations.of(context)!.review),
+        subtitle: Text(AppLocalizations.of(context)!.reviewSub),
         leading: const Icon(Icons.rate_review_outlined),
         onTap: () async {
           final InAppReview inAppReview = InAppReview.instance;
@@ -270,8 +324,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
-        title: const Text("Sobre"),
-        subtitle: const Text("Um pouco mais sobre o app"),
+        title: Text(
+          AppLocalizations.of(context)!.about,
+        ),
+        subtitle: Text(AppLocalizations.of(context)!.aboutSub),
         leading: const Icon(Icons.info_outlined),
         onTap: () {
           Navigator.push(

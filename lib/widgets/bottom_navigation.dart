@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/telas/config/config.dart';
 import 'package:newsdroid/telas/favoritos/favoritos.dart';
 import 'package:newsdroid/telas/home/home.dart';
@@ -45,26 +46,26 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   selectedIndex: currentIndex,
                   onDestinationSelected: onTabTapped,
                   labelType: NavigationRailLabelType.all,
-                  destinations: const [
+                  destinations: [
                     NavigationRailDestination(
-                      icon: Icon(Icons.home),
-                      selectedIcon: Icon(Icons.home_outlined),
-                      label: Text("Início"),
+                      icon: const Icon(Icons.home),
+                      selectedIcon: const Icon(Icons.home_outlined),
+                      label: Text(AppLocalizations.of(context)!.home),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.search),
-                      selectedIcon: Icon(Icons.search_outlined),
-                      label: Text("Buscar"),
+                      icon: const Icon(Icons.search),
+                      selectedIcon: const Icon(Icons.search_outlined),
+                      label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      selectedIcon: Icon(Icons.favorite_outline),
-                      label: Text("Favoritos"),
+                      icon: const Icon(Icons.favorite),
+                      selectedIcon: const Icon(Icons.favorite_outline),
+                      label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
-                      icon: Icon(Icons.settings),
-                      selectedIcon: Icon(Icons.settings_outlined),
-                      label: Text("Ajustes"),
+                      icon: const Icon(Icons.settings),
+                      selectedIcon: const Icon(Icons.settings_outlined),
+                      label: Text(AppLocalizations.of(context)!.settings),
                     ),
                   ],
                 ),
@@ -78,7 +79,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
-                  labelTextStyle: WidgetStateProperty.all(
+                  labelTextStyle: MaterialStateProperty.all(
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                 ),
@@ -86,26 +87,26 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   onDestinationSelected: onTabTapped,
                   selectedIndex: currentIndex,
                   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-                  destinations: const [
+                  destinations: [
                     NavigationDestination(
-                      icon: Icon(Icons.home),
-                      selectedIcon: Icon(Icons.home_outlined),
-                      label: "Início",
+                      icon: const Icon(Icons.home),
+                      selectedIcon: const Icon(Icons.home_outlined),
+                      label: AppLocalizations.of(context)!.home,
                     ),
                     NavigationDestination(
-                      icon: Icon(Icons.search),
-                      selectedIcon: Icon(Icons.search_outlined),
-                      label: "Buscar",
+                      icon: const Icon(Icons.search),
+                      selectedIcon: const Icon(Icons.search_outlined),
+                      label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
-                      icon: Icon(Icons.favorite),
-                      selectedIcon: Icon(Icons.favorite_outline),
-                      label: "Favoritos",
+                      icon: const Icon(Icons.favorite),
+                      selectedIcon: const Icon(Icons.favorite_outline),
+                      label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
-                      icon: Icon(Icons.settings),
-                      selectedIcon: Icon(Icons.settings_outlined),
-                      label: "Ajustes",
+                      icon: const Icon(Icons.settings),
+                      selectedIcon: const Icon(Icons.settings_outlined),
+                      label: AppLocalizations.of(context)!.settings,
                     ),
                   ],
                 ),

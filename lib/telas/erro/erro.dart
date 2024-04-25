@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ErrorScreen extends StatelessWidget {
   final VoidCallback onReload;
@@ -26,20 +27,20 @@ class ErrorScreen extends StatelessWidget {
               flex: 1,
               child: Column(
                 children: [
-                  const Text(
-                    "Sem conexão com a internet",
+                  Text(
+                    AppLocalizations.of(context)!.noConnection,
                     textAlign: TextAlign.center,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                      "Verifique sua conexão e tente novamente.",
+                      AppLocalizations.of(context)!.noConnectionSub,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                       ),
                     ),
@@ -49,7 +50,7 @@ class ErrorScreen extends StatelessWidget {
                   ),
                   FilledButton.tonal(
                     onPressed: onReload,
-                    child: const Text("Recarregar"),
+                    child: Text(AppLocalizations.of(context)!.refresh),
                   ),
                 ],
               ),

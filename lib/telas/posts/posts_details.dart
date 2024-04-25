@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newsdroid/models/favorito_model.dart';
 import 'package:newsdroid/telas/comentarios/comentarios.dart';
@@ -104,7 +105,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("News-Droid"),
+        title: Text(AppLocalizations.of(context)!.appName),
       ),
 
       // Titulo e data publicação do post
@@ -169,22 +170,22 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              tooltip: "Diminuir Texto",
+              tooltip: AppLocalizations.of(context)!.decrementText,
               icon: const Icon(Icons.text_decrease_outlined),
               onPressed: _decrementFontSize,
             ),
             IconButton(
-              tooltip: "Aumentar Texto",
+              tooltip: AppLocalizations.of(context)!.incrementText,
               icon: const Icon(Icons.text_increase_outlined),
               onPressed: _incrementFontSize,
             ),
             IconButton(
-              tooltip: "Compartilhar",
+              tooltip: AppLocalizations.of(context)!.shared,
               icon: const Icon(Icons.share_outlined),
               onPressed: () => sharePost(widget.url),
             ),
             IconButton(
-              tooltip: "Comentários",
+              tooltip: AppLocalizations.of(context)!.comments,
               icon: const Icon(Icons.comment_outlined),
               onPressed: () {
                 showModalBottomSheet(

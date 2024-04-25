@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -175,7 +176,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Buscar"),
+        title: Text(AppLocalizations.of(context)!.search),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80.0),
           child: Card(
@@ -202,7 +203,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     prefixIcon:
                         const Icon(Icons.search_outlined, color: Colors.blue),
                     border: InputBorder.none,
-                    hintText: 'Procurar por "${trendWords[trendIndex]}"',
+                    hintText: '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
                     suffixIcon: searchQuery.value.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear_outlined),
@@ -226,10 +227,10 @@ class _SearchScreenState extends State<SearchScreen> {
       body: isLoading
           ? Center(child: buildShimmerLoadingSearch())
           : filteredPosts.isEmpty
-              ? const Center(
+              ?  Center(
                   child: Text(
-                    "Nenhum resultado encontrado 😱",
-                    style: TextStyle(fontSize: 18.0),
+                    AppLocalizations.of(context)!.noResult,
+                    style: const TextStyle(fontSize: 18.0),
                   ),
                 )
               : GridView.builder(

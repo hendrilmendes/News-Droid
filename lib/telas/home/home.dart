@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -162,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("News-Droid"),
+        title: Text(AppLocalizations.of(context)!.appName),
       ),
       body: isLoading ? buildShimmerLoadingHome() : _buildPostList(),
     );
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: PageView.builder(
               controller: _pageController,
               itemCount: filteredPosts.length >= 3 ? 3 : filteredPosts.length,
-               onPageChanged: (int page) {
+              onPageChanged: (int page) {
                 setState(() {
                   _currentPage = page;
                 });
@@ -304,11 +305,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              "Últimas Notícias",
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              AppLocalizations.of(context)!.lastNews,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Expanded(
