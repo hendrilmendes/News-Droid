@@ -160,6 +160,7 @@ class FavoritesScreen extends StatelessWidget {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         tooltip: AppLocalizations.of(context)!.deleteFavorites,
         onPressed: deleteAllFavorites,
         child: const Icon(Icons.delete_outline),

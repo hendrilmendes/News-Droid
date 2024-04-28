@@ -180,6 +180,7 @@ class _SearchScreenState extends State<SearchScreen> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(80.0),
           child: Card(
+            color: Theme.of(context).listTileTheme.tileColor,
             margin: const EdgeInsets.all(10.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.0),
@@ -203,7 +204,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     prefixIcon:
                         const Icon(Icons.search_outlined, color: Colors.blue),
                     border: InputBorder.none,
-                    hintText: '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
+                    hintText:
+                        '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
                     suffixIcon: searchQuery.value.isNotEmpty
                         ? IconButton(
                             icon: const Icon(Icons.clear_outlined),
@@ -227,7 +229,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: isLoading
           ? Center(child: buildShimmerLoadingSearch())
           : filteredPosts.isEmpty
-              ?  Center(
+              ? Center(
                   child: Text(
                     AppLocalizations.of(context)!.noResult,
                     style: const TextStyle(fontSize: 18.0),
@@ -262,6 +264,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     }
 
                     return Card(
+                      color: Theme.of(context).listTileTheme.tileColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       ),

@@ -29,7 +29,6 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 * Firebase para monitorar o desempenho, erros do app e envio de notificações
 * Favoritar Postagens
 * Comentar em Posts
-* Dynamic Colors
 * Modo Escuro
 * API Blogger v3
 ##

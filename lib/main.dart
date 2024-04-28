@@ -10,7 +10,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorito_adapter.dart';
 import 'package:provider/provider.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:newsdroid/tema/tema.dart';
 import 'package:newsdroid/widgets/bottom_navigation.dart';
 import 'package:newsdroid/models/favorito_model.dart';
@@ -124,32 +123,9 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, __) {
-          return DynamicColorBuilder(
-            builder: (lightColorScheme, darkColorScheme) {
-              if (!themeModel.isDynamicColorsEnabled) {
-                lightColorScheme = null;
-                darkColorScheme = null;
-              }
-
-              return MaterialApp(
-                theme: ThemeData(
-                  brightness: Brightness.light,
-                  colorScheme: lightColorScheme?.copyWith(
-                    primary:
-                        themeModel.isDarkMode ? Colors.black : Colors.white,
-                  ),
-                  useMaterial3: true,
-                  textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
-                ),
-                darkTheme: ThemeData(
-                  brightness: Brightness.dark,
-                  colorScheme: darkColorScheme?.copyWith(
-                    primary:
-                        themeModel.isDarkMode ? Colors.white : Colors.black,
-                  ),
-                  useMaterial3: true,
-                  textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
-                ),
+          return MaterialApp(
+                theme: ThemeModel.lightTheme(context: context),
+                darkTheme: ThemeModel.darkTheme(context: context),
                 themeMode: _getThemeMode(themeModel.themeMode),
                 debugShowCheckedModeBanner: false,
                 localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -157,8 +133,8 @@ class _MyAppState extends State<MyApp> {
                 home: const BottomNavigationContainer(),
               );
             },
-          );
-        },
+          
+        
       ),
     );
   }

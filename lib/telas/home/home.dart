@@ -336,6 +336,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 }
 
                 return Card(
+                  color: Theme.of(context).listTileTheme.tileColor,
                   clipBehavior: Clip.hardEdge,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),

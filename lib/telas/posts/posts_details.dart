@@ -154,6 +154,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       // Botão flutuante na parte inferior
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
         onPressed: () {
           _toggleFavorite(context);
         },

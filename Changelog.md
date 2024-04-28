@@ -1,6 +1,15 @@
 Changelog News-Droid
 
 ======================================================
+#### 3.0.2 - **/**/2024
+Novo:
+-
+
+Correções/Melhorias:
+- O tema escuro recebeu uma atualização
+- O Dynamic Colors foi removido devido a baixa utilização
+
+======================================================
 #### 3.0.0 - 25/04/2024
 Novo:
 - Tela Home foi atualizada com um novo design

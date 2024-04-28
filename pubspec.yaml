@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.0.0+80
+version: 3.0.2+82
 environment:
   sdk: '>=3.3.0 <4.0.0'
 
@@ -24,9 +24,6 @@ dependencies:
 
 # Crypto
   crypto: ^3.0.3
-
-# Dynamic Colors
-  dynamic_color: ^1.7.0
 
 # Email
   flutter_email_sender: ^6.0.3

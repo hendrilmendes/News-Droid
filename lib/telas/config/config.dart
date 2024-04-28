@@ -112,7 +112,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           _buildCategoryHeader(
               AppLocalizations.of(context)!.interface, Icons.palette_outlined),
           _buildThemeSettings(context, themeModel),
-          _buildDynamicColors(themeModel),
           _buildCategoryHeader(
               AppLocalizations.of(context)!.outhers, Icons.more_horiz_outlined),
           _buildUpdateSettings(),
@@ -127,13 +126,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget _buildCategoryHeader(String title, IconData icon) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-        leading: Icon(icon),
-        title: Text(
-          title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
+      child: InkWell(
+        child: Container(
+          padding: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Row(
+            children: [
+              Icon(icon),
+              const SizedBox(width: 8.0),
+              Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -173,43 +183,85 @@ class _SettingsScreenState extends State<SettingsScreen> {
             title: Text(appLocalizations.themeSelect),
             content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    RadioListTile<ThemeModeType>(
-                      title: Text(appLocalizations.lightMode),
-                      value: ThemeModeType.light,
-                      groupValue: themeModel.themeMode,
-                      onChanged: (value) {
-                        setState(() {
-                          themeModel.changeThemeMode(value!);
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                    RadioListTile<ThemeModeType>(
-                      title: Text(appLocalizations.darkMode),
-                      value: ThemeModeType.dark,
-                      groupValue: themeModel.themeMode,
-                      onChanged: (value) {
-                        setState(() {
-                          themeModel.changeThemeMode(value!);
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                    RadioListTile<ThemeModeType>(
-                      title: Text(appLocalizations.systemMode),
-                      value: ThemeModeType.system,
-                      groupValue: themeModel.themeMode,
-                      onChanged: (value) {
-                        setState(() {
-                          themeModel.changeThemeMode(value!);
-                        });
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+                return Container(
+                  color: Colors.transparent,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            themeModel.changeThemeMode(ThemeModeType.light);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: Colors.blue,
+                              value: ThemeModeType.light,
+                              groupValue: themeModel.themeMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  themeModel.changeThemeMode(value!);
+                                });
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Text(appLocalizations.lightMode),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            themeModel.changeThemeMode(ThemeModeType.dark);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: Colors.blue,
+                              value: ThemeModeType.dark,
+                              groupValue: themeModel.themeMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  themeModel.changeThemeMode(value!);
+                                });
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Text(appLocalizations.darkMode),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            themeModel.changeThemeMode(ThemeModeType.system);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: Colors.blue,
+                              value: ThemeModeType.system,
+                              groupValue: themeModel.themeMode,
+                              onChanged: (value) {
+                                setState(() {
+                                  themeModel.changeThemeMode(value!);
+                                });
+                                Navigator.pop(context);
+                              },
+                            ),
+                            Text(appLocalizations.systemMode),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
@@ -229,27 +281,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
         onTap: () {
           _showThemeDialog(context, themeModel);
         },
-      ),
-    );
-  }
-
-  Widget _buildDynamicColors(ThemeModel themeModel) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.all(8.0),
-      child: ListTile(
-        title: Text(AppLocalizations.of(context)!.dynamicColors),
-        subtitle: Text(
-          AppLocalizations.of(context)!.dynamicColorsSub,
-        ),
-        trailing: Switch(
-          activeColor: Colors.blue,
-          value: themeModel.isDynamicColorsEnabled,
-          onChanged: (value) {
-            themeModel.toggleDynamicColors();
-            themeModel.saveDynamicPreference(value);
-          },
-        ),
       ),
     );
   }
@@ -288,7 +319,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
             final Email email = Email(
               body: feedback.text,
-              subject: 'News-Droid',
+              // ignore: use_build_context_synchronously
+              subject: AppLocalizations.of(context)!.appName,
               recipients: ['hendrilmendes2015@gmail.com'],
               attachmentPaths: [screenshotFilePath],
               isHTML: false,

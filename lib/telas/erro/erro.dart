@@ -48,7 +48,7 @@ class ErrorScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
                   ),
-                  FilledButton.tonal(
+                  FilledButton(
                     onPressed: onReload,
                     child: Text(AppLocalizations.of(context)!.refresh),
                   ),

@@ -79,6 +79,8 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
+                  indicatorColor: Colors.blue,
+                  backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
                   labelTextStyle: MaterialStateProperty.all(
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),

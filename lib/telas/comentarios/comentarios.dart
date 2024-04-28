@@ -205,6 +205,7 @@ class _CommentScreenState extends State<CommentScreen> {
                       ),
           ),
           Card(
+            color: Theme.of(context).listTileTheme.tileColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(100.0),
             ),

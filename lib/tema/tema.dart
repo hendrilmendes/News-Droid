@@ -5,7 +5,6 @@ enum ThemeModeType { light, dark, system }
 
 class ThemeModel extends ChangeNotifier {
   bool _isDarkMode = true;
-  bool _isDynamicColorsEnabled = true;
   ThemeModeType _themeMode = ThemeModeType.light;
 
   ThemeModel() {
@@ -13,16 +12,10 @@ class ThemeModel extends ChangeNotifier {
   }
 
   bool get isDarkMode => _isDarkMode;
-  bool get isDynamicColorsEnabled => _isDynamicColorsEnabled;
   ThemeModeType get themeMode => _themeMode;
 
   void toggleDarkMode() {
     _isDarkMode = !_isDarkMode;
-    notifyListeners();
-  }
-
-  void toggleDynamicColors() {
-    _isDynamicColorsEnabled = !_isDynamicColorsEnabled;
     notifyListeners();
   }
 
@@ -35,16 +28,8 @@ class ThemeModel extends ChangeNotifier {
   Future<void> _loadThemePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _isDarkMode = prefs.getBool('darkModeEnabled') ?? true;
-    _isDynamicColorsEnabled = prefs.getBool('dynamicColorsEnabled') ?? true;
     _themeMode = _getSavedThemeMode(prefs.getString('themeMode'));
     notifyListeners();
-  }
-
-
-
-  void saveDynamicPreference(bool value) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('dynamicColorsEnabled', value);
   }
 
   void saveThemeModePreference(ThemeModeType mode) async {
@@ -63,5 +48,85 @@ class ThemeModel extends ChangeNotifier {
       default:
         return ThemeModeType.system;
     }
+  }
+
+  static ThemeData lightTheme({
+    required BuildContext context,
+  }) {
+    return ThemeData(
+      useMaterial3: true,
+      scaffoldBackgroundColor: Colors.white,
+      textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        titleTextStyle: TextStyle(
+            color: Colors.black, fontFamily: 'OpenSans', fontSize: 24),
+      ),
+      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.black),
+      bottomNavigationBarTheme:
+          const BottomNavigationBarThemeData(backgroundColor: Colors.white),
+      cardTheme: const CardTheme(
+        color: Colors.white,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        hintStyle: TextStyle(color: Colors.black),
+        labelStyle: TextStyle(color: Colors.black),
+      ),
+      dialogTheme: const DialogTheme(backgroundColor: Colors.white),
+      listTileTheme: const ListTileThemeData(
+        iconColor: Colors.black,
+        textColor: Colors.black,
+      ),
+      navigationRailTheme: const NavigationRailThemeData(
+        useIndicator: true,
+        backgroundColor: Colors.white,
+        indicatorColor: Colors.black,
+        selectedLabelTextStyle: TextStyle(color: Colors.black),
+        unselectedLabelTextStyle: TextStyle(color: Colors.black),
+      ),
+    );
+  }
+
+  static ThemeData darkTheme({
+    required BuildContext context,
+  }) {
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: const ColorScheme.dark(),
+      scaffoldBackgroundColor: Colors.black,
+      textTheme: Typography().white.apply(fontFamily: 'OpenSans'),
+      appBarTheme: const AppBarTheme(
+        backgroundColor: Colors.black87,
+        iconTheme: IconThemeData(color: Colors.white),
+        titleTextStyle: TextStyle(
+            color: Colors.white, fontFamily: 'OpenSans', fontSize: 24),
+      ),
+      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black87),
+      iconTheme: const IconThemeData(color: Colors.white),
+      bottomNavigationBarTheme:
+          const BottomNavigationBarThemeData(backgroundColor: Colors.black),
+      cardTheme: const CardTheme(
+        color: Colors.black87,
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        hintStyle: TextStyle(color: Colors.white),
+        labelStyle: TextStyle(color: Colors.white),
+      ),
+      dialogTheme: const DialogTheme(backgroundColor: Colors.black),
+      listTileTheme: const ListTileThemeData(
+        tileColor: Color.fromARGB(212, 23, 23, 23),
+        iconColor: Colors.white,
+        textColor: Colors.white,
+      ),
+      navigationRailTheme: const NavigationRailThemeData(
+        useIndicator: true,
+        backgroundColor: Colors.black,
+        indicatorColor: Colors.white,
+        selectedLabelTextStyle: TextStyle(color: Colors.white),
+        unselectedLabelTextStyle: TextStyle(color: Colors.white),
+      ),
+    );
   }
 }
