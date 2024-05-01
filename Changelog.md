@@ -6,6 +6,7 @@ Novo:
 -
 
 Correções/Melhorias:
+- Corrigido atraso ao abrir as postagens
 - O tema escuro recebeu uma atualização
 - O Dynamic Colors foi removido devido a baixa utilização
 

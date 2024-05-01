@@ -11,6 +11,7 @@ Widget buildShimmerLoadingFav() {
         return Card(
           margin: const EdgeInsets.all(8.0),
           child: ListTile(
+            tileColor: Theme.of(context).listTileTheme.tileColor,
             leading: Container(
               width: 100,
               height: 100,

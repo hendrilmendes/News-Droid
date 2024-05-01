@@ -12,6 +12,7 @@ Widget buildShimmerLoadingSearch() {
       itemCount: 10,
       itemBuilder: (context, index) {
         return Card(
+          color: Theme.of(context).cardColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),

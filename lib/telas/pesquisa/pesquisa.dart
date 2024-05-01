@@ -24,14 +24,14 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   List<dynamic> posts = [];
   List<dynamic> filteredPosts = [];
-  String? postId;
   bool searchResultsEmpty = false;
   bool isOnline = true;
   bool isLoading = true;
   Timer? _debounceTimer;
+  int trendIndex = 0;
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
-  int trendIndex = 0;
+
   final List<String> trendWords = [
     'Windows 12',
     'Android 15',
@@ -107,24 +107,6 @@ class _SearchScreenState extends State<SearchScreen> {
       setState(() {
         isLoading = false;
       });
-    }
-  }
-
-  Future<String> getPostId(String postId) async {
-    final response = await http.get(
-      Uri.parse(
-          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      if (data['id'] != null) {
-        return data['id'];
-      } else {
-        throw Exception("Nenhum post encontrado");
-      }
-    } else {
-      throw Exception("Falha ao obter post");
     }
   }
 
@@ -272,13 +254,6 @@ class _SearchScreenState extends State<SearchScreen> {
                       margin: const EdgeInsets.all(10.0),
                       child: InkWell(
                         onTap: () async {
-                          final postId = await getPostId(post['id']);
-                          if (mounted) {
-                            setState(() {
-                              this.postId = postId;
-                            });
-                          }
-
                           Navigator.push(
                             // ignore: use_build_context_synchronously
                             context,
@@ -290,7 +265,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 url: url,
                                 formattedDate: formattedDate,
                                 blogId: blogId,
-                                postId: postId,
+                                postId: post['id'],
                               ),
                             ),
                           );

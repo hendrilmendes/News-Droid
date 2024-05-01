@@ -11,6 +11,7 @@ Widget buildShimmerLoadingComments() {
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.grey[100]!,
           child: ListTile(
+            tileColor: Theme.of(context).listTileTheme.tileColor,
             leading: CircleAvatar(
               backgroundColor: Colors.grey[300],
             ),

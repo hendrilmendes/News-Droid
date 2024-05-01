@@ -31,8 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int _currentPage = 0;
   late Timer timer;
 
-  String? postId;
-
   @override
   void initState() {
     super.initState();
@@ -130,24 +128,6 @@ class _HomeScreenState extends State<HomeScreen> {
     await fetchPosts();
   }
 
-  Future<String> getPostId(String postId) async {
-    final response = await http.get(
-      Uri.parse(
-          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/$postId?key=$apiKey'),
-    );
-
-    if (response.statusCode == 200) {
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      if (data['id'] != null) {
-        return data['id'];
-      } else {
-        throw Exception("Post não encontrado");
-      }
-    } else {
-      throw Exception("Falha ao obter post");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     if (!isOnline) {
@@ -211,11 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: InkWell(
-                    onTap: () async {
-                      final postId = await getPostId(post['id']);
-                      setState(() {
-                        this.postId = postId;
-                      });
+                    onTap: () {
                       Navigator.push(
                         // ignore: use_build_context_synchronously
                         context,
@@ -227,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             url: url,
                             formattedDate: formattedDate,
                             blogId: blogId,
-                            postId: postId,
+                            postId: post['id'],
                           ),
                         ),
                       );
@@ -342,11 +318,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                   child: InkWell(
-                    onTap: () async {
-                      final postId = await getPostId(post['id']);
-                      setState(() {
-                        this.postId = postId;
-                      });
+                    onTap: () {
                       Navigator.push(
                         // ignore: use_build_context_synchronously
                         context,
@@ -358,7 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             url: url,
                             formattedDate: formattedDate,
                             blogId: blogId,
-                            postId: postId,
+                            postId: post['id'],
                           ),
                         ),
                       );
