@@ -1,14 +1,13 @@
 import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorito_adapter.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/tema/tema.dart';
 import 'package:newsdroid/widgets/bottom_navigation.dart';
@@ -47,47 +46,12 @@ main() async {
   // Data da publicacao formatada
   await initializeDateFormatting();
 
+  // OneSignal
+  OneSignal.initialize("93a92029-c592-4c02-b492-d32d3cf6225e");
+  OneSignal.Notifications.requestPermission(true);
+
   // Firebase
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  if (kDebugMode) {
-    print("Permissão concedida ao usuário: ${settings.authorizationStatus}");
-  }
-
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    if (kDebugMode) {
-      print("Recebi uma mensagem enquanto estava em primeiro plano!");
-    }
-    if (kDebugMode) {
-      print("Dados da mensagem: ${message.data}");
-    }
-
-    if (message.notification != null) {
-      if (kDebugMode) {
-        print("A mensagem continha uma notificação: ${message.notification}");
-      }
-    }
-  });
-}
-
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-  if (kDebugMode) {
-    print("Lidando com uma mensagem em segundo plano: ${message.messageId}");
-  }
 }
 
 ThemeMode _getThemeMode(ThemeModeType mode) {
@@ -124,17 +88,15 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, __) {
           return MaterialApp(
-                theme: ThemeModel.lightTheme(context: context),
-                darkTheme: ThemeModel.darkTheme(context: context),
-                themeMode: _getThemeMode(themeModel.themeMode),
-                debugShowCheckedModeBanner: false,
-                localizationsDelegates: AppLocalizations.localizationsDelegates,
-                supportedLocales: AppLocalizations.supportedLocales,
-                home: const BottomNavigationContainer(),
-              );
-            },
-          
-        
+            theme: ThemeModel.lightTheme(context: context),
+            darkTheme: ThemeModel.darkTheme(context: context),
+            themeMode: _getThemeMode(themeModel.themeMode),
+            debugShowCheckedModeBanner: false,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const BottomNavigationContainer(),
+          );
+        },
       ),
     );
   }

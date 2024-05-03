@@ -32,7 +32,6 @@ dependencies:
   firebase_core: ^2.30.1
   firebase_crashlytics: ^3.5.4
   firebase_performance: ^0.9.4+4
-  firebase_messaging: ^14.9.1
 
 # Feedback
   feedback:
@@ -50,6 +49,9 @@ dependencies:
 
 # Intl
   intl: ^0.18.1
+
+# OneSignal
+  onesignal_flutter: ^5.1.6
 
 # Package Info
   package_info_plus: ^7.0.0

@@ -3,12 +3,11 @@ import 'package:feedback/feedback.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:newsdroid/updater/updater.dart';
 import 'package:newsdroid/telas/sobre/sobre.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -25,67 +24,22 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notificationsEnabled = true;
 
-  // Metodo para exibir a versao
   @override
   void initState() {
     super.initState();
-
     _loadPreferences();
-
-    // Ouvinte de alterações de estado para notificações
-    FirebaseMessaging.instance.onTokenRefresh.listen((token) {
-      if (kDebugMode) {
-        print("Token atualizado: $token");
-      }
-    });
-
-    // Ouvinte de notificações
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      if (kDebugMode) {
-        print("Mensagem recebida: ${message.data}");
-      }
-
-      // Se a notificação contém uma ação, execute
-      if (message.data['action'] != null) {
-        Navigator.pushNamed(context, message.data['action']);
-      }
-    });
   }
 
-  // Salvar estado das notificacoes
   Future<void> _loadPreferences() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
     });
-
-    if (_notificationsEnabled) {
-      String? token = await FirebaseMessaging.instance.getToken();
-      if (token != null && kDebugMode) {
-        if (kDebugMode) {
-          print("Token registrado: $token");
-        }
-      }
-    }
   }
 
-  void _notificationPreference(bool value) async {
+  Future<void> _savePreferences(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('notificationsEnabled', value);
-
-    if (value) {
-      String? token = await FirebaseMessaging.instance.getToken();
-      if (token != null && kDebugMode) {
-        if (kDebugMode) {
-          print("Token registrado: $token");
-        }
-      }
-    } else {
-      await FirebaseMessaging.instance.deleteToken();
-      if (kDebugMode) {
-        print("Token não registrado.");
-      }
-    }
+    await prefs.setBool('notificationsEnabled', value);
   }
 
   Future<String> writeImageToStorage(Uint8List feedbackScreenshot) async {
@@ -94,6 +48,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final File screenshotFile = File(screenshotFilePath);
     await screenshotFile.writeAsBytes(feedbackScreenshot);
     return screenshotFilePath;
+  }
+
+  Future<void> _toggleNotifications(bool value) async {
+    setState(() {
+      _notificationsEnabled = value;
+    });
+    await _savePreferences(value);
+    if (value) {
+      OneSignal.User.pushSubscription.optIn();
+    } else {
+      OneSignal.User.pushSubscription.optOut();
+    }
   }
 
   @override
@@ -162,12 +128,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         trailing: Switch(
           activeColor: Colors.blue,
           value: _notificationsEnabled,
-          onChanged: (value) {
-            setState(() {
-              _notificationsEnabled = value;
-            });
-            _notificationPreference(value);
-          },
+          onChanged: (value) => _toggleNotifications(value),
         ),
       ),
     );

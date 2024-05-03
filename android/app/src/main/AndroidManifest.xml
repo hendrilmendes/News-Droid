@@ -13,7 +13,7 @@
         <action android:name="android.intent.action.VIEW" />
         <data android:scheme="https" />
         </intent>
-         <intent>
+        <intent>
         <action android:name="android.intent.action.SENDTO" />
         <data android:scheme="mailto" />
         </intent>
@@ -25,15 +25,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="31">
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/ic_notification"/>
-
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="default_channel_id"/>   
+        tools:targetApi="31"> 
 
         <activity
             android:name=".MainActivity"
