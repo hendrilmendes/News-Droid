@@ -26,7 +26,8 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 ### Recursos:
 
 * App feito em Flutter, disponível para iOS e Android
-* Firebase para monitorar o desempenho, erros do app e envio de notificações
+* Firebase para monitorar o desempenho, erros do app
+* Onesignal para envio de notificações
 * Favoritar Postagens
 * Comentar em Posts
 * Modo Escuro
