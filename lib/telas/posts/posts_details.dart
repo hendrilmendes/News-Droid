@@ -81,10 +81,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
     if (_isFavorite) {
       favoritePostsModel.removeFavorite(widget.postId);
-      _showToast("Removido dos Favoritos");
+      _showToast(AppLocalizations.of(context)!.removedFavorite);
     } else {
       favoritePostsModel.addFavorite(post);
-      _showToast("Adicionado aos Favoritos");
+      _showToast(AppLocalizations.of(context)!.addFavorite);
     }
 
     setState(() {

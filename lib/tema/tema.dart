@@ -65,8 +65,9 @@ class ThemeModel extends ChangeNotifier {
       ),
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
       iconTheme: const IconThemeData(color: Colors.black),
-      bottomNavigationBarTheme:
-          const BottomNavigationBarThemeData(backgroundColor: Colors.white),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        backgroundColor: Colors.white,
+      ),
       cardTheme: const CardTheme(
         color: Colors.white,
       ),
@@ -86,6 +87,11 @@ class ThemeModel extends ChangeNotifier {
         selectedLabelTextStyle: TextStyle(color: Colors.black),
         unselectedLabelTextStyle: TextStyle(color: Colors.black),
       ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+        ),
+      ),
     );
   }
 
@@ -103,7 +109,7 @@ class ThemeModel extends ChangeNotifier {
         titleTextStyle: TextStyle(
             color: Colors.white, fontFamily: 'OpenSans', fontSize: 24),
       ),
-      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black87),
+      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
       iconTheme: const IconThemeData(color: Colors.white),
       bottomNavigationBarTheme:
           const BottomNavigationBarThemeData(backgroundColor: Colors.black),
@@ -126,6 +132,11 @@ class ThemeModel extends ChangeNotifier {
         indicatorColor: Colors.white,
         selectedLabelTextStyle: TextStyle(color: Colors.white),
         unselectedLabelTextStyle: TextStyle(color: Colors.white),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+        ),
       ),
     );
   }

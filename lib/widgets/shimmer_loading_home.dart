@@ -35,13 +35,43 @@ Widget buildShimmerLoadingHome() {
                 ),
               ),
               const SizedBox(height: 8),
-              SizedBox(
-                height: 12,
-                width: 100,
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Container(color: Colors.white),
+              Card(
+                clipBehavior: Clip.hardEdge,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                child: ListTile(
+                  contentPadding: const EdgeInsets.all(16.0),
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Shimmer.fromColors(
+                        baseColor: Colors.grey[300]!,
+                        highlightColor: Colors.grey[100]!,
+                        child: Container(color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  title: SizedBox(
+                    height: 12,
+                    width: 150,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(color: Colors.white),
+                    ),
+                  ),
+                  subtitle: SizedBox(
+                    height: 12,
+                    width: 200,
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey[300]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(color: Colors.white),
+                    ),
+                  ),
                 ),
               ),
             ],

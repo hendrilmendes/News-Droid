@@ -26,7 +26,7 @@
     "refresh": "Recarregar",
     "noResult": "Nenhum resultado encontrado 😱",
     "about": "Sobre",
-    "copyright": "Todos os direitos reservados.",
+    "copyright": "Todos os direitos reservados",
     "appDesc": "Um projeto amador para um app de notícias",
     "version": "Versão",
     "privacy": "Política de Privacidade",
@@ -58,5 +58,7 @@
     "after": "DEPOIS",
     "download": "BAIXAR",
     "noUpdate": "Nenhuma atualização disponível",
-    "noUpdateSub": "Tudo em dias parceiro 🤠"
+    "noUpdateSub": "Tudo em dias parceiro 🤠",
+    "removedFavorite": "Removido dos Favoritos",
+    "addFavorite": "Adicionado aos Favoritos"
 }

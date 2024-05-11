@@ -30,7 +30,7 @@ class FavoritesScreen extends StatelessWidget {
                   },
                   child: Text(appLocalizations.cancel),
                 ),
-                FilledButton.tonal(
+                FilledButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },

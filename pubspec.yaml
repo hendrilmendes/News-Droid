@@ -29,9 +29,9 @@ dependencies:
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_core: ^2.30.1
-  firebase_crashlytics: ^3.5.4
-  firebase_performance: ^0.9.4+4
+  firebase_core: ^2.31.0
+  firebase_crashlytics: ^3.5.5
+  firebase_performance: ^0.9.4+5
 
 # Feedback
   feedback:
@@ -81,7 +81,7 @@ dependencies:
   url_launcher: ^6.2.6
 
 # Widget HTML
-  flutter_widget_from_html: ^0.14.11
+  flutter_widget_from_html: ^0.15.0
 
   flutter_localizations:
     sdk: flutter
@@ -90,7 +90,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.2
+  flutter_lints: ^4.0.0
 
 flutter:
   generate: true

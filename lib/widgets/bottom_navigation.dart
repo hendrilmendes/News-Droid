@@ -44,6 +44,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                 NavigationRail(
                   groupAlignment: 0.0,
                   selectedIndex: currentIndex,
+                  indicatorColor: Colors.blue,
                   onDestinationSelected: onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: [
@@ -80,7 +81,9 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
                   indicatorColor: Colors.blue,
-                  backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                  backgroundColor: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .backgroundColor,
                   labelTextStyle: MaterialStateProperty.all(
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),

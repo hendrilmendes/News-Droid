@@ -129,7 +129,7 @@ class _CommentScreenState extends State<CommentScreen> {
             title: Text(appLocalizations.errorComments),
             content: Text(appLocalizations.errorCommentsSub),
             actions: <Widget>[
-              FilledButton.tonal(
+              FilledButton(
                 child: Text(appLocalizations.ok),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -173,32 +173,38 @@ class _CommentScreenState extends State<CommentScreen> {
                         itemCount: comments.length,
                         itemBuilder: (context, index) {
                           final comment = comments[index];
-                          return ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(comment.authorAvatar),
+                          return Card(
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
                             ),
-                            title: Text(comment.authorName),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(comment.content),
-                                Row(
-                                  children: [
-                                    const Icon(Icons.calendar_today_outlined,
-                                        size: 12, color: Colors.grey),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      DateFormat('dd/MM/yyyy - HH:mm')
-                                          .format(comment.postDate.toLocal()),
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage:
+                                    NetworkImage(comment.authorAvatar),
+                              ),
+                              title: Text(comment.authorName),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(comment.content),
+                                  Row(
+                                    children: [
+                                      const Icon(Icons.calendar_today_outlined,
+                                          size: 12, color: Colors.grey),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        DateFormat('dd/MM/yyyy - HH:mm')
+                                            .format(comment.postDate.toLocal()),
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },

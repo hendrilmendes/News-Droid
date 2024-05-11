@@ -59,7 +59,7 @@ class Updater {
                   onPressed: () => Navigator.pop(context),
                   child: Text(localizations?.after ?? ''),
                 ),
-                FilledButton.tonal(
+                FilledButton(
                   onPressed: () {
                     if (Platform.isAndroid) {
                       // Android
@@ -96,7 +96,7 @@ class Updater {
                   style: const TextStyle(fontSize: 16.0),
                 ),
                 actions: <Widget>[
-                  FilledButton.tonal(
+                  FilledButton(
                     onPressed: () => Navigator.pop(context),
                     child: Text(localizations.ok),
                   ),
