@@ -89,7 +89,7 @@ class ThemeModel extends ChangeNotifier {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
         ),
       ),
     );
@@ -135,7 +135,7 @@ class ThemeModel extends ChangeNotifier {
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
         ),
       ),
     );

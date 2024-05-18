@@ -1,7 +1,7 @@
 Changelog News-Droid
 
 ======================================================
-#### 3.0.2 - **/**/2024
+#### 3.0.2 - 20/05/2024
 Novo:
 - Migração do Firebase Messaging para OneSignal
 
