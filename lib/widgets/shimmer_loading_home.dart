@@ -25,16 +25,6 @@ Widget buildShimmerLoadingHome() {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 20,
-                width: double.infinity,
-                child: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Container(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 8),
               Card(
                 clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(

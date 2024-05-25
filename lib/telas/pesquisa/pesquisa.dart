@@ -85,7 +85,7 @@ class _SearchScreenState extends State<SearchScreen> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey'),
+            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100'),
       );
 
       if (response.statusCode == 200) {
