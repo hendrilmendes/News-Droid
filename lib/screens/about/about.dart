@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -86,7 +87,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: Text(AppLocalizations.of(context)!.version),
                       subtitle: Text('v$appVersion Build: ($appBuild)'),
-                      leading: const Icon(Icons.whatshot_outlined),
+                      leading: const Icon(Iconsax.mobile_programming),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -105,7 +106,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: Text(AppLocalizations.of(context)!.privacy),
                       subtitle: Text(AppLocalizations.of(context)!.privacySub),
-                      leading: const Icon(Icons.privacy_tip_outlined),
+                      leading: const Icon(Iconsax.shield_tick),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -125,7 +126,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: Text(AppLocalizations.of(context)!.sourceCode),
                       subtitle:
                           Text(AppLocalizations.of(context)!.sourceCodeSub),
-                      leading: const Icon(Icons.code_outlined),
+                      leading: const Icon(Iconsax.code),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -145,7 +146,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: Text(AppLocalizations.of(context)!.openSource),
                       subtitle:
                           Text(AppLocalizations.of(context)!.openSourceSub),
-                      leading: const Icon(Icons.flutter_dash_outlined),
+                      leading: const Icon(Iconsax.folder_open),
                       onTap: () {
                         Navigator.push(
                           context,

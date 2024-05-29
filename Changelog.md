@@ -4,7 +4,8 @@ Changelog News-Droid
 #### 3.0.4 - */**/2024
 
 Correções/Melhorias:
-- 
+- Ajustes na interface
+- Melhorias no código
 
 ======================================================
 #### 3.0.2 - 20/05/2024

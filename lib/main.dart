@@ -6,12 +6,12 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:newsdroid/adapter/favorito_adapter.dart';
+import 'package:newsdroid/adapter/favorite_adapter.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:newsdroid/tema/tema.dart';
+import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/widgets/bottom_navigation.dart';
-import 'package:newsdroid/models/favorito_model.dart';
+import 'package:newsdroid/models/favorite_model.dart';
 import 'firebase_options.dart';
 
 main() async {

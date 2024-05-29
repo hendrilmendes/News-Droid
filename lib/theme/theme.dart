@@ -66,8 +66,7 @@ class ThemeModel extends ChangeNotifier {
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
       iconTheme: const IconThemeData(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Colors.white,
-      ),
+          backgroundColor: Colors.white, selectedItemColor: Colors.blue),
       cardTheme: const CardTheme(
         color: Colors.white,
       ),
@@ -92,6 +91,8 @@ class ThemeModel extends ChangeNotifier {
           backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
         ),
       ),
+      floatingActionButtonTheme:
+          const FloatingActionButtonThemeData(backgroundColor: Colors.white),
     );
   }
 
@@ -106,13 +107,14 @@ class ThemeModel extends ChangeNotifier {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black87,
         iconTheme: IconThemeData(color: Colors.white),
+        centerTitle: true,
         titleTextStyle: TextStyle(
             color: Colors.white, fontFamily: 'OpenSans', fontSize: 24),
       ),
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
       iconTheme: const IconThemeData(color: Colors.white),
-      bottomNavigationBarTheme:
-          const BottomNavigationBarThemeData(backgroundColor: Colors.black),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.black, selectedItemColor: Colors.blue),
       cardTheme: const CardTheme(
         color: Colors.black87,
       ),
@@ -138,6 +140,8 @@ class ThemeModel extends ChangeNotifier {
           backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
         ),
       ),
+      floatingActionButtonTheme:
+          const FloatingActionButtonThemeData(backgroundColor: Colors.blue),
     );
   }
 }

@@ -29,9 +29,9 @@ dependencies:
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_core: ^2.31.1
-  firebase_crashlytics: ^3.5.6
-  firebase_performance: ^0.9.4+6
+  firebase_core: ^2.32.0
+  firebase_crashlytics: ^3.5.7
+  firebase_performance: ^0.9.4+7
 
 # Feedback
   feedback:
@@ -47,6 +47,9 @@ dependencies:
 # HTTP
   http: ^1.2.1
 
+# Iconsax
+  iconsax: ^0.0.8
+  
 # Intl
   intl: ^0.19.0
 

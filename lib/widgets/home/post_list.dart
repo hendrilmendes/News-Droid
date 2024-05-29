@@ -1,178 +1,58 @@
-import 'dart:convert';
-import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:newsdroid/telas/erro/erro.dart';
-import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/api/api.dart';
-import 'package:newsdroid/widgets/shimmer_loading_home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/screens/posts/posts_details.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class PostListWidget extends StatefulWidget {
+  final List<dynamic> filteredPosts;
+  final int currentPage;
+  final PageController pageController;
+  final ValueChanged<int> onPageChanged;
+  final Future<void> Function() onRefresh;
+  final String Function(String) formatDate;
+
+  const PostListWidget({
+    super.key,
+    required this.filteredPosts,
+    required this.currentPage,
+    required this.pageController,
+    required this.onPageChanged,
+    required this.onRefresh,
+    required this.formatDate,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
-  _HomeScreenState createState() => _HomeScreenState();
+  _PostListWidgetState createState() => _PostListWidgetState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  List<dynamic> posts = [];
-  List<dynamic> filteredPosts = [];
-
-  bool isOnline = true;
-  bool isLoading = false;
-  PageController _pageController = PageController();
-  int _currentPage = 0;
-  late Timer timer;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchPosts();
-    checkConnectivity();
-    _pageController = PageController(initialPage: 0);
-    timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
-      }
-      _pageController.animateToPage(
-        _currentPage,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.easeInOut,
-      );
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    timer.cancel();
-    super.dispose();
-  }
-
-  // GET API
-  Future<void> fetchPosts() async {
-    setState(() {
-      isLoading = true;
-    });
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final cachedData = prefs.getString('cachedPosts');
-    if (cachedData != null) {
-      final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
-      final DateTime lastCachedTime =
-          DateTime.parse(prefs.getString('cachedTime') ?? '');
-      final DateTime currentTime = DateTime.now();
-      final difference = currentTime.difference(lastCachedTime).inMinutes;
-      if (difference < 30) {
-        setState(() {
-          posts = cachedPosts['items'];
-          filteredPosts = posts;
-          isLoading = false;
-        });
-        return;
-      }
-    }
-    try {
-      final response = await http.get(
-        Uri.parse(
-            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100'),
-      );
-
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        prefs.setString('cachedPosts', response.body);
-        prefs.setString(
-          'cachedTime',
-          DateTime.now().toString(),
-        );
-        setState(() {
-          posts = data['items'];
-          filteredPosts = posts;
-          isLoading = false;
-        });
-      } else {
-        throw Exception("Falha ao buscar postagens");
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  String formatDate(String originalDate) {
-    try {
-      final parsedDate = DateTime.parse(originalDate).toLocal();
-      return DateFormat('dd/MM/yyyy - HH:mm').format(parsedDate);
-    } catch (e) {
-      return "Data inválida";
-    }
-  }
-
-  Future<void> checkConnectivity() async {
-    final connectivityResult = await (Connectivity().checkConnectivity());
-    setState(() {
-      isOnline = !connectivityResult.contains(ConnectivityResult.none);
-    });
-  }
-
-  Future<void> _refreshPosts() async {
-    await fetchPosts();
-  }
-
+class _PostListWidgetState extends State<PostListWidget> {
   @override
   Widget build(BuildContext context) {
-    if (!isOnline) {
-      return ErrorScreen(
-        onReload: () {
-          setState(() {
-            isOnline = true;
-          });
-          _refreshPosts();
-        },
-      );
-    }
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appName),
-      ),
-      body: isLoading ? buildShimmerLoadingHome() : _buildPostList(),
-    );
-  }
-
-  Widget _buildPostList() {
     final bool isTablet = MediaQuery.of(context).size.shortestSide >= 600;
+
     return RefreshIndicator(
       color: Colors.blue,
-      onRefresh: _refreshPosts,
+      onRefresh: widget.onRefresh,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: isTablet ? 300 : 200,
             child: PageView.builder(
-              controller: _pageController,
-              itemCount: filteredPosts.length >= 3 ? 3 : filteredPosts.length,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
+              controller: widget.pageController,
+              itemCount: widget.filteredPosts.length >= 3
+                  ? 3
+                  : widget.filteredPosts.length,
+              onPageChanged: widget.onPageChanged,
               itemBuilder: (context, index) {
-                final post = filteredPosts[index];
+                final post = widget.filteredPosts[index];
                 final title = post['title'];
                 final url = post['url'];
                 final publishedDate = post['published'];
-                final formattedDate = formatDate(publishedDate);
+                final formattedDate = widget.formatDate(publishedDate);
 
                 var imageUrl = post['images']?.isNotEmpty == true
                     ? post['images']![0]['url']
@@ -193,7 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
-                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) => PostDetailsScreen(
@@ -202,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             content: post['content'],
                             url: url,
                             formattedDate: formattedDate,
-                            blogId: blogId,
+                            blogId: post['blog']['id'],
                             postId: post['id'],
                           ),
                         ),
@@ -266,7 +145,9 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List<Widget>.generate(
-                filteredPosts.length >= 3 ? 3 : filteredPosts.length,
+                widget.filteredPosts.length >= 3
+                    ? 3
+                    : widget.filteredPosts.length,
                 (int index) {
                   return Container(
                     width: 8.0,
@@ -274,7 +155,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 4.0),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: _currentPage == index ? Colors.blue : Colors.grey,
+                      color: widget.currentPage == index
+                          ? Colors.blue
+                          : Colors.grey,
                     ),
                   );
                 },
@@ -290,15 +173,16 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount:
-                  filteredPosts.length >= 3 ? filteredPosts.length - 3 : 0,
+              itemCount: widget.filteredPosts.length >= 3
+                  ? widget.filteredPosts.length - 3
+                  : 0,
               itemBuilder: (context, index) {
                 final postIndex = index + 3;
-                final post = filteredPosts[postIndex];
+                final post = widget.filteredPosts[postIndex];
                 final title = post['title'];
                 final url = post['url'];
                 final publishedDate = post['published'];
-                final formattedDate = formatDate(publishedDate);
+                final formattedDate = widget.formatDate(publishedDate);
 
                 var imageUrl = post['images']?.isNotEmpty == true
                     ? post['images']![0]['url']
@@ -320,7 +204,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: InkWell(
                     onTap: () {
                       Navigator.push(
-                        // ignore: use_build_context_synchronously
                         context,
                         MaterialPageRoute(
                           builder: (context) => PostDetailsScreen(
@@ -329,7 +212,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             content: post['content'],
                             url: url,
                             formattedDate: formattedDate,
-                            blogId: blogId,
+                            blogId: post['blog']['id'],
                             postId: post['id'],
                           ),
                         ),
@@ -382,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Row(
                                   children: [
                                     const Icon(
-                                      Icons.calendar_today_outlined,
+                                      Iconsax.calendar,
                                       size: 12,
                                       color: Colors.grey,
                                     ),

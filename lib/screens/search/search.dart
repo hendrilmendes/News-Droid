@@ -3,13 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/api/api.dart';
-import 'package:newsdroid/telas/erro/erro.dart';
-import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/widgets/shimmer_loading_pesquisa.dart';
+import 'package:newsdroid/screens/error/error.dart';
+import 'package:newsdroid/screens/posts/posts_details.dart';
+import 'package:newsdroid/widgets/loading/shimmer_pesquisa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -184,13 +185,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     prefixIcon:
-                        const Icon(Icons.search_outlined, color: Colors.blue),
+                        const Icon(Iconsax.search_normal, color: Colors.blue),
                     border: InputBorder.none,
                     hintText:
                         '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
                     suffixIcon: searchQuery.value.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(Icons.clear_outlined),
+                            icon: const Icon(Iconsax.close_circle),
                             onPressed: () {
                               _searchController.clear();
                               searchQuery.value = '';
@@ -315,7 +316,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const Icon(Icons.calendar_today_outlined,
+                                      const Icon(Iconsax.calendar,
                                           size: 12, color: Colors.grey),
                                       const SizedBox(width: 4),
                                       Text(

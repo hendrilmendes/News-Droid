@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:newsdroid/models/favorito_model.dart';
-import 'package:newsdroid/telas/posts/posts_details.dart';
-import 'package:newsdroid/widgets/shimmer_loading_fav.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:newsdroid/models/favorite_model.dart';
+import 'package:newsdroid/screens/posts/posts_details.dart';
+import 'package:newsdroid/widgets/loading/shimmer_fav.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -84,7 +85,7 @@ class FavoritesScreen extends StatelessWidget {
                         background: Container(
                           color: Colors.red,
                           alignment: Alignment.centerLeft,
-                          child: const Icon(Icons.delete_outline,
+                          child: const Icon(Iconsax.trash,
                               color: Colors.white),
                         ),
                         secondaryBackground: Container(
@@ -92,7 +93,7 @@ class FavoritesScreen extends StatelessWidget {
                           child: const Align(
                             alignment: Alignment.centerRight,
                             child:
-                                Icon(Icons.delete_outline, color: Colors.white),
+                                Icon(Iconsax.trash, color: Colors.white),
                           ),
                         ),
                         child: Card(
@@ -140,7 +141,7 @@ class FavoritesScreen extends StatelessWidget {
                               ),
                               subtitle: Row(
                                 children: [
-                                  const Icon(Icons.calendar_today_outlined,
+                                  const Icon(Iconsax.calendar,
                                       size: 12, color: Colors.grey),
                                   const SizedBox(width: 4),
                                   Text(
@@ -160,10 +161,9 @@ class FavoritesScreen extends StatelessWidget {
                   },
                 ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
         tooltip: AppLocalizations.of(context)!.deleteFavorites,
         onPressed: deleteAllFavorites,
-        child: const Icon(Icons.delete_outline),
+        child: const Icon(Iconsax.trash),
       ),
     );
   }

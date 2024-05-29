@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:newsdroid/models/favorito_model.dart';
-import 'package:newsdroid/telas/comentarios/comentarios.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:newsdroid/models/favorite_model.dart';
+import 'package:newsdroid/screens/comments/comments.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -125,8 +126,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.calendar_today_outlined,
-                      size: 12, color: Colors.grey),
+                  const Icon(Iconsax.calendar, size: 12, color: Colors.grey),
                   const SizedBox(width: 4),
                   Text(
                     widget.formattedDate,
@@ -154,12 +154,11 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       // Botão flutuante na parte inferior
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
         onPressed: () {
           _toggleFavorite(context);
         },
         child: Icon(
-          _isFavorite ? Icons.favorite : Icons.favorite_border,
+          _isFavorite ? Iconsax.heart5 : Iconsax.heart,
           color: _isFavorite ? Colors.red : null,
         ),
       ),
@@ -172,22 +171,22 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           children: [
             IconButton(
               tooltip: AppLocalizations.of(context)!.decrementText,
-              icon: const Icon(Icons.text_decrease_outlined),
+              icon: const Icon(Iconsax.arrow_down_2),
               onPressed: _decrementFontSize,
             ),
             IconButton(
               tooltip: AppLocalizations.of(context)!.incrementText,
-              icon: const Icon(Icons.text_increase_outlined),
+              icon: const Icon(Iconsax.arrow_up_1),
               onPressed: _incrementFontSize,
             ),
             IconButton(
               tooltip: AppLocalizations.of(context)!.shared,
-              icon: const Icon(Icons.share_outlined),
+              icon: const Icon(Iconsax.share),
               onPressed: () => sharePost(widget.url),
             ),
             IconButton(
               tooltip: AppLocalizations.of(context)!.comments,
-              icon: const Icon(Icons.comment_outlined),
+              icon: const Icon(Iconsax.message),
               onPressed: () {
                 showModalBottomSheet(
                   context: context,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:newsdroid/telas/config/config.dart';
-import 'package:newsdroid/telas/favoritos/favoritos.dart';
-import 'package:newsdroid/telas/home/home.dart';
-import 'package:newsdroid/telas/pesquisa/pesquisa.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:newsdroid/screens/favorites/favorites.dart';
+import 'package:newsdroid/screens/home/home.dart';
+import 'package:newsdroid/screens/search/search.dart';
+import 'package:newsdroid/screens/settings/settings.dart';
 
 class BottomNavigationContainer extends StatefulWidget {
   const BottomNavigationContainer({super.key});
@@ -49,23 +50,20 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelType: NavigationRailLabelType.all,
                   destinations: [
                     NavigationRailDestination(
-                      icon: const Icon(Icons.home),
-                      selectedIcon: const Icon(Icons.home_outlined),
+                      icon: const Icon(Iconsax.home),
                       label: Text(AppLocalizations.of(context)!.home),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.search),
-                      selectedIcon: const Icon(Icons.search_outlined),
+                      icon: const Icon(Iconsax.search_normal),
                       label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.favorite),
+                      icon: const Icon(Iconsax.favorite_chart),
                       selectedIcon: const Icon(Icons.favorite_outline),
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.settings),
-                      selectedIcon: const Icon(Icons.settings_outlined),
+                      icon: const Icon(Iconsax.setting),
                       label: Text(AppLocalizations.of(context)!.settings),
                     ),
                   ],
@@ -80,7 +78,8 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
-                  indicatorColor: Colors.blue,
+                  indicatorColor: Theme.of(context)
+                      .bottomNavigationBarTheme.selectedItemColor,
                   backgroundColor: Theme.of(context)
                       .bottomNavigationBarTheme
                       .backgroundColor,
@@ -94,23 +93,19 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                   destinations: [
                     NavigationDestination(
-                      icon: const Icon(Icons.home),
-                      selectedIcon: const Icon(Icons.home_outlined),
+                      icon: const Icon(Iconsax.home),
                       label: AppLocalizations.of(context)!.home,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.search),
-                      selectedIcon: const Icon(Icons.search_outlined),
+                      icon: const Icon(Iconsax.search_normal),
                       label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.favorite),
-                      selectedIcon: const Icon(Icons.favorite_outline),
+                      icon: const Icon(Iconsax.favorite_chart),
                       label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.settings),
-                      selectedIcon: const Icon(Icons.settings_outlined),
+                      icon: const Icon(Iconsax.setting),
                       label: AppLocalizations.of(context)!.settings,
                     ),
                   ],

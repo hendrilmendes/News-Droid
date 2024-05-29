@@ -4,10 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/auth/auth.dart';
-import 'package:newsdroid/widgets/shimmer_loading_comentarios.dart';
+import 'package:newsdroid/widgets/loading/shimmer_comentarios.dart';
 
 class CommentScreen extends StatefulWidget {
   final String postId;
@@ -190,7 +191,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                   Text(comment.content),
                                   Row(
                                     children: [
-                                      const Icon(Icons.calendar_today_outlined,
+                                      const Icon(Iconsax.calendar,
                                           size: 12, color: Colors.grey),
                                       const SizedBox(width: 4),
                                       Text(
@@ -230,7 +231,7 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                   IconButton(
                     color: Colors.blue,
-                    icon: const Icon(Icons.send_outlined),
+                    icon: const Icon(Iconsax.send1),
                     onPressed: () async {
                       final commentText = commentController.text;
                       final authorName = AppLocalizations.of(context)!.human;

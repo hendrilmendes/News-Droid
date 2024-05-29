@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:newsdroid/models/favorito_model.dart';
+import 'package:newsdroid/models/favorite_model.dart';
 
 class FavoritePostAdapter extends TypeAdapter<FavoritePost> {
   @override
