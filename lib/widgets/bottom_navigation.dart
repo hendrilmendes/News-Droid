@@ -59,7 +59,6 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                     ),
                     NavigationRailDestination(
                       icon: const Icon(Iconsax.favorite_chart),
-                      selectedIcon: const Icon(Icons.favorite_outline),
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
