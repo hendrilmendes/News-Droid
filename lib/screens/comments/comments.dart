@@ -8,7 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/auth/auth.dart';
-import 'package:newsdroid/widgets/loading/shimmer_comentarios.dart';
+import 'package:newsdroid/widgets/loading/shimmer_comments.dart';
 
 class CommentScreen extends StatefulWidget {
   final String postId;

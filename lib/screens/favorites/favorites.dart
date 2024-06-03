@@ -85,15 +85,13 @@ class FavoritesScreen extends StatelessWidget {
                         background: Container(
                           color: Colors.red,
                           alignment: Alignment.centerLeft,
-                          child: const Icon(Iconsax.trash,
-                              color: Colors.white),
+                          child: const Icon(Iconsax.trash, color: Colors.white),
                         ),
                         secondaryBackground: Container(
                           color: Colors.red,
                           child: const Align(
                             alignment: Alignment.centerRight,
-                            child:
-                                Icon(Iconsax.trash, color: Colors.white),
+                            child: Icon(Iconsax.trash, color: Colors.white),
                           ),
                         ),
                         child: Card(

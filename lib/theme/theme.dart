@@ -58,7 +58,7 @@ class ThemeModel extends ChangeNotifier {
       scaffoldBackgroundColor: Colors.white,
       textTheme: Typography().black.apply(fontFamily: 'OpenSans'),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70,
         iconTheme: IconThemeData(color: Colors.black),
         titleTextStyle: TextStyle(
             color: Colors.black, fontFamily: 'OpenSans', fontSize: 24),
@@ -107,7 +107,6 @@ class ThemeModel extends ChangeNotifier {
       appBarTheme: const AppBarTheme(
         backgroundColor: Colors.black87,
         iconTheme: IconThemeData(color: Colors.white),
-        centerTitle: true,
         titleTextStyle: TextStyle(
             color: Colors.white, fontFamily: 'OpenSans', fontSize: 24),
       ),

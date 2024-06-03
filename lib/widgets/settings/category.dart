@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget buildCategoryHeader(String title, IconData icon) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(2.0),
     child: InkWell(
       child: Container(
         padding: const EdgeInsets.all(8.0),

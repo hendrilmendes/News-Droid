@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorite_adapter.dart';
+import 'package:newsdroid/widgets/permissions/permissions.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/theme/theme.dart';
@@ -48,7 +49,8 @@ main() async {
 
   // OneSignal
   OneSignal.initialize("93a92029-c592-4c02-b492-d32d3cf6225e");
-  OneSignal.Notifications.requestPermission(true);
+
+  await requestPermissions();
 
   // Firebase
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;

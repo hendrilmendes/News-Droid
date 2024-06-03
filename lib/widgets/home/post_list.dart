@@ -133,6 +133,25 @@ class _PostListWidgetState extends State<PostListWidget> {
                             ),
                           ),
                         ),
+                        // selo de destaque
+                        Positioned(
+                          top: 10,
+                          left: 10,
+                          child: Container(
+                            padding: const EdgeInsets.all(4.0),
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context)!.top,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

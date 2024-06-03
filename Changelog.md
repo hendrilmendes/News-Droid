@@ -1,10 +1,15 @@
 Changelog News-Droid
 
 ======================================================
-#### 3.0.4 - */**/2024
+#### 3.1.0 - Em Desenvolvimento
+
+Novo:
+- Agora o app possui um leitor de texto para as postagens
 
 Correções/Melhorias:
-- Ajustes na interface
+- A tela de detalhes dos posts recebeu um novo design
+- Favoritos foi alterado para Salvos
+- Refinamentos na interface
 - Melhorias no código
 
 ======================================================

@@ -28,8 +28,9 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 * App feito em Flutter, disponível para iOS e Android
 * Firebase para monitorar o desempenho, erros do app
 * Onesignal para envio de notificações
-* Favoritar Postagens
+* Salvar Postagens
 * Comentar em Posts
+* Leitor de Texto
 * Modo Escuro
 * API Blogger v3
 ##

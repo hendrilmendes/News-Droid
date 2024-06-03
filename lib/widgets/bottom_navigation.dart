@@ -58,7 +58,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                       label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Iconsax.favorite_chart),
+                      icon: const Icon(Iconsax.star),
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
@@ -100,7 +100,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                       label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Iconsax.favorite_chart),
+                      icon: const Icon(Iconsax.star),
                       label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
