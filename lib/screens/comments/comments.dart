@@ -3,6 +3,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
@@ -69,11 +70,13 @@ class _CommentScreenState extends State<CommentScreen> {
     String commentDate,
     String postId,
   ) async {
-    final oAuth2Helper = OAuth2Helper();
-    final authorizationCode = await oAuth2Helper.getAuthorizationCode();
+    final authService = AuthService();
+    final googleSignInAccount = await authService.googleSignInAccount;
 
-    if (authorizationCode != null) {
-      final accessToken = await oAuth2Helper.getAccessToken(authorizationCode);
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleAuth =
+          await googleSignInAccount.authentication;
+      final accessToken = googleAuth.accessToken;
 
       final commentId = _generateUniqueId();
       final commentData = '''
@@ -110,13 +113,19 @@ class _CommentScreenState extends State<CommentScreen> {
         });
       } else {
         if (kDebugMode) {
-          print("Erro ao adicionar comentário.");
+          print(
+              "Erro ao adicionar comentário. Código de status: ${response.statusCode}");
         }
         if (kDebugMode) {
           print("Response body: ${response.body}");
         }
         _showErrorDialog();
       }
+    } else {
+      if (kDebugMode) {
+        print("Usuário não está autenticado.");
+      }
+      _showErrorDialog();
     }
   }
 
@@ -234,18 +243,33 @@ class _CommentScreenState extends State<CommentScreen> {
                     icon: const Icon(Iconsax.send1),
                     onPressed: () async {
                       final commentText = commentController.text;
-                      final authorName = AppLocalizations.of(context)!.human;
-                      const authorAvatar =
-                          'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                      final commentDate = DateTime.now().toString();
-                      final postId = widget.postId;
-                      addComment(
-                        commentText,
-                        authorName,
-                        authorAvatar,
-                        commentDate,
-                        postId,
-                      );
+                      final authService = AuthService();
+                      final user = await authService.currentUser();
+
+                      if (user != null) {
+                        if (kDebugMode) {
+                          print("Usuário autenticado: ${user.displayName}");
+                        }
+                        final authorName = user.displayName ??
+                            // ignore: use_build_context_synchronously
+                            AppLocalizations.of(context)!.human;
+                        final authorAvatar = user.photoURL ??
+                            'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                        final commentDate = DateTime.now().toString();
+                        final postId = widget.postId;
+                        await addComment(
+                          commentText,
+                          authorName,
+                          authorAvatar,
+                          commentDate,
+                          postId,
+                        );
+                      } else {
+                        if (kDebugMode) {
+                          print("Nenhum usuário autenticado encontrado.");
+                        }
+                        await _showErrorDialog();
+                      }
                     },
                   ),
                 ],

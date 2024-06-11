@@ -62,5 +62,8 @@
     "removedFavorite": "Postagem Removida",
     "addFavorite": "Postagem Salva",
     "top": "Destaque",
-    "readLoud": "Ler em voz alta"
+    "readLoud": "Ler em voz alta",
+    "homeLogin": "Faça login para ter uma experiência completa",
+    "googleLogin": "Login com o Google",
+    "desconect": "Desconectar"
 }

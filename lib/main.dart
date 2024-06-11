@@ -1,4 +1,5 @@
 import 'package:feedback/feedback.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -7,16 +8,22 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorite_adapter.dart';
+import 'package:newsdroid/auth/auth.dart';
+import 'package:newsdroid/screens/login/login.dart';
+import 'package:newsdroid/widgets/bottom_navigation.dart';
 import 'package:newsdroid/widgets/permissions/permissions.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/theme/theme.dart';
-import 'package:newsdroid/widgets/bottom_navigation.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'firebase_options.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     BetterFeedback(
@@ -31,10 +38,6 @@ main() async {
       localeOverride: const Locale('pt'),
       child: const MyApp(),
     ),
-  );
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
   );
 
   // Favoritos
@@ -76,6 +79,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final AuthService authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -90,14 +95,35 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, __) {
           return MaterialApp(
-            theme: ThemeModel.lightTheme(context: context),
-            darkTheme: ThemeModel.darkTheme(context: context),
-            themeMode: _getThemeMode(themeModel.themeMode),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: const BottomNavigationContainer(),
-          );
+              theme: ThemeModel.lightTheme(context: context),
+              darkTheme: ThemeModel.darkTheme(context: context),
+              themeMode: _getThemeMode(themeModel.themeMode),
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: FutureBuilder(
+                future: authService.currentUser(),
+                builder: (context, AsyncSnapshot<User?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    if (snapshot.hasData) {
+                      return const BottomNavigationContainer();
+                    } else {
+                      return LoginScreen(
+                        authService: authService,
+                      );
+                    }
+                  } else {
+                    return const Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      ),
+                    );
+                  }
+                },
+              ),
+              routes: {
+                '/login': (context) => LoginScreen(authService: authService),
+              });
         },
       ),
     );

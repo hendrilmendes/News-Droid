@@ -12,7 +12,24 @@
           "package_name": "com.github.hendrilmendes.news"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "728569554138-7ruh4kc52r9j0phuv657qa64ogk0q09k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.hendrilmendes.news",
+            "certificate_hash": "f908ff68223b34e5917a340a4da01895217becdf"
+          }
+        },
+        {
+          "client_id": "728569554138-b6fq6nol6oe4m7efv34rbnm74ip55oa0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.hendrilmendes.news",
+            "certificate_hash": "f398728be0e31cfe1e227396d2e9e03d17e39252"
+          }
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDh2lGCHDaSEConjHkRp7Ny6fZq3L7g65E"
@@ -26,10 +43,10 @@
               "client_type": 3
             },
             {
-              "client_id": "728569554138-rpc6v6p3hsg0fgmeaekbm322ol6umpup.apps.googleusercontent.com",
+              "client_id": "728569554138-e4onusju0gnidnf1dgs1e4b0kstjc18q.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.github.hendrilmendes.news"
+                "bundle_id": "com.github.hendrilmendes.news.OneSignalNotificationServiceExtension"
               }
             }
           ]

@@ -71,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
           DateTime.parse(prefs.getString('cachedTime') ?? '');
       final DateTime currentTime = DateTime.now();
       final difference = currentTime.difference(lastCachedTime).inMinutes;
-      if (difference < 30) {
+      if (difference < 5) {
+        // reutiliza os dados em cache se forem menos de 5 minutos de idade
         setState(() {
           posts = cachedPosts['items'];
           filteredPosts = posts;

@@ -1,67 +1,74 @@
-import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-const clientId =
-    '728569554138-t3v3sfuti8bc8bcci5qu63vekoivd4b1.apps.googleusercontent.com';
-const clientSecret = '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';
-const redirectUri = 'https://hendrilmendes.github.io/auth/';
-const scope = 'https://www.googleapis.com/auth/blogger';
+class AuthService {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'https://www.googleapis.com/auth/blogger',
+    ],
+  );
 
-class OAuth2Helper {
-  Future<String?> getAuthorizationCode() async {
-    const authorizationUrl = 'https://accounts.google.com/o/oauth2/auth?'
-        'client_id=$clientId&'
-        'redirect_uri=$redirectUri&'
-        'scope=$scope&'
-        'response_type=code'; // Use "code" para o fluxo de autorização.
-
+  Future<User?> signInWithGoogle() async {
     try {
-      final result = await FlutterWebAuth2.authenticate(
-        url: authorizationUrl,
-        callbackUrlScheme:
-            'newsdroid', // Defina um esquema personalizado para a URL de retorno.
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
+      if (googleSignInAccount == null) {
+        return null;
+      }
+
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
       );
 
-      // A URL de retorno conterá o código de autorização como um parâmetro.
-      final uri = Uri.parse(result);
-      final authorizationCode = uri.queryParameters['code'];
+      final UserCredential authResult =
+          await _auth.signInWithCredential(credential);
+      final User? user = authResult.user;
 
-      return authorizationCode;
-    } catch (e) {
-      // Lida com erros de autenticação.
+      if (user != null) {
+        if (kDebugMode) {
+          print('Usuário autenticado com sucesso: ${user.displayName}');
+        }
+      } else {
+        if (kDebugMode) {
+          print('Falha na autenticação: Usuário nulo');
+        }
+      }
+
+      return user;
+    } catch (error) {
       if (kDebugMode) {
-        print("Erro de autenticação: $e");
+        print('Erro na autenticação: $error');
       }
       return null;
     }
   }
 
-  Future<String?> getAccessToken(String authorizationCode) async {
-    final body = {
-      'client_id': clientId,
-      'client_secret': clientSecret,
-      'redirect_uri': redirectUri,
-      'grant_type': 'authorization_code',
-      'scope': scope,
-      'code': authorizationCode,
-    };
+  Future<void> signOut() async {
+    await _auth.signOut();
+    await _googleSignIn.signOut();
+  }
 
-    final response = await http.post(
-      Uri.parse('https://accounts.google.com/o/oauth2/token'),
-      body: body,
-    );
+  Future<User?> currentUser() async {
+    return _auth.currentUser;
+  }
 
-    if (response.statusCode == 200) {
-      final tokenData = json.decode(response.body);
-      final accessToken = tokenData['access_token'];
-      return accessToken;
-    } else {
-      if (kDebugMode) {
-        print("Erro ao obter o token de acesso: ${response.body}");
-      }
-      return null;
+  Future<GoogleSignInAccount?> get googleSignInAccount async {
+    return _googleSignIn.currentUser ?? await _googleSignIn.signInSilently();
+  }
+
+  Future<String?> get accessToken async {
+    final googleAccount = await googleSignInAccount;
+    if (googleAccount != null) {
+      final GoogleSignInAuthentication googleAuth =
+          await googleAccount.authentication;
+      return googleAuth.accessToken;
     }
+    return null;
   }
 }

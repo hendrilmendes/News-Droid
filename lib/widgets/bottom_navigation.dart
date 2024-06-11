@@ -18,10 +18,10 @@ class BottomNavigationContainer extends StatefulWidget {
 class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
   int currentIndex = 0;
 
-  final List<Widget> screens = const [
-    HomeScreen(),
-    SearchScreen(),
-    FavoritesScreen(),
+  final List<Widget> screens =  [
+    const HomeScreen(),
+    const SearchScreen(),
+    const FavoritesScreen(),
     SettingsScreen(),
   ];
 

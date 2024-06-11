@@ -5,7 +5,7 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 
 ### Screenshots
 
-<img src="screenshots/preview.jpeg?raw=true" width="32%"> <img src="screenshots/preview2.jpeg?raw=true" width="32%"> <img src="screenshots/preview3.jpeg?raw=true" width="32%"> <img src="screenshots/preview4.jpeg?raw=true" width="32%">  <img src="screenshots/preview5.jpeg?raw=true" width="32%">  <img src="screenshots/preview6.jpeg?raw=true" width="32%">
+<img src="screenshots/preview.png?raw=true" width="32%"> <img src="screenshots/preview2.png?raw=true" width="32%"> <img src="screenshots/preview3.png?raw=true" width="32%"> <img src="screenshots/preview4.png?raw=true" width="32%">  <img src="screenshots/preview5.png?raw=true" width="32%">  <img src="screenshots/preview6.png?raw=true" width="32%">
 
 ##
 
@@ -26,7 +26,7 @@ Surgiu como um blog no Blogger na época da escola, um blog simples de um cara a
 ### Recursos:
 
 * App feito em Flutter, disponível para iOS e Android
-* Firebase para monitorar o desempenho, erros do app
+* Firebase para monitorar o desempenho, erros do app e autenticação
 * Onesignal para envio de notificações
 * Salvar Postagens
 * Comentar em Posts

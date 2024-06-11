@@ -10,9 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-# Auth
-  flutter_web_auth_2: ^4.0.0-alpha.5
-
 # Cached Network
   cached_network_image: ^3.3.1
 
@@ -26,9 +23,10 @@ dependencies:
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_core: ^3.0.0
-  firebase_crashlytics: ^4.0.0
-  firebase_performance: ^0.10.0
+  firebase_auth: ^5.1.0
+  firebase_core: ^3.1.0
+  firebase_crashlytics: ^4.0.1
+  firebase_performance: ^0.10.0+1
 
 # Feedback
   feedback:
@@ -36,6 +34,9 @@ dependencies:
         url: https://github.com/hendrilmendes/feedback.git
         path: feedback
         ref: master
+
+# Google Sign
+  google_sign_in: ^6.2.1
 
 # Hive  
   hive: ^2.2.3
@@ -90,7 +91,7 @@ dependencies:
   url_launcher: ^6.3.0
 
 # Widget HTML
-  flutter_widget_from_html: ^0.15.0
+  flutter_widget_from_html: ^0.15.1
 
   flutter_localizations:
     sdk: flutter

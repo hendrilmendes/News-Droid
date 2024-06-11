@@ -5,6 +5,9 @@ Changelog News-Droid
 
 Novo:
 - Agora o app possui um leitor de texto para as postagens
+- O sistema de login para comentários foi atualizado*
+
+* Após a atualização o app ira exigir login para continuar
 
 Correções/Melhorias:
 - A tela de detalhes dos posts recebeu um novo design
