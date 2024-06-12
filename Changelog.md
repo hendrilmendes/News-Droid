@@ -1,7 +1,7 @@
 Changelog News-Droid
 
 ======================================================
-#### 3.1.0 - Em Desenvolvimento
+#### 3.1.0 - 12/06/2024
 
 Novo:
 - Agora o app possui um leitor de texto para as postagens
