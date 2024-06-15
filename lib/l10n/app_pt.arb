@@ -63,7 +63,8 @@
     "addFavorite": "Postagem Salva",
     "top": "Destaque",
     "readLoud": "Ler em voz alta",
-    "homeLogin": "Faça login para ter uma experiência completa",
+    "homeLogin": "Bem vindo ao nosso app, aproveite 😁",
     "googleLogin": "Login com o Google",
-    "desconect": "Desconectar"
+    "desconect": "Desconectar",
+    "alreadyReviewed": "Você já avaliou o app"
 }

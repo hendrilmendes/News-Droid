@@ -27,6 +27,14 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 30),
+            Text(
+              AppLocalizations.of(context)!.appName,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 50),
             Center(
               child: Text(
