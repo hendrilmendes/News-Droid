@@ -30,7 +30,7 @@ class SettingsScreen extends StatelessWidget {
         actions: [
           IconButton(
             color: Colors.blue,
-            icon: const Icon(Icons.exit_to_app_outlined),
+            icon: const Icon(Iconsax.logout),
             onPressed: () async {
               await _authService.signOut();
               if (context.mounted) {

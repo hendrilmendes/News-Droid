@@ -25,16 +25,18 @@ class ThemeModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  SharedPreferences? _prefs;
+
   Future<void> _loadThemePreference() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _isDarkMode = prefs.getBool('darkModeEnabled') ?? true;
-    _themeMode = _getSavedThemeMode(prefs.getString('themeMode'));
+    _prefs = await SharedPreferences.getInstance();
+    _isDarkMode = _prefs?.getBool('darkModeEnabled') ?? true;
+    _themeMode = _getSavedThemeMode(_prefs?.getString('themeMode'));
     notifyListeners();
   }
 
-  void saveThemeModePreference(ThemeModeType mode) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('themeMode', mode.toString());
+  Future<void> saveThemeModePreference(ThemeModeType mode) async {
+    _prefs = await SharedPreferences.getInstance();
+    await _prefs?.setString('themeMode', mode.toString());
   }
 
   ThemeModeType _getSavedThemeMode(String? mode) {
@@ -50,9 +52,7 @@ class ThemeModel extends ChangeNotifier {
     }
   }
 
-  static ThemeData lightTheme({
-    required BuildContext context,
-  }) {
+  static ThemeData lightTheme() {
     return ThemeData(
       useMaterial3: true,
       scaffoldBackgroundColor: Colors.white,
@@ -96,9 +96,7 @@ class ThemeModel extends ChangeNotifier {
     );
   }
 
-  static ThemeData darkTheme({
-    required BuildContext context,
-  }) {
+  static ThemeData darkTheme() {
     return ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.dark(),

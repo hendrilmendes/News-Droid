@@ -24,9 +24,7 @@ Widget buildReviewSettings(BuildContext context) {
               msg: AppLocalizations.of(context)!.alreadyReviewed,
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.BOTTOM,
-              backgroundColor: Colors.grey[700],
               textColor: Colors.white,
-              fontSize: 16.0,
             );
           } else {
             inAppReview.requestReview();

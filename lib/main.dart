@@ -95,8 +95,8 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, __) {
           return MaterialApp(
-              theme: ThemeModel.lightTheme(context: context),
-              darkTheme: ThemeModel.darkTheme(context: context),
+              theme: ThemeModel.lightTheme(),
+              darkTheme: ThemeModel.darkTheme(),
               themeMode: _getThemeMode(themeModel.themeMode),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: AppLocalizations.localizationsDelegates,

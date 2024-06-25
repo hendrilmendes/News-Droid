@@ -1,6 +1,13 @@
 Changelog News-Droid
 
 ======================================================
+#### 3.1.1 - 25/06/2024
+
+Correções/Melhorias:
+- Melhorias na tela de login
+- Alguns ajustes internos
+
+======================================================
 #### 3.1.0 - 12/06/2024
 
 Novo:

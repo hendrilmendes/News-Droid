@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.1.0+85
+version: 3.1.1+86
 environment:
   sdk: '>=3.4.0 <4.0.0'
 
@@ -23,10 +23,10 @@ dependencies:
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_auth: ^5.1.0
-  firebase_core: ^3.1.0
-  firebase_crashlytics: ^4.0.1
-  firebase_performance: ^0.10.0+1
+  firebase_auth: ^5.1.1
+  firebase_core: ^3.1.1
+  firebase_crashlytics: ^4.0.2
+  firebase_performance: ^0.10.0+2
 
 # Feedback
   feedback:
@@ -55,7 +55,7 @@ dependencies:
   intl: ^0.19.0
 
 # OneSignal
-  onesignal_flutter: ^5.2.0
+  onesignal_flutter: ^5.2.1
 
 # Package Info
   package_info_plus: ^8.0.0
