@@ -1,6 +1,16 @@
 Changelog News-Droid
 
 ======================================================
+#### 3.2.0 - 15/07/2024
+
+Novo:
+- Agora e possível excluir os comentários
+
+Correções/Melhorias:
+- Resolvido todos os bugs
+- Melhorias de desempenho 
+
+======================================================
 #### 3.1.1 - 25/06/2024
 
 Correções/Melhorias:

@@ -25,6 +25,7 @@ class _CommentScreenState extends State<CommentScreen> {
   List<Comment> comments = [];
   TextEditingController commentController = TextEditingController();
   bool isLoading = true;
+  bool isSubmitting = false;
 
   @override
   void initState() {
@@ -70,6 +71,10 @@ class _CommentScreenState extends State<CommentScreen> {
     String commentDate,
     String postId,
   ) async {
+    setState(() {
+      isSubmitting = true; // Inicia a animação de envio
+    });
+
     final authService = AuthService();
     final googleSignInAccount = await authService.googleSignInAccount;
 
@@ -100,15 +105,10 @@ class _CommentScreenState extends State<CommentScreen> {
         if (kDebugMode) {
           print("Comentário adicionado com sucesso.");
         }
+        await fetchPostAndComments(widget.postId);
+
         setState(() {
-          comments.add(Comment(
-            content: commentText,
-            authorName: authorName,
-            authorAvatar: authorAvatar,
-            postId: widget.postId,
-            id: commentId,
-            postDate: DateTime.now(),
-          ));
+          isSubmitting = false;
           commentController.clear();
         });
       } else {
@@ -119,13 +119,118 @@ class _CommentScreenState extends State<CommentScreen> {
         if (kDebugMode) {
           print("Response body: ${response.body}");
         }
+        setState(() {
+          isSubmitting = false;
+        });
         _showErrorDialog();
       }
     } else {
       if (kDebugMode) {
         print("Usuário não está autenticado.");
       }
+      setState(() {
+        isSubmitting = false;
+      });
       _showErrorDialog();
+    }
+  }
+
+  Future<void> deleteComment(String commentId) async {
+    final appLocalizations = AppLocalizations.of(context);
+    if (appLocalizations != null) {
+      final bool confirmDelete = await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(appLocalizations.confirmDelete),
+            content: Text(appLocalizations.confirmDeleteSub),
+            actions: <Widget>[
+              TextButton(
+                child: Text(appLocalizations.cancel),
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+              ),
+              FilledButton.tonal(
+                child: Text(appLocalizations.delete),
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
+          );
+        },
+      );
+
+      if (confirmDelete) {
+        setState(() {
+          isSubmitting = true;
+        });
+
+        final authService = AuthService();
+        final googleSignInAccount = await authService.googleSignInAccount;
+
+        if (googleSignInAccount != null) {
+          final GoogleSignInAuthentication googleAuth =
+              await googleSignInAccount.authentication;
+          final accessToken = googleAuth.accessToken;
+
+          final response = await http.delete(
+            Uri.parse(
+                'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default/$commentId'),
+            headers: {
+              'Authorization': 'Bearer $accessToken',
+            },
+          );
+
+          if (response.statusCode == 200) {
+            setState(() {
+              comments.removeWhere((comment) => comment.id == commentId);
+              isSubmitting = false;
+            });
+          } else {
+            if (kDebugMode) {
+              print(
+                  "Erro ao excluir comentário. Código de status: ${response.statusCode}");
+            }
+            _showErrorDelete();
+            setState(() {
+              isSubmitting = false;
+            });
+          }
+        } else {
+          if (kDebugMode) {
+            print("Usuário não está autenticado.");
+          }
+          _showErrorDelete();
+          setState(() {
+            isSubmitting = false;
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> _showErrorDelete() async {
+    final appLocalizations = AppLocalizations.of(context);
+    if (appLocalizations != null) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(appLocalizations.errorCommentsDelete),
+            content: Text(appLocalizations.errorCommentsDeleteSub),
+            actions: <Widget>[
+              FilledButton(
+                child: Text(appLocalizations.ok),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -215,6 +320,19 @@ class _CommentScreenState extends State<CommentScreen> {
                                   ),
                                 ],
                               ),
+                              trailing: IconButton(
+                                icon: const Icon(Iconsax.trash),
+                                onPressed: () async {
+                                  final authService = AuthService();
+                                  final user = await authService.currentUser();
+                                  if (user != null &&
+                                      user.displayName == comment.authorName) {
+                                    await deleteComment(comment.id);
+                                  } else {
+                                    _showErrorDelete();
+                                  }
+                                },
+                              ),
                             ),
                           );
                         },
@@ -240,37 +358,48 @@ class _CommentScreenState extends State<CommentScreen> {
                   ),
                   IconButton(
                     color: Colors.blue,
-                    icon: const Icon(Iconsax.send1),
-                    onPressed: () async {
-                      final commentText = commentController.text;
-                      final authService = AuthService();
-                      final user = await authService.currentUser();
+                    icon: isSubmitting
+                        ? const SizedBox(
+                            width: 24.0,
+                            height: 24.0,
+                            child: CircularProgressIndicator.adaptive(
+                              strokeWidth: 2.0,
+                            ),
+                          )
+                        : const Icon(Iconsax.send1),
+                    onPressed: isSubmitting
+                        ? null
+                        : () async {
+                            final commentText = commentController.text;
+                            final authService = AuthService();
+                            final user = await authService.currentUser();
 
-                      if (user != null) {
-                        if (kDebugMode) {
-                          print("Usuário autenticado: ${user.displayName}");
-                        }
-                        final authorName = user.displayName ??
-                            // ignore: use_build_context_synchronously
-                            AppLocalizations.of(context)!.human;
-                        final authorAvatar = user.photoURL ??
-                            'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                        final commentDate = DateTime.now().toString();
-                        final postId = widget.postId;
-                        await addComment(
-                          commentText,
-                          authorName,
-                          authorAvatar,
-                          commentDate,
-                          postId,
-                        );
-                      } else {
-                        if (kDebugMode) {
-                          print("Nenhum usuário autenticado encontrado.");
-                        }
-                        await _showErrorDialog();
-                      }
-                    },
+                            if (user != null) {
+                              if (kDebugMode) {
+                                print(
+                                    "Usuário autenticado: ${user.displayName}");
+                              }
+                              final authorName = user.displayName ??
+                                  // ignore: use_build_context_synchronously
+                                  AppLocalizations.of(context)!.human;
+                              final authorAvatar = user.photoURL ??
+                                  'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                              final commentDate = DateTime.now().toString();
+                              final postId = widget.postId;
+                              await addComment(
+                                commentText,
+                                authorName,
+                                authorAvatar,
+                                commentDate,
+                                postId,
+                              );
+                            } else {
+                              if (kDebugMode) {
+                                print("Nenhum usuário autenticado encontrado.");
+                              }
+                              await _showErrorDialog();
+                            }
+                          },
                   ),
                 ],
               ),

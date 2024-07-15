@@ -183,13 +183,6 @@ class _PostListWidgetState extends State<PostListWidget> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              AppLocalizations.of(context)!.lastNews,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.filteredPosts.length >= 3

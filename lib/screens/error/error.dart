@@ -18,8 +18,8 @@ class ErrorScreen extends StatelessWidget {
               child: Center(
                 child: Image.asset(
                   'assets/erro/offline.png',
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: MediaQuery.of(context).size.width * 0.8,
+                  width: MediaQuery.of(context).size.width * 1.0,
+                  height: MediaQuery.of(context).size.width * 1.0,
                 ),
               ),
             ),

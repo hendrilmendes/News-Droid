@@ -29,7 +29,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:enableOnBackInvokedCallback="true"
-        tools:targetApi="31"> 
+        tools:targetApi="34"> 
 
         <activity
             android:name=".MainActivity"
@@ -48,14 +48,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity" android:exported="true">
-            <intent-filter android:label="flutter_web_auth_2">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="newsdroid" />
             </intent-filter>
         </activity>
         <meta-data

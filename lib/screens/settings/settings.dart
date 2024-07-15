@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:newsdroid/auth/auth.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/widgets/settings/about.dart';
 import 'package:newsdroid/widgets/settings/accounts.dart';
@@ -18,7 +17,6 @@ class SettingsScreen extends StatelessWidget {
   SettingsScreen({super.key});
 
   final User? _user = FirebaseAuth.instance.currentUser;
-  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -27,24 +25,10 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.settings),
-        actions: [
-          IconButton(
-            color: Colors.blue,
-            icon: const Icon(Iconsax.logout),
-            onPressed: () async {
-              await _authService.signOut();
-              if (context.mounted) {
-                Navigator.pushReplacementNamed(context, '/login');
-              }
-            },
-            tooltip: AppLocalizations.of(context)!.desconect,
-          ),
-        ],
       ),
       body: ListView(
         children: [
           AccountUser(user: _user),
-          const Divider(),
           buildCategoryHeader(
               AppLocalizations.of(context)!.notification, Iconsax.notification),
           const NotificationSettings(),

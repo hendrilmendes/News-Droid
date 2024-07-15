@@ -200,8 +200,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return ClipRRect(
                           borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(35),
-                            bottomRight: Radius.circular(35),
+                            bottomLeft: Radius.circular(40),
+                            bottomRight: Radius.circular(40),
                           ),
                           child: Image.network(
                             widget.imageUrl,
@@ -214,8 +214,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                           highlightColor: Colors.grey[100]!,
                           child: ClipRRect(
                             borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(35),
-                              bottomRight: Radius.circular(35),
+                              bottomLeft: Radius.circular(40),
+                              bottomRight: Radius.circular(40),
                             ),
                             child: Container(
                               color: Colors.white,
@@ -228,8 +228,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   Container(
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(35),
-                        bottomRight: Radius.circular(35),
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(40),
                       ),
                       gradient: LinearGradient(
                         begin: Alignment.bottomCenter,

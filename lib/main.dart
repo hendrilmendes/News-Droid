@@ -53,6 +53,7 @@ main() async {
   // OneSignal
   OneSignal.initialize("93a92029-c592-4c02-b492-d32d3cf6225e");
 
+  //Permissoes
   await requestPermissions();
 
   // Firebase
