@@ -4,7 +4,6 @@ import 'package:feedback/feedback.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<String> writeImageToStorage(Uint8List feedbackScreenshot) async {
@@ -22,7 +21,7 @@ Widget buildSupportSettings(BuildContext context) {
     child: ListTile(
       title: Text(AppLocalizations.of(context)!.support),
       subtitle: Text(AppLocalizations.of(context)!.supportSub),
-      leading: const Icon(Iconsax.support),
+      leading: const Icon(Icons.support_outlined),
       onTap: () {
         BetterFeedback.of(context).show((feedback) async {
           final screenshotFilePath =

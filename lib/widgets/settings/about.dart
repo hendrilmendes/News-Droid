@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:newsdroid/screens/about/about.dart';
 
 Widget buildAboutSettings(BuildContext context) {
@@ -10,7 +9,7 @@ Widget buildAboutSettings(BuildContext context) {
     child: ListTile(
       title: Text(AppLocalizations.of(context)!.about),
       subtitle: Text(AppLocalizations.of(context)!.aboutSub),
-      leading: const Icon(Iconsax.info_circle),
+      leading: const Icon(Icons.info_outline),
       onTap: () {
         Navigator.push(
           context,

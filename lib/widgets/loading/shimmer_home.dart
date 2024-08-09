@@ -8,7 +8,7 @@ Widget buildShimmerLoadingHome() {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          height: 200,
+          height: 180,
           child: Shimmer.fromColors(
             baseColor: Colors.grey[300]!,
             highlightColor: Colors.grey[100]!,
@@ -20,7 +20,7 @@ Widget buildShimmerLoadingHome() {
             ),
           ),
         ),
-        const SizedBox(height: 40,),
+        const SizedBox(height: 20,),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:newsdroid/updater/updater.dart';
 
 Widget buildUpdateSettings(BuildContext context) {
@@ -10,7 +9,7 @@ Widget buildUpdateSettings(BuildContext context) {
     child: ListTile(
       title: Text(AppLocalizations.of(context)!.update),
       subtitle: Text(AppLocalizations.of(context)!.updateSub),
-      leading: const Icon(Iconsax.arrow_up_1),
+      leading: const Icon(Icons.update_outlined),
       onTap: () {
         Updater.checkForUpdates(context);
       },

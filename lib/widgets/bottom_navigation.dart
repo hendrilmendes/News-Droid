@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:newsdroid/screens/favorites/favorites.dart';
 import 'package:newsdroid/screens/home/home.dart';
 import 'package:newsdroid/screens/search/search.dart';
@@ -50,19 +49,19 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelType: NavigationRailLabelType.all,
                   destinations: [
                     NavigationRailDestination(
-                      icon: const Icon(Iconsax.home),
+                      icon: const Icon(Icons.home_outlined),
                       label: Text(AppLocalizations.of(context)!.home),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Iconsax.search_normal),
+                      icon: const Icon(Icons.search_outlined),
                       label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Iconsax.star),
+                      icon: const Icon(Icons.favorite),
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Iconsax.setting),
+                      icon: const Icon(Icons.settings_outlined),
                       label: Text(AppLocalizations.of(context)!.settings),
                     ),
                   ],
@@ -92,19 +91,19 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                   destinations: [
                     NavigationDestination(
-                      icon: const Icon(Iconsax.home),
+                      icon: const Icon(Icons.home_outlined),
                       label: AppLocalizations.of(context)!.home,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Iconsax.search_normal),
+                      icon: const Icon(Icons.search_outlined),
                       label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Iconsax.star),
+                      icon: const Icon(Icons.favorite),
                       label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Iconsax.setting),
+                      icon: const Icon(Icons.settings_outlined),
                       label: AppLocalizations.of(context)!.settings,
                     ),
                   ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -87,7 +86,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: Text(AppLocalizations.of(context)!.version),
                       subtitle: Text('v$appVersion Build: ($appBuild)'),
-                      leading: const Icon(Iconsax.mobile_programming),
+                      leading: const Icon(Icons.whatshot_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -106,7 +105,7 @@ class _AboutPageState extends State<AboutPage> {
                     child: ListTile(
                       title: Text(AppLocalizations.of(context)!.privacy),
                       subtitle: Text(AppLocalizations.of(context)!.privacySub),
-                      leading: const Icon(Iconsax.shield_tick),
+                      leading: const Icon(Icons.shield_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -126,7 +125,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: Text(AppLocalizations.of(context)!.sourceCode),
                       subtitle:
                           Text(AppLocalizations.of(context)!.sourceCodeSub),
-                      leading: const Icon(Iconsax.code),
+                      leading: const Icon(Icons.code_outlined),
                       onTap: () {
                         Navigator.pop(context);
                         launchUrl(
@@ -146,7 +145,7 @@ class _AboutPageState extends State<AboutPage> {
                       title: Text(AppLocalizations.of(context)!.openSource),
                       subtitle:
                           Text(AppLocalizations.of(context)!.openSourceSub),
-                      leading: const Icon(Iconsax.folder_open),
+                      leading: const Icon(Icons.folder_open),
                       onTap: () {
                         Navigator.push(
                           context,

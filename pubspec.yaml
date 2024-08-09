@@ -2,9 +2,10 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.2.0+88
+version: 3.3.0+90
+
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: '>=3.5.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -46,10 +47,7 @@ dependencies:
   html: ^0.15.4
 
 # HTTP
-  http: ^1.2.1
-
-# Iconsax
-  iconsax: ^0.0.8
+  http: ^1.2.2
   
 # Intl
   intl: ^0.19.0
@@ -73,7 +71,7 @@ dependencies:
   in_app_review: ^2.0.9
   
 # Share Plus
-  share_plus: ^9.0.0
+  share_plus: ^10.0.0
 
 # Shared Preferences
   shared_preferences: ^2.2.3

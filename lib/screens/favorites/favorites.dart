@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
 import 'package:newsdroid/widgets/loading/shimmer_fav.dart';
@@ -85,13 +84,13 @@ class FavoritesScreen extends StatelessWidget {
                         background: Container(
                           color: Colors.red,
                           alignment: Alignment.centerLeft,
-                          child: const Icon(Iconsax.trash, color: Colors.white),
+                          child: const Icon(Icons.delete_outline_outlined, color: Colors.white),
                         ),
                         secondaryBackground: Container(
                           color: Colors.red,
                           child: const Align(
                             alignment: Alignment.centerRight,
-                            child: Icon(Iconsax.trash, color: Colors.white),
+                            child: Icon(Icons.delete_outline_outlined, color: Colors.white),
                           ),
                         ),
                         child: Card(
@@ -139,7 +138,7 @@ class FavoritesScreen extends StatelessWidget {
                               ),
                               subtitle: Row(
                                 children: [
-                                  const Icon(Iconsax.calendar,
+                                  const Icon(Icons.calendar_month_outlined,
                                       size: 12, color: Colors.grey),
                                   const SizedBox(width: 4),
                                   Text(
@@ -161,7 +160,7 @@ class FavoritesScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         tooltip: AppLocalizations.of(context)!.deleteFavorites,
         onPressed: deleteAllFavorites,
-        child: const Icon(Iconsax.trash),
+        child: const Icon(Icons.delete_outline_outlined),
       ),
     );
   }

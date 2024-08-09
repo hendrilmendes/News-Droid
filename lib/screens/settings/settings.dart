@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/widgets/settings/about.dart';
 import 'package:newsdroid/widgets/settings/accounts.dart';
@@ -30,13 +29,13 @@ class SettingsScreen extends StatelessWidget {
         children: [
           AccountUser(user: _user),
           buildCategoryHeader(
-              AppLocalizations.of(context)!.notification, Iconsax.notification),
+              AppLocalizations.of(context)!.notification, Icons.notifications_active_outlined),
           const NotificationSettings(),
           buildCategoryHeader(
-              AppLocalizations.of(context)!.interface, Iconsax.pen_tool),
+              AppLocalizations.of(context)!.interface, Icons.color_lens_outlined),
           ThemeSettings(themeModel: themeModel),
           buildCategoryHeader(
-              AppLocalizations.of(context)!.outhers, Iconsax.more),
+              AppLocalizations.of(context)!.outhers, Icons.more_horiz_outlined),
           buildUpdateSettings(context),
           buildReviewSettings(context),
           buildSupportSettings(context),

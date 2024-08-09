@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/auth/auth.dart';
 
@@ -16,7 +15,7 @@ class AccountUser extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(15.0),
       ),
-      color: Theme.of(context).cardColor,
+      color: Theme.of(context).cardTheme.color,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -52,7 +51,7 @@ class AccountUser extends StatelessWidget {
             if (user != null)
               IconButton(
                 color: Colors.blue,
-                icon: const Icon(Iconsax.logout),
+                icon: const Icon(Icons.logout_outlined),
                 onPressed: () async {
                   await _authService.signOut();
                   if (context.mounted) {

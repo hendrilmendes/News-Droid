@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
-import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -185,13 +184,13 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     prefixIcon:
-                        const Icon(Iconsax.search_normal, color: Colors.blue),
+                        const Icon(Icons.search_outlined, color: Colors.blue),
                     border: InputBorder.none,
                     hintText:
                         '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
                     suffixIcon: searchQuery.value.isNotEmpty
                         ? IconButton(
-                            icon: const Icon(Iconsax.close_circle),
+                            icon: const Icon(Icons.close_outlined),
                             onPressed: () {
                               _searchController.clear();
                               searchQuery.value = '';
@@ -316,7 +315,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   const SizedBox(height: 4),
                                   Row(
                                     children: [
-                                      const Icon(Iconsax.calendar,
+                                      const Icon(Icons.calendar_month_outlined,
                                           size: 12, color: Colors.grey),
                                       const SizedBox(width: 4),
                                       Text(

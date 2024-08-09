@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
-import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/auth/auth.dart';
@@ -305,7 +304,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                   Text(comment.content),
                                   Row(
                                     children: [
-                                      const Icon(Iconsax.calendar,
+                                      const Icon(Icons.calendar_month_outlined,
                                           size: 12, color: Colors.grey),
                                       const SizedBox(width: 4),
                                       Text(
@@ -321,7 +320,7 @@ class _CommentScreenState extends State<CommentScreen> {
                                 ],
                               ),
                               trailing: IconButton(
-                                icon: const Icon(Iconsax.trash),
+                                icon: const Icon(Icons.delete_outline_outlined),
                                 onPressed: () async {
                                   final authService = AuthService();
                                   final user = await authService.currentUser();
@@ -366,7 +365,7 @@ class _CommentScreenState extends State<CommentScreen> {
                               strokeWidth: 2.0,
                             ),
                           )
-                        : const Icon(Iconsax.send1),
+                        : const Icon(Icons.send_outlined),
                     onPressed: isSubmitting
                         ? null
                         : () async {
