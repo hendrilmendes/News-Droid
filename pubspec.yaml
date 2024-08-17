@@ -12,13 +12,13 @@ dependencies:
     sdk: flutter
 
 # Cached Network
-  cached_network_image: ^3.3.1
+  cached_network_image: ^3.4.0
 
 # Connectivity Plus
-  connectivity_plus: ^6.0.3
+  connectivity_plus: ^6.0.5
 
 # Crypto
-  crypto: ^3.0.3
+  crypto: ^3.0.5
 
 # Email
   flutter_email_sender: ^6.0.3
@@ -53,7 +53,7 @@ dependencies:
   intl: ^0.19.0
 
 # OneSignal
-  onesignal_flutter: ^5.2.2
+  onesignal_flutter: ^5.2.3
 
 # Package Info
   package_info_plus: ^8.0.0
@@ -74,13 +74,10 @@ dependencies:
   share_plus: ^10.0.0
 
 # Shared Preferences
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.2
 
 # Shimer
   shimmer: ^3.0.0
-
-# Toast
-  fluttertoast: ^8.2.6
 
 # TTS
   flutter_tts: ^4.0.2

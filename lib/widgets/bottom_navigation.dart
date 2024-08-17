@@ -49,11 +49,11 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelType: NavigationRailLabelType.all,
                   destinations: [
                     NavigationRailDestination(
-                      icon: const Icon(Icons.home_outlined),
+                      icon: const Icon(Icons.home_filled),
                       label: Text(AppLocalizations.of(context)!.home),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.search_outlined),
+                      icon: const Icon(Icons.search),
                       label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
@@ -61,7 +61,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.settings_outlined),
+                      icon: const Icon(Icons.settings),
                       label: Text(AppLocalizations.of(context)!.settings),
                     ),
                   ],
@@ -91,11 +91,11 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                   destinations: [
                     NavigationDestination(
-                      icon: const Icon(Icons.home_outlined),
+                      icon: const Icon(Icons.home_filled),
                       label: AppLocalizations.of(context)!.home,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.search_outlined),
+                      icon: const Icon(Icons.search),
                       label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
@@ -103,7 +103,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                       label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.settings_outlined),
+                      icon: const Icon(Icons.settings),
                       label: AppLocalizations.of(context)!.settings,
                     ),
                   ],

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'package:newsdroid/screens/comments/comments.dart';
 import 'package:provider/provider.dart';
@@ -152,10 +151,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
     if (_isFavorite) {
       favoritePostsModel.removeFavorite(widget.postId);
-      _showToast(AppLocalizations.of(context)!.removedFavorite);
     } else {
       favoritePostsModel.addFavorite(post);
-      _showToast(AppLocalizations.of(context)!.addFavorite);
     }
 
     setState(() {
@@ -164,12 +161,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   }
 
   void _showToast(String message) {
-    Fluttertoast.showToast(
-      msg: message,
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      textColor: Colors.white,
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ));
   }
 
   @override
