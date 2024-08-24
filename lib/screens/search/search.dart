@@ -163,9 +163,9 @@ class _SearchScreenState extends State<SearchScreen> {
           preferredSize: const Size.fromHeight(80.0),
           child: Card(
             color: Theme.of(context).listTileTheme.tileColor,
-            margin: const EdgeInsets.all(10.0),
+            margin: const EdgeInsets.all(8.0),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
+              borderRadius: BorderRadius.circular(30.0),
             ),
             child: ValueListenableBuilder(
               builder: (BuildContext context, String query, Widget? child) {
@@ -177,7 +177,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   },
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
-                    focusedBorder: const UnderlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 1.5,
                         color: Colors.transparent,
@@ -248,14 +248,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     return Card(
                       color: Theme.of(context).listTileTheme.tileColor,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                        borderRadius: BorderRadius.circular(30.0),
                       ),
                       clipBehavior: Clip.hardEdge,
-                      margin: const EdgeInsets.all(10.0),
+                      margin: const EdgeInsets.all(8.0),
                       child: InkWell(
                         onTap: () async {
                           Navigator.push(
-                            // ignore: use_build_context_synchronously
                             context,
                             MaterialPageRoute(
                               builder: (context) => PostDetailsScreen(

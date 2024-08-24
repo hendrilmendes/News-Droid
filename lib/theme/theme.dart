@@ -65,8 +65,8 @@ class ThemeModel extends ChangeNotifier {
       ),
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
       iconTheme: const IconThemeData(color: Colors.black),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.white, selectedItemColor: Colors.blue),
+      bottomNavigationBarTheme: const BottomNavigationBarThemeData(enableFeedback: true,
+          backgroundColor: Colors.white, selectedItemColor: Color.fromARGB(255, 97, 184, 255)),
       cardTheme: const CardTheme(
         color: Colors.white,
       ),
@@ -111,7 +111,7 @@ class ThemeModel extends ChangeNotifier {
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
       iconTheme: const IconThemeData(color: Colors.white),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.black, selectedItemColor: Colors.blue),
+          backgroundColor: Colors.black, selectedItemColor: Color.fromARGB(255, 97, 184, 255)),
       cardTheme: const CardTheme(
         color: Colors.black87,
       ),

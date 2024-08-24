@@ -17,7 +17,7 @@ class BottomNavigationContainer extends StatefulWidget {
 class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
   int currentIndex = 0;
 
-  final List<Widget> screens =  [
+  final List<Widget> screens = [
     const HomeScreen(),
     const SearchScreen(),
     const FavoritesScreen(),
@@ -44,7 +44,9 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                 NavigationRail(
                   groupAlignment: 0.0,
                   selectedIndex: currentIndex,
-                  indicatorColor: Colors.blue,
+                  indicatorColor: Theme.of(context)
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
                   onDestinationSelected: onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: [
@@ -77,7 +79,8 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
                   indicatorColor: Theme.of(context)
-                      .bottomNavigationBarTheme.selectedItemColor,
+                      .bottomNavigationBarTheme
+                      .selectedItemColor,
                   backgroundColor: Theme.of(context)
                       .bottomNavigationBarTheme
                       .backgroundColor,
@@ -91,19 +94,20 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
                   destinations: [
                     NavigationDestination(
-                      icon: const Icon(Icons.home_filled),
+                      icon: const Icon(Icons.home_outlined),
                       label: AppLocalizations.of(context)!.home,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.search),
+                      icon: const Icon(Icons.search_outlined),
                       label: AppLocalizations.of(context)!.search,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.favorite),
+                      icon: const Icon(Icons.favorite_border_outlined),
                       label: AppLocalizations.of(context)!.favorites,
                     ),
                     NavigationDestination(
-                      icon: const Icon(Icons.settings),
+                      
+                      icon: const Icon(Icons.settings_outlined),
                       label: AppLocalizations.of(context)!.settings,
                     ),
                   ],

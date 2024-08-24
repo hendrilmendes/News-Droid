@@ -31,77 +31,108 @@ class Updater {
           // ignore: use_build_context_synchronously
           final AppLocalizations? localizations = AppLocalizations.of(context);
           final String titleText = localizations?.newUpdate ?? '';
-          showDialog(
+
+          showModalBottomSheet(
             // ignore: use_build_context_synchronously
             context: context,
-            builder: (context) => AlertDialog(
-              title: Text(titleText),
-              content: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    localizations?.news ?? '',
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 5),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Text(
-                        releaseNotes,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            isScrollControlled: true,
+            builder: (context) {
+              return Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      titleText,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      localizations?.news ?? '',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text(localizations?.after ?? ''),
+                    const SizedBox(height: 8),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.6,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Text(releaseNotes),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(localizations?.after ?? ''),
+                        ),
+                        const SizedBox(width: 8),
+                        FilledButton(
+                          onPressed: () {
+                            final Uri uri = Platform.isAndroid
+                                ? Uri.parse(
+                                    'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news')
+                                : Uri.parse(
+                                    'https://github.com/hendrilmendes/News-Droid/releases/latest');
+
+                            launchUrl(uri);
+                            Navigator.pop(context); // Fecha o modal
+                          },
+                          child: Text(localizations?.download ?? ''),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                FilledButton(
-                  onPressed: () {
-                    if (Platform.isAndroid) {
-                      // Android
-                      launchUrl(
-                        Uri.parse(
-                            'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news'),
-                      );
-                      Navigator.pop(context); // Fecha o diálogo interno
-                    } else {
-                      // iOS
-                      launchUrl(
-                        Uri.parse(
-                            'https://github.com/hendrilmendes/News-Droid/releases/latest'),
-                      );
-                      Navigator.pop(context); // Fecha o diálogo interno
-                    }
-                  },
-                  child: Text(localizations?.download ?? ''),
-                ),
-              ],
-            ),
+              );
+            },
           );
         } else {
           // ignore: use_build_context_synchronously
           final AppLocalizations? localizations = AppLocalizations.of(context);
           if (localizations != null) {
-            showDialog(
+            showModalBottomSheet(
               // ignore: use_build_context_synchronously
               context: context,
-              builder: (context) => AlertDialog(
-                title: Text(localizations.noUpdate),
-                content: Text(
-                  localizations.noUpdateSub,
-                  style: const TextStyle(fontSize: 16.0),
-                ),
-                actions: <Widget>[
-                  FilledButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(localizations.ok),
-                  ),
-                ],
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               ),
+              builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        localizations.noUpdate,
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        localizations.noUpdateSub,
+                        style: const TextStyle(fontSize: 16.0),
+                      ),
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: FilledButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(localizations.ok),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             );
           }
         }
