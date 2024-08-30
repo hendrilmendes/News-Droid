@@ -6,6 +6,7 @@ Changelog News-Droid
 Novo
 - Implementado novo Carrossel nos Destaques
 - Novo design para tela de atualizações
+- A barra de pesquisa foi movida para a parte inferior
 
 Correções/Melhorias:
 - Ajustes visuais
