@@ -1,7 +1,7 @@
 Changelog News-Droid
 
 ======================================================
-#### 3.3.0 - Em desenvolvimento
+#### 3.3.0 - 02/09/2024
 
 Novo
 - Implementado novo Carrossel nos Destaques
