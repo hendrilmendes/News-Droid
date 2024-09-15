@@ -51,19 +51,19 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   labelType: NavigationRailLabelType.all,
                   destinations: [
                     NavigationRailDestination(
-                      icon: const Icon(Icons.home_filled),
+                      icon: const Icon(Icons.home_outlined),
                       label: Text(AppLocalizations.of(context)!.home),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.search),
+                      icon: const Icon(Icons.search_outlined),
                       label: Text(AppLocalizations.of(context)!.search),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.favorite),
+                      icon: const Icon(Icons.favorite_border_outlined),
                       label: Text(AppLocalizations.of(context)!.favorites),
                     ),
                     NavigationRailDestination(
-                      icon: const Icon(Icons.settings),
+                      icon: const Icon(Icons.settings_outlined),
                       label: Text(AppLocalizations.of(context)!.settings),
                     ),
                   ],
