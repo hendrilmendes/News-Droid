@@ -38,6 +38,7 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
     return Scaffold(
       body: OrientationBuilder(
         builder: (context, orientation) {
+          Widget currentScreen = screens[currentIndex];
           if (orientation == Orientation.landscape) {
             return Row(
               children: [
@@ -69,12 +70,20 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                   ],
                 ),
                 const VerticalDivider(thickness: 1, width: 1),
-                Expanded(child: screens[currentIndex]),
+                Expanded(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 300),
+                    child: currentScreen,
+                  ),
+                ),
               ],
             );
           } else {
             return Scaffold(
-              body: screens[currentIndex],
+              body: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: currentScreen,
+              ),
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(

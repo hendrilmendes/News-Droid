@@ -31,7 +31,7 @@ class _SearchScreenState extends State<SearchScreen> {
   int trendIndex = 0;
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
-  bool showSearchBarAtBottom = true; // Default value
+  bool showSearchBarAtBottom = true;
 
   final List<String> trendWords = [
     'Windows 12',

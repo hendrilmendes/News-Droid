@@ -2,6 +2,20 @@ Changelog
 
 ======================================================
 
+## [3.3.1](https://github.com/hendrilmendes/News-Droid/compare/3.3.0..3.3.1) (08-10-2024)
+
+## Alterações
+
+### Correções
+
+- Melhorias nas transições de tela
+
+### Features
+
+- Agora e possível escolher a posição da barra de pesquisa
+- Melhor compatibilidade com Android 15
+======================================================
+
 ## [3.3.0](https://github.com/hendrilmendes/News-Droid/compare/3.2.0..3.3.0) (02-09-2024)
 
 ## Alterações

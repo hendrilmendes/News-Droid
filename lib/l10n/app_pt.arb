@@ -69,5 +69,10 @@
     "errorCommentsDelete": "Erro ao apagar comentário",
     "errorCommentsDeleteSub": "Não é possível apagar os comentários de outros usuários.",
     "confirmDelete": "Apagar Comentário",
-    "confirmDeleteSub": "Deseja realmente apagar esse comentário?"
+    "confirmDeleteSub": "Deseja realmente apagar esse comentário?",
+    "searchPosition": "Barra de Pesquisa",
+    "searchPositionSub": "Escolha a posição da barra de pesquisa",
+    "searchBarPosition": "Posição da barra de pesquisa",
+    "positionTop": "Parte superior da tela",
+    "positionBottom": "Parte inferior da tela"
 }

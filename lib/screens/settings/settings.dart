@@ -7,6 +7,7 @@ import 'package:newsdroid/widgets/settings/accounts.dart';
 import 'package:newsdroid/widgets/settings/category.dart';
 import 'package:newsdroid/widgets/settings/notification.dart';
 import 'package:newsdroid/widgets/settings/review.dart';
+import 'package:newsdroid/widgets/settings/search.dart';
 import 'package:newsdroid/widgets/settings/support.dart';
 import 'package:newsdroid/widgets/settings/theme.dart';
 import 'package:newsdroid/widgets/settings/update.dart';
@@ -34,6 +35,7 @@ class SettingsScreen extends StatelessWidget {
           buildCategoryHeader(
               AppLocalizations.of(context)!.interface, Icons.color_lens_outlined),
           ThemeSettings(themeModel: themeModel),
+          SearchBarSetting(),
           buildCategoryHeader(
               AppLocalizations.of(context)!.outhers, Icons.more_horiz_outlined),
           buildUpdateSettings(context),
