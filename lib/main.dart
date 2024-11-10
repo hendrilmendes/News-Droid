@@ -10,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:newsdroid/adapter/favorite_adapter.dart';
 import 'package:newsdroid/auth/auth.dart';
 import 'package:newsdroid/screens/login/login.dart';
+import 'package:newsdroid/updater/updater.dart';
 import 'package:newsdroid/widgets/bottom_navigation.dart';
 import 'package:newsdroid/widgets/permissions/permissions.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -102,31 +103,35 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              home: FutureBuilder(
-                future: authService.currentUser(),
-                builder: (context, AsyncSnapshot<User?> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData) {
-                      return const BottomNavigationContainer();
-                    } else {
-                      return LoginScreen(
-                        authService: authService,
-                      );
-                    }
-                  } else {
-                    return const Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator.adaptive(),
-                      ),
-                    );
-                  }
-                },
-              ),
+              home: _buildHome(authService),
               routes: {
                 '/login': (context) => LoginScreen(authService: authService),
               });
         },
       ),
+    );
+  }
+
+  Widget _buildHome(AuthService authService) {
+    return FutureBuilder<User?>(
+      future: authService.currentUser(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            Updater.checkUpdateApp(context);
+            return const BottomNavigationContainer();
+          } else {
+            Updater.checkUpdateApp(context);
+            return LoginScreen(authService: authService);
+          }
+        } else {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+          );
+        }
+      },
     );
   }
 }

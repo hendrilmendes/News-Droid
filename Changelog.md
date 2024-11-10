@@ -2,6 +2,18 @@ Changelog
 
 ======================================================
 
+## [3.4.0](https://github.com/hendrilmendes/News-Droid/compare/3.3.1..3.4.0) (09-11-2024)
+
+## Alterações
+
+### Correções
+
+- Correções internas
+- Melhorias no código
+- Melhorias no sistema de atualizações
+
+======================================================
+
 ## [3.3.1](https://github.com/hendrilmendes/News-Droid/compare/3.3.0..3.3.1) (08-10-2024)
 
 ## Alterações

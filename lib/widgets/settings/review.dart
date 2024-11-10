@@ -12,7 +12,7 @@ Widget buildReviewSettings(BuildContext context) {
     child: ListTile(
       title: Text(AppLocalizations.of(context)!.review),
       subtitle: Text(AppLocalizations.of(context)!.reviewSub),
-      leading: const Icon(Icons.reviews_outlined),
+      leading: const Icon(Icons.rate_review_outlined),
       onTap: () async {
         final InAppReview inAppReview = InAppReview.instance;
 
