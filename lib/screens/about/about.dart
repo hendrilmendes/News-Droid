@@ -33,7 +33,6 @@ class _AboutPageState extends State<AboutPage> {
     });
   }
 
-  // Função para buscar as informações de release do GitHub
   Future<void> _fetchReleaseInfo() async {
     try {
       final response = await http.get(Uri.parse(
@@ -73,7 +72,6 @@ class _AboutPageState extends State<AboutPage> {
     }
   }
 
-  // Função para exibir as informações de release no Dialog
   void _showReleaseInfo(BuildContext context) {
     showDialog(
       context: context,
@@ -125,72 +123,67 @@ class _AboutPageState extends State<AboutPage> {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.about,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        elevation: 0.5,
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                const SizedBox(height: 20),
-                const Card(
-                  elevation: 15,
-                  shape: CircleBorder(),
-                  clipBehavior: Clip.antiAlias,
-                  child: SizedBox(
-                    width: 80,
-                    child: Image(
-                      image: AssetImage('assets/img/ic_launcher.png'),
-                    ),
-                  ),
+            const SizedBox(height: 20),
+            const Card(
+              elevation: 15,
+              shape: CircleBorder(),
+              clipBehavior: Clip.antiAlias,
+              child: SizedBox(
+                width: 80,
+                child: Image(
+                  image: AssetImage('assets/img/ic_launcher.png'),
                 ),
-                const SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'Copyright © Hendril Mendes, 2015-$currentYear',
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                ),
-                Text(
-                  AppLocalizations.of(context)!.copyright,
-                  style: const TextStyle(fontSize: 12),
-                ),
-                const Divider(),
-                const SizedBox(height: 10),
-                Text(
-                  AppLocalizations.of(context)!.appDesc,
-                  style: const TextStyle(fontSize: 14.0),
-                ),
-                const SizedBox(height: 10),
-                const Divider(),
-                // Versão
-                Card(
-                  clipBehavior: Clip.hardEdge,
-                  margin: const EdgeInsets.all(8.0),
-                  child: ListTile(
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: Text(
+                'Copyright © Hendril Mendes, 2015-$currentYear',
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+            Text(
+              AppLocalizations.of(context)!.copyright,
+              style: const TextStyle(fontSize: 12),
+            ),
+            const Divider(),
+            const SizedBox(height: 10),
+            Text(
+              AppLocalizations.of(context)!.appDesc,
+              style: const TextStyle(fontSize: 14.0),
+            ),
+            const SizedBox(height: 10),
+            const Divider(),
+            Card(
+              clipBehavior: Clip.hardEdge,
+              margin: const EdgeInsets.all(8.0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
                     title: Text(AppLocalizations.of(context)!.version),
                     subtitle: Text('v$appVersion Build: ($appBuild)'),
                     leading: const Icon(Icons.whatshot_outlined),
-                    onTap: () {
-                      _showReleaseInfo(context);
-                    },
+                    tileColor: Theme.of(context).listTileTheme.tileColor,
+                    onTap: () => _showReleaseInfo(context),
                   ),
-                ),
-                // Política de privacidade
-                Card(
-                  clipBehavior: Clip.hardEdge,
-                  margin: const EdgeInsets.all(8.0),
-                  child: ListTile(
+                  ListTile(
                     title: Text(AppLocalizations.of(context)!.privacy),
                     subtitle: Text(AppLocalizations.of(context)!.privacySub),
                     leading: const Icon(Icons.shield_outlined),
+                    tileColor: Theme.of(context).listTileTheme.tileColor,
                     onTap: () {
-                      Navigator.pop(context);
                       launchUrl(
                         Uri.parse(
                           'https://br-newsdroid.blogspot.com/p/politica-de-privacidade.html',
@@ -199,34 +192,24 @@ class _AboutPageState extends State<AboutPage> {
                       );
                     },
                   ),
-                ),
-                // Código Fonte
-                Card(
-                  clipBehavior: Clip.hardEdge,
-                  margin: const EdgeInsets.all(8.0),
-                  child: ListTile(
+                  ListTile(
                     title: Text(AppLocalizations.of(context)!.sourceCode),
                     subtitle: Text(AppLocalizations.of(context)!.sourceCodeSub),
                     leading: const Icon(Icons.code_outlined),
+                    tileColor: Theme.of(context).listTileTheme.tileColor,
                     onTap: () {
-                      Navigator.pop(context);
                       launchUrl(
                         Uri.parse(
-                          'https://github.com/hendrilmendes/News-Droid/',
-                        ),
+                            'https://github.com/hendrilmendes/News-Droid/'),
                         mode: LaunchMode.inAppBrowserView,
                       );
                     },
                   ),
-                ),
-                // Licenças
-                Card(
-                  clipBehavior: Clip.hardEdge,
-                  margin: const EdgeInsets.all(8.0),
-                  child: ListTile(
+                  ListTile(
                     title: Text(AppLocalizations.of(context)!.openSource),
                     subtitle: Text(AppLocalizations.of(context)!.openSourceSub),
                     leading: const Icon(Icons.folder_open),
+                    tileColor: Theme.of(context).listTileTheme.tileColor,
                     onTap: () {
                       Navigator.push(
                         context,
@@ -239,8 +222,8 @@ class _AboutPageState extends State<AboutPage> {
                       );
                     },
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

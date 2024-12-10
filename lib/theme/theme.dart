@@ -7,6 +7,7 @@ enum ThemeModeType { light, dark, system }
 class ThemeModel extends ChangeNotifier {
   bool _isDarkMode = true;
   ThemeModeType _themeMode = ThemeModeType.light;
+  SharedPreferences? _prefs;
 
   ThemeModel() {
     _loadThemePreference();
@@ -17,30 +18,31 @@ class ThemeModel extends ChangeNotifier {
 
   void toggleDarkMode() {
     _isDarkMode = !_isDarkMode;
+    _saveThemeModePreference(
+        _isDarkMode ? ThemeModeType.dark : ThemeModeType.light);
     notifyListeners();
   }
 
   void changeThemeMode(ThemeModeType mode) {
     _themeMode = mode;
-    saveThemeModePreference(mode);
+    _saveThemeModePreference(mode);
     notifyListeners();
   }
-
-  SharedPreferences? _prefs;
 
   Future<void> _loadThemePreference() async {
     _prefs = await SharedPreferences.getInstance();
     _isDarkMode = _prefs?.getBool('darkModeEnabled') ?? true;
-    _themeMode = _getSavedThemeMode(_prefs?.getString('themeMode'));
+    _themeMode = _getSavedThemeMode(
+        _prefs?.getString('themeMode') ?? ThemeModeType.system.toString());
     notifyListeners();
   }
 
-  Future<void> saveThemeModePreference(ThemeModeType mode) async {
-    _prefs = await SharedPreferences.getInstance();
+  Future<void> _saveThemeModePreference(ThemeModeType mode) async {
     await _prefs?.setString('themeMode', mode.toString());
+    await _prefs?.setBool('darkModeEnabled', mode == ThemeModeType.dark);
   }
 
-  ThemeModeType _getSavedThemeMode(String? mode) {
+  ThemeModeType _getSavedThemeMode(String mode) {
     switch (mode) {
       case 'ThemeModeType.light':
         return ThemeModeType.light;
@@ -71,9 +73,10 @@ class ThemeModel extends ChangeNotifier {
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
       iconTheme: const IconThemeData(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          enableFeedback: true,
-          backgroundColor: Colors.white,
-          selectedItemColor: Color.fromARGB(255, 97, 184, 255)),
+        enableFeedback: true,
+        backgroundColor: Colors.white,
+        selectedItemColor: Color.fromARGB(255, 97, 184, 255),
+      ),
       cardTheme: const CardTheme(
         color: Colors.white,
       ),
@@ -122,8 +125,9 @@ class ThemeModel extends ChangeNotifier {
       bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
       iconTheme: const IconThemeData(color: Colors.white),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-          backgroundColor: Colors.black,
-          selectedItemColor: Color.fromARGB(255, 97, 184, 255)),
+        backgroundColor: Colors.black,
+        selectedItemColor: Color.fromARGB(255, 97, 184, 255),
+      ),
       cardTheme: const CardTheme(
         color: Colors.black87,
       ),

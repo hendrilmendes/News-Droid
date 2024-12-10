@@ -6,29 +6,26 @@ import 'package:in_app_review/in_app_review.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget buildReviewSettings(BuildContext context) {
-  return Card(
-    clipBehavior: Clip.hardEdge,
-    margin: const EdgeInsets.all(8.0),
-    child: ListTile(
-      title: Text(AppLocalizations.of(context)!.review),
-      subtitle: Text(AppLocalizations.of(context)!.reviewSub),
-      leading: const Icon(Icons.rate_review_outlined),
-      onTap: () async {
-        final InAppReview inAppReview = InAppReview.instance;
+  return ListTile(
+    title: Text(AppLocalizations.of(context)!.review),
+    subtitle: Text(AppLocalizations.of(context)!.reviewSub),
+    leading: const Icon(Icons.rate_review_outlined),
+    tileColor: Theme.of(context).listTileTheme.tileColor,
+    onTap: () async {
+      final InAppReview inAppReview = InAppReview.instance;
 
-        if (await inAppReview.isAvailable()) {
-          final hasReviewed = await checkReviewed();
-          if (hasReviewed) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(AppLocalizations.of(context)!.alreadyReviewed),
-            ));
-          } else {
-            inAppReview.requestReview();
-            await markReviewed();
-          }
+      if (await inAppReview.isAvailable()) {
+        final hasReviewed = await checkReviewed();
+        if (hasReviewed) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text(AppLocalizations.of(context)!.alreadyReviewed),
+          ));
+        } else {
+          inAppReview.requestReview();
+          await markReviewed();
         }
-      },
-    ),
+      }
+    },
   );
 }
 

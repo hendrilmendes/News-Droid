@@ -266,7 +266,11 @@ class _CommentScreenState extends State<CommentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.comments),
+        title: Text(
+          AppLocalizations.of(context)!.comments,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
         automaticallyImplyLeading: false,
       ),
       body: Column(
@@ -280,7 +284,7 @@ class _CommentScreenState extends State<CommentScreen> {
                     ? Center(
                         child: Text(
                           AppLocalizations.of(context)!.noComment,
-                          style: const TextStyle(fontSize: 18.0),
+                          style: const TextStyle(fontSize: 16),
                         ),
                       )
                     : ListView.builder(
@@ -365,7 +369,7 @@ class _CommentScreenState extends State<CommentScreen> {
                               strokeWidth: 2.0,
                             ),
                           )
-                        : const Icon(Icons.send_outlined),
+                        : const Icon(Icons.send_rounded),
                     onPressed: isSubmitting
                         ? null
                         : () async {

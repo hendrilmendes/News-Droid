@@ -34,107 +34,105 @@ class _SearchBarSettingState extends State<SearchBarSetting> {
     });
   }
 
-void _showPositionDialog(BuildContext context) {
-  final appLocalizations = AppLocalizations.of(context);
-  if (appLocalizations != null) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(appLocalizations.searchBarPosition),
-          content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-              return Container(
-                color: Colors.transparent,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showSearchBarAtBottom = false;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Radio(
-                            activeColor: Colors.blue,
-                            value: false,
-                            groupValue: showSearchBarAtBottom,
-                            onChanged: (bool? value) {
-                              if (value != null) {
-                                setState(() {
-                                  showSearchBarAtBottom = value;
-                                });
-                              }
-                            },
-                          ),
-                          Text(appLocalizations.positionTop),
-                        ],
+  void _showPositionDialog(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
+    if (appLocalizations != null) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(appLocalizations.searchBarPosition),
+            content: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+                return Container(
+                  color: Colors.transparent,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            showSearchBarAtBottom = false;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: Colors.blue,
+                              value: false,
+                              groupValue: showSearchBarAtBottom,
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  setState(() {
+                                    showSearchBarAtBottom = value;
+                                  });
+                                }
+                              },
+                            ),
+                            Text(appLocalizations.positionTop),
+                          ],
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showSearchBarAtBottom = true;
-                        });
-                      },
-                      child: Row(
-                        children: [
-                          Radio(
-                            activeColor: Colors.blue,
-                            value: true,
-                            groupValue: showSearchBarAtBottom,
-                            onChanged: (bool? value) {
-                              if (value != null) {
-                                setState(() {
-                                  showSearchBarAtBottom = value;
-                                });
-                              }
-                            },
-                          ),
-                          Text(appLocalizations.positionBottom),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            showSearchBarAtBottom = true;
+                          });
+                        },
+                        child: Row(
+                          children: [
+                            Radio(
+                              activeColor: Colors.blue,
+                              value: true,
+                              groupValue: showSearchBarAtBottom,
+                              onChanged: (bool? value) {
+                                if (value != null) {
+                                  setState(() {
+                                    showSearchBarAtBottom = value;
+                                  });
+                                }
+                              },
+                            ),
+                            Text(appLocalizations.positionBottom),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
+                    ],
+                  ),
+                );
               },
-              child: Text(appLocalizations.cancel),
             ),
-            TextButton(
-              onPressed: () {
-                saveSearchBarPosition(showSearchBarAtBottom);
-                Navigator.of(context).pop();
-              },
-              child: Text(appLocalizations.ok),
-            ),
-          ],
-        );
-      },
-    );
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(appLocalizations.cancel),
+              ),
+              FilledButton(
+                onPressed: () {
+                  saveSearchBarPosition(showSearchBarAtBottom);
+                  Navigator.of(context).pop();
+                },
+                child: Text(appLocalizations.ok),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.all(8.0),
-      child: ListTile(
-        title: Text(AppLocalizations.of(context)!.searchPosition),
-        subtitle: Text(AppLocalizations.of(context)!.searchPositionSub),
-        onTap: () {
-          _showPositionDialog(context);
-        },
-      ),
+    return ListTile(
+      title: Text(AppLocalizations.of(context)!.searchPosition),
+      subtitle: Text(AppLocalizations.of(context)!.searchPositionSub),
+      leading: const Icon(Icons.search_outlined),
+      tileColor: Theme.of(context).listTileTheme.tileColor,
+      onTap: () {
+        _showPositionDialog(context);
+      },
     );
   }
 }

@@ -144,7 +144,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.appName),
+        title: Text(
+          AppLocalizations.of(context)!.appName,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: isLoading
           ? buildShimmerLoadingHome()

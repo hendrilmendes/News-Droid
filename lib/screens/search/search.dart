@@ -32,6 +32,8 @@ class _SearchScreenState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
   final ValueNotifier<String> searchQuery = ValueNotifier<String>('');
   bool showSearchBarAtBottom = true;
+  List<String> allLabels = [];
+  String? selectedLabel;
 
   final List<String> trendWords = [
     'Windows 12',
@@ -85,6 +87,7 @@ class _SearchScreenState extends State<SearchScreen> {
         setState(() {
           posts = cachedPosts['items'];
           filteredPosts = posts;
+          allLabels = _extractLabels(posts);
           isLoading = false;
         });
         return;
@@ -106,6 +109,7 @@ class _SearchScreenState extends State<SearchScreen> {
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
+          allLabels = _extractLabels(posts);
           isLoading = false;
         });
       } else {
@@ -116,6 +120,18 @@ class _SearchScreenState extends State<SearchScreen> {
         isLoading = false;
       });
     }
+  }
+
+  List<String> _extractLabels(List<dynamic> posts) {
+    Set<String> labelsSet = {};
+    for (var post in posts) {
+      if (post['labels'] != null) {
+        for (var label in post['labels']) {
+          labelsSet.add(label);
+        }
+      }
+    }
+    return labelsSet.toList();
   }
 
   void searchPosts(String query) {
@@ -166,7 +182,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.search),
+        title: Text(
+          AppLocalizations.of(context)!.search,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
@@ -174,6 +194,45 @@ class _SearchScreenState extends State<SearchScreen> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: buildSearchBar(),
+            ),
+          if (posts.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  spacing: 8.0,
+                  children: allLabels.map<Widget>((label) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedLabel = label;
+                        });
+                        filterPostsByLabel(label);
+                      },
+                      child: Chip(
+                        label: Text(label),
+                        backgroundColor: selectedLabel == label
+                            ? Colors.blue
+                            : Theme.of(context).listTileTheme.tileColor,
+                        labelStyle: TextStyle(
+                          color: selectedLabel == label
+                              ? Colors.white
+                              : Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          side: BorderSide(
+                            color: selectedLabel == label
+                                ? Colors.blue
+                                : Colors.transparent,
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
           Expanded(
             child: isLoading
@@ -190,10 +249,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         padding: const EdgeInsets.all(16.0),
                         gridDelegate:
                             const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200.0,
-                          mainAxisExtent: 300.0,
-                          crossAxisSpacing: 16.0,
-                          mainAxisSpacing: 16.0,
+                          maxCrossAxisExtent: 200,
+                          mainAxisExtent: 300,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
                         ),
                         itemCount: filteredPosts.length,
                         itemBuilder: (BuildContext context, int index) {
@@ -283,10 +342,6 @@ class _SearchScreenState extends State<SearchScreen> {
                                       children: [
                                         Text(
                                           title,
-                                          style: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
                                         ),
                                         const SizedBox(height: 6),
                                         Row(
@@ -321,6 +376,16 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+
+  void filterPostsByLabel(String label) {
+    setState(() {
+      filteredPosts = posts
+          .where((post) =>
+              post['labels'] != null && post['labels'].contains(label))
+          .toList();
+      searchResultsEmpty = filteredPosts.isEmpty;
+    });
   }
 
   Widget buildSearchBar() {

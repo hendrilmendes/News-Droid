@@ -2,6 +2,22 @@ Changelog
 
 ======================================================
 
+## [3.6.0](https://github.com/hendrilmendes/News-Droid/compare/3.4.0..3.6.0) (**-**-****)
+
+## Alterações
+
+### Features
+
+- Implementado categorias na tela de pesquisa
+
+### Correções
+
+- Melhorias no design do carrossel na tela inicial
+- Melhorias no design da tela de configurações
+- Refinamentos na interface
+
+======================================================
+
 ## [3.4.0](https://github.com/hendrilmendes/News-Droid/compare/3.3.1..3.4.0) (09-11-2024)
 
 ## Alterações

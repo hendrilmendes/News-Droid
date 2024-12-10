@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class NotificationSettings extends StatefulWidget {
- const NotificationSettings({super.key});
+  const NotificationSettings({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,17 +46,14 @@ class _NotificationSettingsState extends State<NotificationSettings> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.all(8.0),
-      child: ListTile(
-        title: Text(AppLocalizations.of(context)!.notification),
-        subtitle: Text(AppLocalizations.of(context)!.notificationSub),
-        trailing: Switch(
-          activeColor: Colors.blue,
-          value: _notificationsEnabled,
-          onChanged: _toggleNotifications,
-        ),
+    return ListTile(
+      title: Text(AppLocalizations.of(context)!.notification),
+      subtitle: Text(AppLocalizations.of(context)!.notificationSub),
+      tileColor: Theme.of(context).listTileTheme.tileColor,
+      trailing: Switch(
+        activeColor: Colors.blue,
+        value: _notificationsEnabled,
+        onChanged: _toggleNotifications,
       ),
     );
   }

@@ -15,29 +15,26 @@ Future<String> writeImageToStorage(Uint8List feedbackScreenshot) async {
 }
 
 Widget buildSupportSettings(BuildContext context) {
-  return Card(
-    clipBehavior: Clip.hardEdge,
-    margin: const EdgeInsets.all(8.0),
-    child: ListTile(
-      title: Text(AppLocalizations.of(context)!.support),
-      subtitle: Text(AppLocalizations.of(context)!.supportSub),
-      leading: const Icon(Icons.support_outlined),
-      onTap: () {
-        BetterFeedback.of(context).show((feedback) async {
-          final screenshotFilePath =
-              await writeImageToStorage(feedback.screenshot);
+  return ListTile(
+    title: Text(AppLocalizations.of(context)!.support),
+    subtitle: Text(AppLocalizations.of(context)!.supportSub),
+    leading: const Icon(Icons.support_outlined),
+    tileColor: Theme.of(context).listTileTheme.tileColor,
+    onTap: () {
+      BetterFeedback.of(context).show((feedback) async {
+        final screenshotFilePath =
+            await writeImageToStorage(feedback.screenshot);
 
-          final Email email = Email(
-            body: feedback.text,
-            // ignore: use_build_context_synchronously
-            subject: AppLocalizations.of(context)!.appName,
-            recipients: ['hendrilmendes2015@gmail.com'],
-            attachmentPaths: [screenshotFilePath],
-            isHTML: false,
-          );
-          await FlutterEmailSender.send(email);
-        });
-      },
-    ),
+        final Email email = Email(
+          body: feedback.text,
+          // ignore: use_build_context_synchronously
+          subject: AppLocalizations.of(context)!.appName,
+          recipients: ['hendrilmendes2015@gmail.com'],
+          attachmentPaths: [screenshotFilePath],
+          isHTML: false,
+        );
+        await FlutterEmailSender.send(email);
+      });
+    },
   );
 }

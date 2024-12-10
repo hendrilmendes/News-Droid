@@ -4,7 +4,6 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/widgets/settings/about.dart';
 import 'package:newsdroid/widgets/settings/accounts.dart';
-import 'package:newsdroid/widgets/settings/category.dart';
 import 'package:newsdroid/widgets/settings/notification.dart';
 import 'package:newsdroid/widgets/settings/review.dart';
 import 'package:newsdroid/widgets/settings/search.dart';
@@ -24,24 +23,61 @@ class SettingsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Text(
+          AppLocalizations.of(context)!.settings,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: ListView(
         children: [
           AccountUser(user: _user),
-          buildCategoryHeader(
-              AppLocalizations.of(context)!.notification, Icons.notifications_active_outlined),
-          const NotificationSettings(),
-          buildCategoryHeader(
-              AppLocalizations.of(context)!.interface, Icons.color_lens_outlined),
-          ThemeSettings(themeModel: themeModel),
-          SearchBarSetting(),
-          buildCategoryHeader(
-              AppLocalizations.of(context)!.outhers, Icons.more_horiz_outlined),
-          buildUpdateSettings(context),
-          buildReviewSettings(context),
-          buildSupportSettings(context),
-          buildAboutSettings(context),
+          const SizedBox(height: 8),
+          _buildSectionCard(
+            context,
+            const NotificationSettings(),
+          ),
+          const SizedBox(height: 8),
+          _buildSectionCard(
+            context,
+            Column(
+              children: [
+                ThemeSettings(themeModel: themeModel),
+                SearchBarSetting(),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          _buildSectionCard(
+            context,
+            Column(
+              children: [
+                buildUpdateSettings(context),
+                buildReviewSettings(context),
+                buildSupportSettings(context),
+                buildAboutSettings(context),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionCard(
+    BuildContext context,
+    Widget child,
+  ) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      color: Theme.of(context).listTileTheme.tileColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          child,
         ],
       ),
     );

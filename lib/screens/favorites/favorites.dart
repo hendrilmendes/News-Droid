@@ -49,7 +49,11 @@ class FavoritesScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.favorites),
+        title: Text(
+          AppLocalizations.of(context)!.favorites,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
       ),
       body: favoritePostsModel.isLoading
           ? Center(
@@ -84,13 +88,15 @@ class FavoritesScreen extends StatelessWidget {
                         background: Container(
                           color: Colors.red,
                           alignment: Alignment.centerLeft,
-                          child: const Icon(Icons.delete_outline_outlined, color: Colors.white),
+                          child: const Icon(Icons.delete_outline_outlined,
+                              color: Colors.white),
                         ),
                         secondaryBackground: Container(
                           color: Colors.red,
                           child: const Align(
                             alignment: Alignment.centerRight,
-                            child: Icon(Icons.delete_outline_outlined, color: Colors.white),
+                            child: Icon(Icons.delete_outline_outlined,
+                                color: Colors.white),
                           ),
                         ),
                         child: Card(
@@ -133,8 +139,6 @@ class FavoritesScreen extends StatelessWidget {
                               ),
                               title: Text(
                                 post.title,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
                               ),
                               subtitle: Row(
                                 children: [

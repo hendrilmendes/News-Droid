@@ -36,7 +36,7 @@ class PostDetailsScreen extends StatefulWidget {
 }
 
 class _PostDetailsScreenState extends State<PostDetailsScreen> {
-  double _fontSize = 18.0;
+  double _fontSize = 16;
   bool _isFavorite = false;
   late FlutterTts flutterTts;
 
@@ -172,7 +172,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            expandedHeight: 300.0,
+            expandedHeight: 300,
             floating: false,
             pinned: true,
             actions: [
@@ -239,7 +239,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                       widget.title,
                       style: const TextStyle(
                         fontSize: 24,
-                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                         shadows: [
                           Shadow(
