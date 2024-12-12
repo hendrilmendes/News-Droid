@@ -154,7 +154,7 @@ class _PostListWidgetState extends State<PostListWidget> {
                           right: 16,
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.6),
+                              color: Colors.black.withValues(),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             padding: const EdgeInsets.all(12),
