@@ -22,14 +22,25 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>GIDClientID</key>
+	<string>728569554138-rpc6v6p3hsg0fgmeaekbm322ol6umpup.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>newsdroid</string>
+				<string>com.googleusercontent.apps.728569554138-rpc6v6p3hsg0fgmeaekbm322ol6umpup</string>
 			</array>
 		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechrome</string>
+		<string>com.google.chrome.ios</string>
+		<string>googlechrome-x-callback</string>
+		<string>com.google.chrome.ios.x-callback</string>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -39,6 +50,12 @@
 	<true/>
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Precisamos de acesso a rede local para comunicação com servidor</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Este aplicativo usa informações para fornecer notificações personalizadas.</string>
+	<key>FirebaseCrashlyticsCollectionEnabled</key>
+	<true/>
+	<key>FirebaseMessagingAutoInitEnabled</key>
+	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -65,5 +82,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+	<key>com.apple.security.network.client</key>
+	<true/>
+	<key>com.apple.security.network.server</key>
+	<true/>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)com.google.GIDSignIn</string>
+	</array>
 </dict>
 </plist>

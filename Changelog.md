@@ -2,6 +2,21 @@ Changelog
 
 ======================================================
 
+## [3.6.1](https://github.com/hendrilmendes/News-Droid/compare/3.6.0..3.6.1) (**-**-2025)
+
+## Alterações
+
+### Features
+
+- 
+
+### Correções
+
+- iOS:
+Corrigido bug de login
+
+======================================================
+
 ## [3.6.0](https://github.com/hendrilmendes/News-Droid/compare/3.4.0..3.6.0) (13-12-2024)
 
 ## Alterações

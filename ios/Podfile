@@ -1,4 +1,3 @@
-# Uncomment this line to define a global platform for your project
 platform :ios, '18.2'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -34,9 +33,13 @@ target 'Runner' do
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
-post_install do |installer|
+target 'OneSignalNotificationServiceExtension' do
+  use_frameworks!
+  pod 'OneSignalXCFramework', '5.2.9'
+end
 
-installer.generated_projects.each do |project|
+post_install do |installer|
+  installer.generated_projects.each do |project|
     project.targets.each do |target|
       target.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '16.0'
@@ -44,12 +47,13 @@ installer.generated_projects.each do |project|
     end
   end
 
-installer.aggregate_targets.each do |target|
+  installer.aggregate_targets.each do |target|
     target.xcconfigs.each do |variant, xcconfig|
       xcconfig_path = target.client_root + target.xcconfig_relative_path(variant)
       IO.write(xcconfig_path, IO.read(xcconfig_path).gsub("DT_TOOLCHAIN_DIR", "TOOLCHAIN_DIR"))
     end
   end
+
   installer.pods_project.targets.each do |target|
     target.build_configurations.each do |config|
       if config.base_configuration_reference.is_a? Xcodeproj::Project::Object::PBXFileReference
@@ -61,10 +65,5 @@ installer.aggregate_targets.each do |target|
 
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
-  end
-  
-  target 'OneSignalNotificationServiceExtension' do
-    use_frameworks!
-    pod 'OneSignalXCFramework', '>= 5.0.0', '< 6.0'
   end
 end

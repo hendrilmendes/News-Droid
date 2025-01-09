@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     appId: '1:728569554138:android:44d66ca44bb6bf948471e3',
     messagingSenderId: '728569554138',
     projectId: 'news-droid-app-1670874618271',
-    storageBucket: 'news-droid-app-1670874618271.appspot.com',
+    storageBucket: 'news-droid-app-1670874618271.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -62,7 +62,8 @@ class DefaultFirebaseOptions {
     appId: '1:728569554138:ios:d85197e9f123a9928471e3',
     messagingSenderId: '728569554138',
     projectId: 'news-droid-app-1670874618271',
-    storageBucket: 'news-droid-app-1670874618271.appspot.com',
+    storageBucket: 'news-droid-app-1670874618271.firebasestorage.app',
+    androidClientId: '728569554138-7ruh4kc52r9j0phuv657qa64ogk0q09k.apps.googleusercontent.com',
     iosClientId: '728569554138-e4onusju0gnidnf1dgs1e4b0kstjc18q.apps.googleusercontent.com',
     iosBundleId: 'com.github.hendrilmendes.news.OneSignalNotificationServiceExtension',
   );

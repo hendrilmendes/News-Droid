@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.6.0+360
+version: 3.6.1+361
 
 environment:
   sdk: ^3.6.0
@@ -12,22 +12,22 @@ dependencies:
     sdk: flutter
 
 # Cached Network
-  cached_network_image: ^3.4.0
+  cached_network_image: ^3.4.1
 
 # Connectivity Plus
-  connectivity_plus: ^6.0.5
+  connectivity_plus: ^6.1.1
 
 # Crypto
-  crypto: ^3.0.5
+  crypto: ^3.0.6
 
 # Email
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_auth: ^5.3.4
-  firebase_core: ^3.8.1
-  firebase_crashlytics: ^4.2.0
-  firebase_performance: ^0.10.0+11
+  firebase_auth: ^5.4.0
+  firebase_core: ^3.10.0
+  firebase_crashlytics: ^4.3.0
+  firebase_performance: ^0.10.1
 
 # Feedback
   feedback:
@@ -45,7 +45,7 @@ dependencies:
   hive_flutter: ^1.1.0
 
 # HTML
-  html: ^0.15.4
+  html: ^0.15.5
 
 # HTTP
   http: ^1.2.2
@@ -54,13 +54,13 @@ dependencies:
   intl: ^0.19.0
 
 # OneSignal
-  onesignal_flutter: ^5.2.8
+  onesignal_flutter: ^5.2.9
 
 # Package Info
-  package_info_plus: ^8.1.1
+  package_info_plus: ^8.1.2
 
 # Path Provider
-  path_provider: ^2.1.3
+  path_provider: ^2.1.5
 
 # Permission Handler
   permission_handler: ^11.3.1
@@ -72,16 +72,16 @@ dependencies:
   in_app_review: ^2.0.10
   
 # Share Plus
-  share_plus: ^10.1.2
+  share_plus: ^10.1.3
 
 # Shared Preferences
-  shared_preferences: ^2.3.3
+  shared_preferences: ^2.3.5
 
 # Shimer
   shimmer: ^3.0.0
 
 # TTS
-  flutter_tts: ^4.2.0
+  flutter_tts: ^4.2.1
 
 # Url Launcher
   url_launcher: ^6.3.1
