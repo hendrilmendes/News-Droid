@@ -97,8 +97,8 @@ class _MyAppState extends State<MyApp> {
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, __) {
           return MaterialApp(
-              theme: ThemeModel.lightTheme(),
-              darkTheme: ThemeModel.darkTheme(),
+              theme: themeModel.lightTheme,
+              darkTheme: themeModel.darkTheme,
               themeMode: _getThemeMode(themeModel.themeMode),
               debugShowCheckedModeBanner: false,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -117,11 +117,10 @@ class _MyAppState extends State<MyApp> {
       future: authService.currentUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          Updater.checkUpdateApp(context);
           if (snapshot.hasData) {
-            Updater.checkUpdateApp(context);
             return const BottomNavigationContainer();
           } else {
-            Updater.checkUpdateApp(context);
             return LoginScreen(authService: authService);
           }
         } else {

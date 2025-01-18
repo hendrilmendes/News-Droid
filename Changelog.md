@@ -2,15 +2,17 @@ Changelog
 
 ======================================================
 
-## [3.6.1](https://github.com/hendrilmendes/News-Droid/compare/3.6.0..3.6.1) (**-**-2025)
+## [3.7.0](https://github.com/hendrilmendes/News-Droid/compare/3.6.0..3.7.0) (**-**-2025)
 
 ## Alterações
 
 ### Features
 
-- 
+- O Dynamic Colors voltou (Android 12+)
 
 ### Correções
+
+- A rolagem da tela inicial foi alterada, agora o PageView segue a rolagem da tela
 
 - iOS:
 Corrigido bug de login

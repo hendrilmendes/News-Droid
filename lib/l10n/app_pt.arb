@@ -40,9 +40,9 @@
     "@delete": {},
     "noFavorites": "Nenhuma postagem encontrada 😕",
     "@noFavorites": {},
-    "noConnection": "Sem conexão com a Terra",
+    "noConnection": "Sem conexão com a internet 😵",
     "@noConnection": {},
-    "noConnectionSub": "Verifique se você realmente e um humano",
+    "noConnectionSub": "Verifique se você esta conectado a uma rede",
     "@noConnectionSub": {},
     "refresh": "Recarregar",
     "@refresh": {},
@@ -149,5 +149,9 @@
     "errorUpdate": "Não foi possível verificar atualizações.",
     "@errorUpdate": {},
     "error": "Erro",
-    "@error": {}
+    "@error": {},
+    "dynamicColors": "Dynamic Colors",
+    "@dynamicColors": {},
+    "dynamicColorsSub": "Proporciona uma interface agradável de acordo com o seu papel de parede",
+    "@dynamicColorsSub": {}
 }

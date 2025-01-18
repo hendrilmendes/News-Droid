@@ -35,7 +35,6 @@ class ThemeSettings extends StatelessWidget {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: Colors.blue,
                               value: ThemeModeType.light,
                               groupValue: themeModel.themeMode,
                               onChanged: (value) {
@@ -59,7 +58,6 @@ class ThemeSettings extends StatelessWidget {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: Colors.blue,
                               value: ThemeModeType.dark,
                               groupValue: themeModel.themeMode,
                               onChanged: (value) {
@@ -83,7 +81,6 @@ class ThemeSettings extends StatelessWidget {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: Colors.blue,
                               value: ThemeModeType.system,
                               groupValue: themeModel.themeMode,
                               onChanged: (value) {

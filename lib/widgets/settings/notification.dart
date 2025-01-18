@@ -51,7 +51,6 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       subtitle: Text(AppLocalizations.of(context)!.notificationSub),
       tileColor: Theme.of(context).listTileTheme.tileColor,
       trailing: Switch(
-        activeColor: Colors.blue,
         value: _notificationsEnabled,
         onChanged: _toggleNotifications,
       ),

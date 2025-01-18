@@ -213,7 +213,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       child: Chip(
                         label: Text(label),
                         backgroundColor: selectedLabel == label
-                            ? Colors.blue
+                            ? Theme.of(context).colorScheme.primary.withValues()
                             : Theme.of(context).listTileTheme.tileColor,
                         labelStyle: TextStyle(
                           color: selectedLabel == label
@@ -224,7 +224,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           borderRadius: BorderRadius.circular(100),
                           side: BorderSide(
                             color: selectedLabel == label
-                                ? Colors.blue
+                                ? Theme.of(context).scaffoldBackgroundColor
                                 : Colors.transparent,
                           ),
                         ),
@@ -409,7 +409,7 @@ class _SearchScreenState extends State<SearchScreen> {
               color: Colors.transparent,
             ),
           ),
-          prefixIcon: const Icon(Icons.search_outlined, color: Colors.blue),
+          prefixIcon: const Icon(Icons.search_outlined),
           border: InputBorder.none,
           hintText:
               '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',

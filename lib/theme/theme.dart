@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,11 +7,16 @@ enum ThemeModeType { light, dark, system }
 
 class ThemeModel extends ChangeNotifier {
   bool _isDarkMode = true;
-  ThemeModeType _themeMode = ThemeModeType.light;
+  bool _useDynamicColors = true;
+  bool get isDynamicColorsEnabled => _useDynamicColors;
+  ThemeModeType _themeMode = ThemeModeType.system;
   SharedPreferences? _prefs;
+  ColorScheme? _lightDynamicColorScheme;
+  ColorScheme? _darkDynamicColorScheme;
 
   ThemeModel() {
     _loadThemePreference();
+    _loadDynamicColors();
   }
 
   bool get isDarkMode => _isDarkMode;
@@ -23,23 +29,85 @@ class ThemeModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleDynamicColors() {
+    _useDynamicColors = !_useDynamicColors;
+    _saveDynamicColorPreference(_useDynamicColors);
+    notifyListeners();
+  }
+
   void changeThemeMode(ThemeModeType mode) {
     _themeMode = mode;
     _saveThemeModePreference(mode);
     notifyListeners();
   }
 
+  void setDynamicColors(ColorScheme? light, ColorScheme? dark) {
+    _lightDynamicColorScheme = light;
+    _darkDynamicColorScheme = dark;
+    _useDynamicColors = light != null && dark != null;
+    _saveDynamicColorPreference(_useDynamicColors);
+    notifyListeners();
+  }
+
+  ThemeData get lightTheme {
+    if (_useDynamicColors && _lightDynamicColorScheme != null) {
+      return ThemeData(
+        useMaterial3: true,
+        colorScheme: _lightDynamicColorScheme,
+        textTheme: Typography()
+            .black
+            .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+      );
+    }
+    return ThemeModel.getLightTheme();
+  }
+
+  ThemeData get darkTheme {
+    if (_useDynamicColors && _darkDynamicColorScheme != null) {
+      return ThemeData(
+        useMaterial3: true,
+        colorScheme:
+            _darkDynamicColorScheme!.copyWith(brightness: Brightness.dark),
+        textTheme: Typography()
+            .white
+            .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+      );
+    }
+    return ThemeModel.getDarkTheme();
+  }
+
   Future<void> _loadThemePreference() async {
     _prefs = await SharedPreferences.getInstance();
-    _isDarkMode = _prefs?.getBool('darkModeEnabled') ?? true;
+    _isDarkMode = _prefs?.getBool('darkModeEnabled') ?? false;
+    _useDynamicColors = _prefs?.getBool('useDynamicColors') ?? false;
     _themeMode = _getSavedThemeMode(
         _prefs?.getString('themeMode') ?? ThemeModeType.system.toString());
+
+    // Certifique-se de que os esquemas de cores dinâmicos sejam carregados
+    await _loadDynamicColors();
+    notifyListeners();
+  }
+
+  Future<void> _loadDynamicColors() async {
+    final dynamicPalette = await DynamicColorPlugin.getCorePalette();
+
+    if (dynamicPalette != null) {
+      _lightDynamicColorScheme =
+          dynamicPalette.toColorScheme(brightness: Brightness.light);
+      _darkDynamicColorScheme =
+          dynamicPalette.toColorScheme(brightness: Brightness.dark);
+    }
+
     notifyListeners();
   }
 
   Future<void> _saveThemeModePreference(ThemeModeType mode) async {
     await _prefs?.setString('themeMode', mode.toString());
     await _prefs?.setBool('darkModeEnabled', mode == ThemeModeType.dark);
+  }
+
+  Future<void> _saveDynamicColorPreference(bool value) async {
+    await _prefs?.setBool('useDynamicColors', value);
   }
 
   ThemeModeType _getSavedThemeMode(String mode) {
@@ -55,58 +123,23 @@ class ThemeModel extends ChangeNotifier {
     }
   }
 
-  static ThemeData lightTheme() {
+  static ThemeData getLightTheme() {
     return ThemeData(
       useMaterial3: true,
+      colorScheme: const ColorScheme.light(),
       scaffoldBackgroundColor: Colors.white,
       textTheme: Typography()
           .black
           .apply(fontFamily: GoogleFonts.openSans().fontFamily),
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.white70,
-        iconTheme: const IconThemeData(color: Colors.black),
-        titleTextStyle: TextStyle(
-            color: Colors.black,
-            fontFamily: GoogleFonts.openSans().fontFamily,
-            fontSize: 24),
-      ),
-      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white),
-      iconTheme: const IconThemeData(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         enableFeedback: true,
         backgroundColor: Colors.white,
-        selectedItemColor: Color.fromARGB(255, 97, 184, 255),
+        selectedItemColor: Colors.blue,
       ),
-      cardTheme: const CardTheme(
-        color: Colors.white,
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        hintStyle: TextStyle(color: Colors.black),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      dialogTheme: const DialogTheme(backgroundColor: Colors.white),
-      listTileTheme: const ListTileThemeData(
-        iconColor: Colors.black,
-        textColor: Colors.black,
-      ),
-      navigationRailTheme: const NavigationRailThemeData(
-        useIndicator: true,
-        backgroundColor: Colors.white,
-        indicatorColor: Colors.black,
-        selectedLabelTextStyle: TextStyle(color: Colors.black),
-        unselectedLabelTextStyle: TextStyle(color: Colors.black),
-      ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-        ),
-      ),
-      floatingActionButtonTheme:
-          const FloatingActionButtonThemeData(backgroundColor: Colors.white),
     );
   }
 
-  static ThemeData darkTheme() {
+  static ThemeData getDarkTheme() {
     return ThemeData(
       useMaterial3: true,
       colorScheme: const ColorScheme.dark(),
@@ -114,47 +147,10 @@ class ThemeModel extends ChangeNotifier {
       textTheme: Typography()
           .white
           .apply(fontFamily: GoogleFonts.openSans().fontFamily),
-      appBarTheme: AppBarTheme(
-        backgroundColor: Colors.black87,
-        iconTheme: const IconThemeData(color: Colors.white),
-        titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontFamily: GoogleFonts.openSans().fontFamily,
-            fontSize: 24),
-      ),
-      bottomAppBarTheme: const BottomAppBarTheme(color: Colors.black),
-      iconTheme: const IconThemeData(color: Colors.white),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.black,
-        selectedItemColor: Color.fromARGB(255, 97, 184, 255),
+        selectedItemColor: Colors.blue,
       ),
-      cardTheme: const CardTheme(
-        color: Colors.black87,
-      ),
-      inputDecorationTheme: const InputDecorationTheme(
-        hintStyle: TextStyle(color: Colors.white),
-        labelStyle: TextStyle(color: Colors.white),
-      ),
-      dialogTheme: const DialogTheme(backgroundColor: Colors.black),
-      listTileTheme: const ListTileThemeData(
-        tileColor: Color.fromARGB(212, 23, 23, 23),
-        iconColor: Colors.white,
-        textColor: Colors.white,
-      ),
-      navigationRailTheme: const NavigationRailThemeData(
-        useIndicator: true,
-        backgroundColor: Colors.black,
-        indicatorColor: Colors.white,
-        selectedLabelTextStyle: TextStyle(color: Colors.white),
-        unselectedLabelTextStyle: TextStyle(color: Colors.white),
-      ),
-      filledButtonTheme: FilledButtonThemeData(
-        style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-        ),
-      ),
-      floatingActionButtonTheme:
-          const FloatingActionButtonThemeData(backgroundColor: Colors.blue),
     );
   }
 }

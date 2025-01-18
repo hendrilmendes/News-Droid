@@ -360,7 +360,6 @@ class _CommentScreenState extends State<CommentScreen> {
                     ),
                   ),
                   IconButton(
-                    color: Colors.blue,
                     icon: isSubmitting
                         ? const SizedBox(
                             width: 24.0,

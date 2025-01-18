@@ -52,7 +52,6 @@ class AccountUser extends StatelessWidget {
               ),
             if (user != null)
               IconButton(
-                color: Colors.blue,
                 icon: const Icon(Icons.logout_outlined),
                 onPressed: () async {
                   await _authService.signOut();

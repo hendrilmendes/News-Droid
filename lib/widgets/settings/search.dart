@@ -58,7 +58,6 @@ class _SearchBarSettingState extends State<SearchBarSetting> {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: Colors.blue,
                               value: false,
                               groupValue: showSearchBarAtBottom,
                               onChanged: (bool? value) {
@@ -82,7 +81,6 @@ class _SearchBarSettingState extends State<SearchBarSetting> {
                         child: Row(
                           children: [
                             Radio(
-                              activeColor: Colors.blue,
                               value: true,
                               groupValue: showSearchBarAtBottom,
                               onChanged: (bool? value) {
