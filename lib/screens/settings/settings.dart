@@ -13,7 +13,6 @@ import 'package:newsdroid/widgets/settings/review.dart';
 import 'package:newsdroid/widgets/settings/search.dart';
 import 'package:newsdroid/widgets/settings/support.dart';
 import 'package:newsdroid/widgets/settings/theme.dart';
-import 'package:newsdroid/widgets/settings/update.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -81,7 +80,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             context,
             Column(
               children: [
-                buildUpdateSettings(context),
                 buildReviewSettings(context),
                 buildSupportSettings(context),
                 buildAboutSettings(context),

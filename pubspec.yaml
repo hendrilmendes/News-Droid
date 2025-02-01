@@ -81,7 +81,7 @@ dependencies:
   share_plus: ^10.1.4
 
 # Shared Preferences
-  shared_preferences: ^2.4.0
+  shared_preferences: ^2.5.1
 
 # Shimer
   shimmer: ^3.0.0
@@ -90,7 +90,7 @@ dependencies:
   shorebird_code_push: ^2.0.2
 
 # TTS
-  flutter_tts: ^4.2.1
+  flutter_tts: ^4.2.2
 
 # Url Launcher
   url_launcher: ^6.3.1
