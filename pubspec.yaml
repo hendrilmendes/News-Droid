@@ -21,7 +21,7 @@ dependencies:
   crypto: ^3.0.6
 
 # Device Plus
-  device_info_plus: ^11.2.1
+  device_info_plus: ^11.2.2
   
 # Dynamic Color
   dynamic_color: ^1.7.0
@@ -30,10 +30,10 @@ dependencies:
   flutter_email_sender: ^6.0.3
 
 # Firebase
-  firebase_auth: ^5.4.0
-  firebase_core: ^3.10.0
-  firebase_crashlytics: ^4.3.0
-  firebase_performance: ^0.10.1
+  firebase_auth: ^5.4.1
+  firebase_core: ^3.10.1
+  firebase_crashlytics: ^4.3.1
+  firebase_performance: ^0.10.1+1
 
 # Feedback
   feedback:
@@ -54,7 +54,7 @@ dependencies:
   html: ^0.15.5
 
 # HTTP
-  http: ^1.2.2
+  http: ^1.3.0
   
 # Intl
   intl: ^0.19.0
@@ -63,7 +63,7 @@ dependencies:
   onesignal_flutter: ^5.2.9
 
 # Package Info
-  package_info_plus: ^8.1.3
+  package_info_plus: ^8.1.4
 
 # Path Provider
   path_provider: ^2.1.5
@@ -81,10 +81,13 @@ dependencies:
   share_plus: ^10.1.4
 
 # Shared Preferences
-  shared_preferences: ^2.3.5
+  shared_preferences: ^2.4.0
 
 # Shimer
   shimmer: ^3.0.0
+
+# Shorebird
+  shorebird_code_push: ^2.0.2
 
 # TTS
   flutter_tts: ^4.2.1
@@ -111,3 +114,4 @@ flutter:
   assets:
     - assets/erro/
     - assets/img/
+    - shorebird.yaml

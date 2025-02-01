@@ -17,6 +17,7 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/models/favorite_model.dart';
+import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'firebase_options.dart';
 
 main() async {
@@ -25,6 +26,9 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  // Shorebird
+  await ShorebirdUpdater().checkForUpdate();
 
   runApp(
     BetterFeedback(
