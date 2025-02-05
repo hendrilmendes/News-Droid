@@ -8,7 +8,6 @@ import 'package:intl/intl.dart';
 import 'package:newsdroid/screens/error/error.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/widgets/home/post_list.dart';
-import 'package:newsdroid/widgets/loading/shimmer_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -151,7 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
       ),
       body: isLoading
-          ? buildShimmerLoadingHome()
+          ? Center(
+              child: CircularProgressIndicator.adaptive(),
+            )
           : PostListWidget(
               filteredPosts: filteredPosts,
               currentPage: _currentPage,

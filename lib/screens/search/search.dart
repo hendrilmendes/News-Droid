@@ -9,7 +9,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/screens/error/error.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
-import 'package:newsdroid/widgets/loading/shimmer_search.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -236,7 +235,9 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           Expanded(
             child: isLoading
-                ? Center(child: buildShimmerLoadingSearch())
+                ? Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  )
                 : filteredPosts.isEmpty
                     ? Center(
                         child: Text(

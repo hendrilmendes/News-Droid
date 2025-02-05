@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:newsdroid/widgets/ads/ads.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
 
@@ -79,6 +80,111 @@ class _PostListWidgetState extends State<PostListWidget> {
       formattedDate,
       post['blog']['id'] ?? '',
       post['id'] ?? '',
+    );
+  }
+
+  Widget _buildPostItem(int postIndex) {
+    final post = widget.filteredPosts[postIndex];
+    final title = post['title'] ?? 'Sem título';
+    final url = post['url'] ?? '';
+    final publishedDate = post['published'] ?? '';
+    final formattedDate = widget.formatDate(publishedDate);
+
+    var imageUrl = post['images']?.isNotEmpty == true
+        ? post['images']![0]['url'] ?? ''
+        : '';
+
+    if (imageUrl.isEmpty) {
+      final content = post['content'] ?? '';
+      final match = RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
+      imageUrl = match?.group(1) ?? '';
+    }
+
+    return Card(
+      color: Theme.of(context).listTileTheme.tileColor,
+      clipBehavior: Clip.hardEdge,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      child: InkWell(
+        onTap: () => _imageTapped(
+          context,
+          title,
+          imageUrl,
+          url,
+          post['content'] ?? '',
+          formattedDate,
+          post['blog']['id'] ?? '',
+          post['id'] ?? '',
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: imageUrl.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(color: Colors.white),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error_outline),
+                        )
+                      : Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: Container(color: Colors.white),
+                        ),
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.calendar_month_outlined,
+                          size: 12,
+                          color: Colors.grey,
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          formattedDate,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -199,122 +305,25 @@ class _PostListWidgetState extends State<PostListWidget> {
               ),
             ),
           ),
-          
           SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
                 final postIndex = index + 3;
-                final post = widget.filteredPosts[postIndex];
-                final title = post['title'] ?? 'Sem título';
-                final url = post['url'] ?? '';
-                final publishedDate = post['published'] ?? '';
-                final formattedDate = widget.formatDate(publishedDate);
-
-                var imageUrl = post['images']?.isNotEmpty == true
-                    ? post['images']![0]['url'] ?? ''
-                    : '';
-
-                if (imageUrl.isEmpty) {
-                  final content = post['content'] ?? '';
-                  final match =
-                      RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
-                  imageUrl = match?.group(1) ?? '';
+                if (postIndex >= widget.filteredPosts.length) {
+                  return null;
                 }
 
-                return Card(
-                  color: Theme.of(context).listTileTheme.tileColor,
-                  clipBehavior: Clip.hardEdge,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  child: InkWell(
-                    onTap: () => _imageTapped(
-                      context,
-                      title,
-                      imageUrl,
-                      url,
-                      post['content'] ?? '',
-                      formattedDate,
-                      post['blog']['id'] ?? '',
-                      post['id'] ?? '',
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: SizedBox(
-                              width: 100,
-                              height: 100,
-                              child: imageUrl.isNotEmpty
-                                  ? CachedNetworkImage(
-                                      imageUrl: imageUrl,
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: Colors.grey[300]!,
-                                        highlightColor: Colors.grey[100]!,
-                                        child: Container(color: Colors.white),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          const Icon(Icons.error_outline),
-                                    )
-                                  : Shimmer.fromColors(
-                                      baseColor: Colors.grey[300]!,
-                                      highlightColor: Colors.grey[100]!,
-                                      child: Container(color: Colors.white),
-                                    ),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  title,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onSurface,
-                                      ),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 5),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.calendar_month_outlined,
-                                      size: 12,
-                                      color: Colors.grey,
-                                    ),
-                                    const SizedBox(width: 4),
-                                    Text(
-                                      formattedDate,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall
-                                          ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .onSurface,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
+                // Exibir um banner após cada 5 posts
+                // if (index > 0 && index % 5 == 0) {
+                //   return Column(
+                //     children: [
+                //       AdBanner(),
+                //       _buildPostItem(postIndex),
+                //     ],
+                //   );
+                // }
+
+                return _buildPostItem(postIndex);
               },
               childCount: widget.filteredPosts.length >= 3
                   ? widget.filteredPosts.length - 3

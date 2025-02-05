@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/auth/auth.dart';
-import 'package:newsdroid/widgets/loading/shimmer_comments.dart';
 
 class CommentScreen extends StatefulWidget {
   final String postId;
@@ -278,7 +277,7 @@ class _CommentScreenState extends State<CommentScreen> {
           Expanded(
             child: isLoading
                 ? Center(
-                    child: buildShimmerLoadingComments(),
+                    child: CircularProgressIndicator.adaptive(),
                   )
                 : comments.isEmpty
                     ? Center(

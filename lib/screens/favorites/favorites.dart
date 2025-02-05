@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
-import 'package:newsdroid/widgets/loading/shimmer_fav.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -57,7 +56,7 @@ class FavoritesScreen extends StatelessWidget {
       ),
       body: favoritePostsModel.isLoading
           ? Center(
-              child: buildShimmerLoadingFav(),
+              child: CircularProgressIndicator.adaptive(),
             )
           : favoritePostsModel.favoritePosts.isEmpty
               ? Center(

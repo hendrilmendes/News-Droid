@@ -82,6 +82,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 buildReviewSettings(context),
                 buildSupportSettings(context),
+              ],
+            ),
+          ),
+          const SizedBox(height: 8),
+          _buildSectionCard(
+            context,
+            Column(
+              children: [
                 buildAboutSettings(context),
               ],
             ),

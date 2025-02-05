@@ -144,9 +144,11 @@ class ThemeModel extends ChangeNotifier {
       useMaterial3: true,
       colorScheme: const ColorScheme.dark(),
       scaffoldBackgroundColor: Colors.black,
+      appBarTheme: AppBarTheme(backgroundColor: Colors.black),
       textTheme: Typography()
           .white
           .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+      bottomAppBarTheme: BottomAppBarTheme(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.black,
         selectedItemColor: Colors.blue,

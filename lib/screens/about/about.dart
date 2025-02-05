@@ -17,6 +17,7 @@ class _AboutPageState extends State<AboutPage> {
   String appVersion = '';
   String appBuild = '';
   String releaseNotes = '';
+  String uiVersion = '030225-prod';
   bool isLoading = true;
 
   @override
@@ -173,7 +174,8 @@ class _AboutPageState extends State<AboutPage> {
                 children: [
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.version),
-                    subtitle: Text('v$appVersion | Build: ($appBuild) | UI: $appVersion.20250201'),
+                    subtitle: Text(
+                        'v$appVersion | Build: $appBuild | UI: $appVersion.$uiVersion'),
                     leading: const Icon(Icons.whatshot_outlined),
                     tileColor: Theme.of(context).listTileTheme.tileColor,
                     onTap: () => _showReleaseInfo(context),

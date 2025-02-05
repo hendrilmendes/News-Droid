@@ -13,6 +13,7 @@ Changelog
 ### Correções
 
 - A rolagem da tela inicial foi alterada, agora o PageView segue a rolagem da tela
+- Ajustes nos temas
 
 - iOS:
 Corrigido bug de login
