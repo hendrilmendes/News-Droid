@@ -43,10 +43,10 @@ class _AdBannerState extends State<AdBanner> {
   Widget build(BuildContext context) {
     return _bannerAd != null
         ? SizedBox(
-            height: _bannerAd!.size.height.toDouble(),
-            width: _bannerAd!.size.width.toDouble(),
-            child: AdWidget(ad: _bannerAd!),
-          )
+          height: _bannerAd!.size.height.toDouble(),
+          width: _bannerAd!.size.width.toDouble(),
+          child: AdWidget(ad: _bannerAd!),
+        )
         : SizedBox.shrink();
   }
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -17,7 +17,6 @@ class _AboutPageState extends State<AboutPage> {
   String appVersion = '';
   String appBuild = '';
   String releaseNotes = '';
-  String uiVersion = '030225-prod';
   bool isLoading = true;
 
   @override
@@ -36,8 +35,11 @@ class _AboutPageState extends State<AboutPage> {
 
   Future<void> _fetchReleaseInfo() async {
     try {
-      final response = await http.get(Uri.parse(
-          'https://api.github.com/repos/hendrilmendes/News-Droid/releases'));
+      final response = await http.get(
+        Uri.parse(
+          'https://api.github.com/repos/hendrilmendes/News-Droid/releases',
+        ),
+      );
 
       if (response.statusCode == 200) {
         final List<dynamic> releases = jsonDecode(response.body);
@@ -52,9 +54,10 @@ class _AboutPageState extends State<AboutPage> {
         }
 
         setState(() {
-          releaseNotes = versionRelease.isNotEmpty
-              ? versionRelease
-              : 'Release para esta versão não encontrada. Verifique se há uma versão correspondente no GitHub.';
+          releaseNotes =
+              versionRelease.isNotEmpty
+                  ? versionRelease
+                  : 'Release para esta versão não encontrada. Verifique se há uma versão correspondente no GitHub.';
           isLoading = false;
         });
       } else {
@@ -79,8 +82,9 @@ class _AboutPageState extends State<AboutPage> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -93,24 +97,23 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ],
           ),
-          content: isLoading
-              ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircularProgressIndicator.adaptive(),
-                  ],
-                )
-              : SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        releaseNotes,
-                        style: const TextStyle(fontSize: 14),
-                      ),
-                    ],
+          content:
+              isLoading
+                  ? Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [CircularProgressIndicator.adaptive()],
+                  )
+                  : SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          releaseNotes,
+                          style: const TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
         );
       },
     );
@@ -139,9 +142,7 @@ class _AboutPageState extends State<AboutPage> {
               clipBehavior: Clip.antiAlias,
               child: SizedBox(
                 width: 80,
-                child: Image(
-                  image: AssetImage('assets/img/ic_launcher.png'),
-                ),
+                child: Image(image: AssetImage('assets/img/ic_launcher.png')),
               ),
             ),
             const SizedBox(height: 20),
@@ -174,8 +175,7 @@ class _AboutPageState extends State<AboutPage> {
                 children: [
                   ListTile(
                     title: Text(AppLocalizations.of(context)!.version),
-                    subtitle: Text(
-                        'v$appVersion | Build: $appBuild | UI: $appVersion.$uiVersion'),
+                    subtitle: Text('v$appVersion | Build: $appBuild'),
                     leading: const Icon(Icons.whatshot_outlined),
                     tileColor: Theme.of(context).listTileTheme.tileColor,
                     onTap: () => _showReleaseInfo(context),
@@ -202,7 +202,8 @@ class _AboutPageState extends State<AboutPage> {
                     onTap: () {
                       launchUrl(
                         Uri.parse(
-                            'https://github.com/hendrilmendes/News-Droid/'),
+                          'https://github.com/hendrilmendes/News-Droid/',
+                        ),
                         mode: LaunchMode.inAppBrowserView,
                       );
                     },
@@ -216,10 +217,11 @@ class _AboutPageState extends State<AboutPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LicensePage(
-                            applicationName:
-                                AppLocalizations.of(context)!.appName,
-                          ),
+                          builder:
+                              (context) => LicensePage(
+                                applicationName:
+                                    AppLocalizations.of(context)!.appName,
+                              ),
                         ),
                       );
                     },

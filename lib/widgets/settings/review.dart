@@ -1,8 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:in_app_review/in_app_review.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Widget buildReviewSettings(BuildContext context) {
@@ -17,9 +17,11 @@ Widget buildReviewSettings(BuildContext context) {
       if (await inAppReview.isAvailable()) {
         final hasReviewed = await checkReviewed();
         if (hasReviewed) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(AppLocalizations.of(context)!.alreadyReviewed),
-          ));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(AppLocalizations.of(context)!.alreadyReviewed),
+            ),
+          );
         } else {
           inAppReview.requestReview();
           await markReviewed();

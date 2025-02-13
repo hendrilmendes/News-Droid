@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/widgets/settings/about.dart';
 import 'package:newsdroid/widgets/settings/accounts.dart';

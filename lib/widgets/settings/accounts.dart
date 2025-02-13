@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:newsdroid/auth/auth.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 
 class AccountUser extends StatelessWidget {
   final User? user;
@@ -12,9 +12,7 @@ class AccountUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
       color: Theme.of(context).listTileTheme.tileColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -43,9 +41,7 @@ class AccountUser extends StatelessWidget {
                     ),
                     Text(
                       user!.email ?? '',
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                      ),
+                      style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ],
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -18,9 +18,7 @@ class _DynamicColorsSettingsState extends State<DynamicColorsSettings> {
 
     return ListTile(
       title: Text(AppLocalizations.of(context)!.dynamicColors),
-      subtitle: Text(
-        AppLocalizations.of(context)!.dynamicColorsSub,
-      ),
+      subtitle: Text(AppLocalizations.of(context)!.dynamicColorsSub),
       tileColor: Theme.of(context).listTileTheme.tileColor,
       trailing: Switch(
         value: themeModel.isDynamicColorsEnabled,

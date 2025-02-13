@@ -25,7 +25,8 @@ class ThemeModel extends ChangeNotifier {
   void toggleDarkMode() {
     _isDarkMode = !_isDarkMode;
     _saveThemeModePreference(
-        _isDarkMode ? ThemeModeType.dark : ThemeModeType.light);
+      _isDarkMode ? ThemeModeType.dark : ThemeModeType.light,
+    );
     notifyListeners();
   }
 
@@ -54,9 +55,15 @@ class ThemeModel extends ChangeNotifier {
       return ThemeData(
         useMaterial3: true,
         colorScheme: _lightDynamicColorScheme,
-        textTheme: Typography()
-            .black
-            .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+        textTheme: Typography().black.apply(
+          fontFamily: GoogleFonts.openSans().fontFamily,
+        ),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+            TargetPlatform.values,
+            value: (_) => const FadeForwardsPageTransitionsBuilder(),
+          ),
+        ),
       );
     }
     return ThemeModel.getLightTheme();
@@ -66,11 +73,18 @@ class ThemeModel extends ChangeNotifier {
     if (_useDynamicColors && _darkDynamicColorScheme != null) {
       return ThemeData(
         useMaterial3: true,
-        colorScheme:
-            _darkDynamicColorScheme!.copyWith(brightness: Brightness.dark),
-        textTheme: Typography()
-            .white
-            .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+        colorScheme: _darkDynamicColorScheme!.copyWith(
+          brightness: Brightness.dark,
+        ),
+        textTheme: Typography().white.apply(
+          fontFamily: GoogleFonts.openSans().fontFamily,
+        ),
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+            TargetPlatform.values,
+            value: (_) => const FadeForwardsPageTransitionsBuilder(),
+          ),
+        ),
       );
     }
     return ThemeModel.getDarkTheme();
@@ -81,7 +95,8 @@ class ThemeModel extends ChangeNotifier {
     _isDarkMode = _prefs?.getBool('darkModeEnabled') ?? false;
     _useDynamicColors = _prefs?.getBool('useDynamicColors') ?? false;
     _themeMode = _getSavedThemeMode(
-        _prefs?.getString('themeMode') ?? ThemeModeType.system.toString());
+      _prefs?.getString('themeMode') ?? ThemeModeType.system.toString(),
+    );
 
     // Certifique-se de que os esquemas de cores dinâmicos sejam carregados
     await _loadDynamicColors();
@@ -92,10 +107,12 @@ class ThemeModel extends ChangeNotifier {
     final dynamicPalette = await DynamicColorPlugin.getCorePalette();
 
     if (dynamicPalette != null) {
-      _lightDynamicColorScheme =
-          dynamicPalette.toColorScheme(brightness: Brightness.light);
-      _darkDynamicColorScheme =
-          dynamicPalette.toColorScheme(brightness: Brightness.dark);
+      _lightDynamicColorScheme = dynamicPalette.toColorScheme(
+        brightness: Brightness.light,
+      );
+      _darkDynamicColorScheme = dynamicPalette.toColorScheme(
+        brightness: Brightness.dark,
+      );
     }
 
     notifyListeners();
@@ -128,13 +145,19 @@ class ThemeModel extends ChangeNotifier {
       useMaterial3: true,
       colorScheme: const ColorScheme.light(),
       scaffoldBackgroundColor: Colors.white,
-      textTheme: Typography()
-          .black
-          .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+      textTheme: Typography().black.apply(
+        fontFamily: GoogleFonts.openSans().fontFamily,
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         enableFeedback: true,
         backgroundColor: Colors.white,
         selectedItemColor: Colors.blue,
+      ),
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+          TargetPlatform.values,
+          value: (_) => const FadeForwardsPageTransitionsBuilder(),
+        ),
       ),
     );
   }
@@ -145,13 +168,19 @@ class ThemeModel extends ChangeNotifier {
       colorScheme: const ColorScheme.dark(),
       scaffoldBackgroundColor: Colors.black,
       appBarTheme: AppBarTheme(backgroundColor: Colors.black),
-      textTheme: Typography()
-          .white
-          .apply(fontFamily: GoogleFonts.openSans().fontFamily),
+      textTheme: Typography().white.apply(
+        fontFamily: GoogleFonts.openSans().fontFamily,
+      ),
       bottomAppBarTheme: BottomAppBarTheme(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: Colors.black,
         selectedItemColor: Colors.blue,
+      ),
+      pageTransitionsTheme: PageTransitionsTheme(
+        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
+          TargetPlatform.values,
+          value: (_) => const FadeForwardsPageTransitionsBuilder(),
+        ),
       ),
     );
   }

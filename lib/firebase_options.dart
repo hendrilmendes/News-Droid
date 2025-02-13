@@ -63,9 +63,11 @@ class DefaultFirebaseOptions {
     messagingSenderId: '728569554138',
     projectId: 'news-droid-app-1670874618271',
     storageBucket: 'news-droid-app-1670874618271.firebasestorage.app',
-    androidClientId: '728569554138-7ruh4kc52r9j0phuv657qa64ogk0q09k.apps.googleusercontent.com',
-    iosClientId: '728569554138-e4onusju0gnidnf1dgs1e4b0kstjc18q.apps.googleusercontent.com',
-    iosBundleId: 'com.github.hendrilmendes.news.OneSignalNotificationServiceExtension',
+    androidClientId:
+        '728569554138-7ruh4kc52r9j0phuv657qa64ogk0q09k.apps.googleusercontent.com',
+    iosClientId:
+        '728569554138-e4onusju0gnidnf1dgs1e4b0kstjc18q.apps.googleusercontent.com',
+    iosBundleId:
+        'com.github.hendrilmendes.news.OneSignalNotificationServiceExtension',
   );
-
 }

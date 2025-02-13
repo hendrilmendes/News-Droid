@@ -41,15 +41,16 @@ class _PostListWidgetState extends State<PostListWidget> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PostDetailsScreen(
-          title: title,
-          imageUrl: imageUrl,
-          content: content,
-          url: url,
-          formattedDate: formattedDate,
-          blogId: blogId,
-          postId: postId,
-        ),
+        builder:
+            (context) => PostDetailsScreen(
+              title: title,
+              imageUrl: imageUrl,
+              content: content,
+              url: url,
+              formattedDate: formattedDate,
+              blogId: blogId,
+              postId: postId,
+            ),
       ),
     );
   }
@@ -61,9 +62,10 @@ class _PostListWidgetState extends State<PostListWidget> {
     final publishedDate = post['published'] ?? '';
     final formattedDate = widget.formatDate(publishedDate);
 
-    var imageUrl = post['images']?.isNotEmpty == true
-        ? post['images']![0]['url'] ?? ''
-        : '';
+    var imageUrl =
+        post['images']?.isNotEmpty == true
+            ? post['images']![0]['url'] ?? ''
+            : '';
 
     if (imageUrl.isEmpty) {
       final content = post['content'] ?? '';
@@ -90,9 +92,10 @@ class _PostListWidgetState extends State<PostListWidget> {
     final publishedDate = post['published'] ?? '';
     final formattedDate = widget.formatDate(publishedDate);
 
-    var imageUrl = post['images']?.isNotEmpty == true
-        ? post['images']![0]['url'] ?? ''
-        : '';
+    var imageUrl =
+        post['images']?.isNotEmpty == true
+            ? post['images']![0]['url'] ?? ''
+            : '';
 
     if (imageUrl.isEmpty) {
       final content = post['content'] ?? '';
@@ -103,20 +106,19 @@ class _PostListWidgetState extends State<PostListWidget> {
     return Card(
       color: Theme.of(context).listTileTheme.tileColor,
       clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: InkWell(
-        onTap: () => _imageTapped(
-          context,
-          title,
-          imageUrl,
-          url,
-          post['content'] ?? '',
-          formattedDate,
-          post['blog']['id'] ?? '',
-          post['id'] ?? '',
-        ),
+        onTap:
+            () => _imageTapped(
+              context,
+              title,
+              imageUrl,
+              url,
+              post['content'] ?? '',
+              formattedDate,
+              post['blog']['id'] ?? '',
+              post['id'] ?? '',
+            ),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -126,23 +128,26 @@ class _PostListWidgetState extends State<PostListWidget> {
                 child: SizedBox(
                   width: 100,
                   height: 100,
-                  child: imageUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Shimmer.fromColors(
+                  child:
+                      imageUrl.isNotEmpty
+                          ? CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            fit: BoxFit.cover,
+                            placeholder:
+                                (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(color: Colors.white),
+                                ),
+                            errorWidget:
+                                (context, url, error) =>
+                                    const Icon(Icons.error_outline),
+                          )
+                          : Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
                             child: Container(color: Colors.white),
                           ),
-                          errorWidget: (context, url, error) =>
-                              const Icon(Icons.error_outline),
-                        )
-                      : Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(color: Colors.white),
-                        ),
                 ),
               ),
               const SizedBox(width: 10),
@@ -153,8 +158,8 @@ class _PostListWidgetState extends State<PostListWidget> {
                     Text(
                       title,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -169,12 +174,11 @@ class _PostListWidgetState extends State<PostListWidget> {
                         const SizedBox(width: 4),
                         Text(
                           formattedDate,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                         ),
                       ],
                     ),
@@ -202,23 +206,26 @@ class _PostListWidgetState extends State<PostListWidget> {
               child: PageView.builder(
                 controller: widget.pageController,
                 onPageChanged: widget.onPageChanged,
-                itemCount: widget.filteredPosts.length >= 3
-                    ? 3
-                    : widget.filteredPosts.length,
+                itemCount:
+                    widget.filteredPosts.length >= 3
+                        ? 3
+                        : widget.filteredPosts.length,
                 itemBuilder: (context, index) {
                   final post = widget.filteredPosts[index];
                   final title = post['title'] ?? 'Sem título';
                   final publishedDate = post['published'] ?? '';
                   final formattedDate = widget.formatDate(publishedDate);
 
-                  var imageUrl = post['images']?.isNotEmpty == true
-                      ? post['images']![0]['url'] ?? ''
-                      : '';
+                  var imageUrl =
+                      post['images']?.isNotEmpty == true
+                          ? post['images']![0]['url'] ?? ''
+                          : '';
 
                   if (imageUrl.isEmpty) {
                     final content = post['content'] ?? '';
-                    final match =
-                        RegExp(r'<img[^>]+src="([^">]+)"').firstMatch(content);
+                    final match = RegExp(
+                      r'<img[^>]+src="([^">]+)"',
+                    ).firstMatch(content);
                     imageUrl = match?.group(1) ?? '';
                   }
 
@@ -235,13 +242,15 @@ class _PostListWidgetState extends State<PostListWidget> {
                           CachedNetworkImage(
                             imageUrl: imageUrl,
                             fit: BoxFit.cover,
-                            placeholder: (context, url) => Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[100]!,
-                              child: Container(color: Colors.white),
-                            ),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error_outline),
+                            placeholder:
+                                (context, url) => Shimmer.fromColors(
+                                  baseColor: Colors.grey[300]!,
+                                  highlightColor: Colors.grey[100]!,
+                                  child: Container(color: Colors.white),
+                                ),
+                            errorWidget:
+                                (context, url, error) =>
+                                    const Icon(Icons.error_outline),
                           ),
                           Container(
                             decoration: BoxDecoration(
@@ -267,31 +276,31 @@ class _PostListWidgetState extends State<PostListWidget> {
                                 children: [
                                   Text(
                                     title,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.copyWith(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                     maxLines: 2,
                                   ),
                                   const SizedBox(height: 4),
                                   Text(
                                     formattedDate,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyLarge
-                                        ?.copyWith(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onSurface,
-                                          fontSize: 12,
-                                        ),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.copyWith(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -314,20 +323,18 @@ class _PostListWidgetState extends State<PostListWidget> {
                 }
 
                 // Exibir um banner após cada 5 posts
-                // if (index > 0 && index % 5 == 0) {
-                //   return Column(
-                //     children: [
-                //       AdBanner(),
-                //       _buildPostItem(postIndex),
-                //     ],
-                //   );
-                // }
+                if (index > 0 && index % 5 == 0) {
+                  return Column(
+                    children: [AdBanner(), _buildPostItem(postIndex)],
+                  );
+                }
 
                 return _buildPostItem(postIndex);
               },
-              childCount: widget.filteredPosts.length >= 3
-                  ? widget.filteredPosts.length - 3
-                  : 0,
+              childCount:
+                  widget.filteredPosts.length >= 3
+                      ? widget.filteredPosts.length - 3
+                      : 0,
             ),
           ),
         ],

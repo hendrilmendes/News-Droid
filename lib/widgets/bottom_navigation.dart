@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/screens/favorites/favorites.dart';
 import 'package:newsdroid/screens/home/home.dart';
 import 'package:newsdroid/screens/search/search.dart';
@@ -45,9 +45,10 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
                 NavigationRail(
                   groupAlignment: 0.0,
                   selectedIndex: currentIndex,
-                  indicatorColor: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .selectedItemColor,
+                  indicatorColor:
+                      Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.selectedItemColor,
                   onDestinationSelected: onTabTapped,
                   labelType: NavigationRailLabelType.all,
                   destinations: [
@@ -87,12 +88,14 @@ class _BottomNavigationContainerState extends State<BottomNavigationContainer> {
               // Bottom Nav
               bottomNavigationBar: NavigationBarTheme(
                 data: NavigationBarThemeData(
-                  indicatorColor: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .selectedItemColor,
-                  backgroundColor: Theme.of(context)
-                      .bottomNavigationBarTheme
-                      .backgroundColor,
+                  indicatorColor:
+                      Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.selectedItemColor,
+                  backgroundColor:
+                      Theme.of(
+                        context,
+                      ).bottomNavigationBarTheme.backgroundColor,
                   labelTextStyle: WidgetStateProperty.all(
                     const TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),

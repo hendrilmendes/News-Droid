@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/theme/theme.dart';
 
 class ThemeSettings extends StatelessWidget {
   final ThemeModel themeModel;
 
-  const ThemeSettings({
-    super.key,
-    required this.themeModel,
-  });
+  const ThemeSettings({super.key, required this.themeModel});
 
   void _showThemeDialog(BuildContext context, ThemeModel themeModel) {
     final appLocalizations = AppLocalizations.of(context);

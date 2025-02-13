@@ -1,7 +1,8 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:onesignal_flutter/onesignal_flutter.dart';
 
 class NotificationSettings extends StatefulWidget {
   const NotificationSettings({super.key});
@@ -18,6 +19,26 @@ class _NotificationSettingsState extends State<NotificationSettings> {
   void initState() {
     super.initState();
     _loadPreferences();
+
+    // Ouvinte de alterações de estado para notificações
+    FirebaseMessaging.instance.onTokenRefresh.listen((token) {
+      if (kDebugMode) {
+        print("Token atualizado: $token");
+      }
+    });
+
+    // Ouvinte de notificações
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      if (kDebugMode) {
+        print("Mensagem recebida: ${message.data}");
+      }
+
+      // Se a notificação contém uma ação, execute
+      if (message.data['action'] != null) {
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(context, message.data['action']);
+      }
+    });
   }
 
   Future<void> _loadPreferences() async {
@@ -25,22 +46,33 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     setState(() {
       _notificationsEnabled = prefs.getBool('notificationsEnabled') ?? true;
     });
+
+    if (_notificationsEnabled) {
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token != null && kDebugMode) {
+        if (kDebugMode) {
+          print("Token registrado: $token");
+        }
+      }
+    }
   }
 
-  Future<void> _savePreferences(bool value) async {
+  void _notificationPreference(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('notificationsEnabled', value);
-  }
+    prefs.setBool('notificationsEnabled', value);
 
-  Future<void> _toggleNotifications(bool value) async {
-    setState(() {
-      _notificationsEnabled = value;
-    });
-    await _savePreferences(value);
     if (value) {
-      OneSignal.User.pushSubscription.optIn();
+      String? token = await FirebaseMessaging.instance.getToken();
+      if (token != null && kDebugMode) {
+        if (kDebugMode) {
+          print("Token registrado: $token");
+        }
+      }
     } else {
-      OneSignal.User.pushSubscription.optOut();
+      await FirebaseMessaging.instance.deleteToken();
+      if (kDebugMode) {
+        print("Token não registrado.");
+      }
     }
   }
 
@@ -52,7 +84,12 @@ class _NotificationSettingsState extends State<NotificationSettings> {
       tileColor: Theme.of(context).listTileTheme.tileColor,
       trailing: Switch(
         value: _notificationsEnabled,
-        onChanged: _toggleNotifications,
+        onChanged: (value) {
+          setState(() {
+            _notificationsEnabled = value;
+          });
+          _notificationPreference(value);
+        },
       ),
     );
   }

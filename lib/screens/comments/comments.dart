@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/auth/auth.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 
 class CommentScreen extends StatefulWidget {
   final String postId;
@@ -33,7 +33,8 @@ class _CommentScreenState extends State<CommentScreen> {
 
   Future<void> fetchPostAndComments(String postId) async {
     final Uri commentsUri = Uri.parse(
-        'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/${widget.postId}/comments?key=$apiKey');
+      'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts/${widget.postId}/comments?key=$apiKey',
+    );
     final commentsResponse = await http.get(commentsUri);
     if (kDebugMode) {
       print("URL da solicitação: ${commentsUri.toString()}");
@@ -44,10 +45,13 @@ class _CommentScreenState extends State<CommentScreen> {
 
       setState(() {
         if (commentsData != null && commentsData.isNotEmpty) {
-          comments = commentsData
-              .map(
-                  (commentData) => Comment.fromJson(commentData, widget.postId))
-              .toList();
+          comments =
+              commentsData
+                  .map(
+                    (commentData) =>
+                        Comment.fromJson(commentData, widget.postId),
+                  )
+                  .toList();
           isLoading = false;
         } else {
           comments = [];
@@ -57,7 +61,8 @@ class _CommentScreenState extends State<CommentScreen> {
     } else {
       if (kDebugMode) {
         print(
-            "Falha ao buscar comentários. Código de status: ${commentsResponse.statusCode}");
+          "Falha ao buscar comentários. Código de status: ${commentsResponse.statusCode}",
+        );
       }
     }
   }
@@ -91,7 +96,8 @@ class _CommentScreenState extends State<CommentScreen> {
 
       final response = await http.post(
         Uri.parse(
-            'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default'),
+          'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default',
+        ),
         headers: {
           'Content-Type': 'application/atom+xml',
           'Authorization': 'Bearer $accessToken',
@@ -112,7 +118,8 @@ class _CommentScreenState extends State<CommentScreen> {
       } else {
         if (kDebugMode) {
           print(
-              "Erro ao adicionar comentário. Código de status: ${response.statusCode}");
+            "Erro ao adicionar comentário. Código de status: ${response.statusCode}",
+          );
         }
         if (kDebugMode) {
           print("Response body: ${response.body}");
@@ -175,10 +182,9 @@ class _CommentScreenState extends State<CommentScreen> {
 
           final response = await http.delete(
             Uri.parse(
-                'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default/$commentId'),
-            headers: {
-              'Authorization': 'Bearer $accessToken',
-            },
+              'https://www.blogger.com/feeds/$blogId/${widget.postId}/comments/default/$commentId',
+            ),
+            headers: {'Authorization': 'Bearer $accessToken'},
           );
 
           if (response.statusCode == 200) {
@@ -189,7 +195,8 @@ class _CommentScreenState extends State<CommentScreen> {
           } else {
             if (kDebugMode) {
               print(
-                  "Erro ao excluir comentário. Código de status: ${response.statusCode}");
+                "Erro ao excluir comentário. Código de status: ${response.statusCode}",
+              );
             }
             _showErrorDelete();
             setState(() {
@@ -275,70 +282,74 @@ class _CommentScreenState extends State<CommentScreen> {
       body: Column(
         children: [
           Expanded(
-            child: isLoading
-                ? Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  )
-                : comments.isEmpty
+            child:
+                isLoading
+                    ? Center(child: CircularProgressIndicator.adaptive())
+                    : comments.isEmpty
                     ? Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.noComment,
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: comments.length,
-                        itemBuilder: (context, index) {
-                          final comment = comments[index];
-                          return Card(
-                            clipBehavior: Clip.hardEdge,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            child: ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage:
-                                    NetworkImage(comment.authorAvatar),
-                              ),
-                              title: Text(comment.authorName),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(comment.content),
-                                  Row(
-                                    children: [
-                                      const Icon(Icons.calendar_month_outlined,
-                                          size: 12, color: Colors.grey),
-                                      const SizedBox(width: 4),
-                                      Text(
-                                        DateFormat('dd/MM/yyyy - HH:mm')
-                                            .format(comment.postDate.toLocal()),
-                                        style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.delete_outline_outlined),
-                                onPressed: () async {
-                                  final authService = AuthService();
-                                  final user = await authService.currentUser();
-                                  if (user != null &&
-                                      user.displayName == comment.authorName) {
-                                    await deleteComment(comment.id);
-                                  } else {
-                                    _showErrorDelete();
-                                  }
-                                },
-                              ),
-                            ),
-                          );
-                        },
+                      child: Text(
+                        AppLocalizations.of(context)!.noComment,
+                        style: const TextStyle(fontSize: 16),
                       ),
+                    )
+                    : ListView.builder(
+                      itemCount: comments.length,
+                      itemBuilder: (context, index) {
+                        final comment = comments[index];
+                        return Card(
+                          clipBehavior: Clip.hardEdge,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                comment.authorAvatar,
+                              ),
+                            ),
+                            title: Text(comment.authorName),
+                            subtitle: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(comment.content),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.calendar_month_outlined,
+                                      size: 12,
+                                      color: Colors.grey,
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      DateFormat(
+                                        'dd/MM/yyyy - HH:mm',
+                                      ).format(comment.postDate.toLocal()),
+                                      style: const TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete_outline_outlined),
+                              onPressed: () async {
+                                final authService = AuthService();
+                                final user = await authService.currentUser();
+                                if (user != null &&
+                                    user.displayName == comment.authorName) {
+                                  await deleteComment(comment.id);
+                                } else {
+                                  _showErrorDelete();
+                                }
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
           ),
           Card(
             color: Theme.of(context).listTileTheme.tileColor,
@@ -353,62 +364,67 @@ class _CommentScreenState extends State<CommentScreen> {
                     child: TextField(
                       controller: commentController,
                       decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText:
-                              AppLocalizations.of(context)!.hintTextComment),
+                        border: InputBorder.none,
+                        hintText: AppLocalizations.of(context)!.hintTextComment,
+                      ),
                     ),
                   ),
                   IconButton(
-                    icon: isSubmitting
-                        ? const SizedBox(
-                            width: 24.0,
-                            height: 24.0,
-                            child: CircularProgressIndicator.adaptive(
-                              strokeWidth: 2.0,
-                            ),
-                          )
-                        : const Icon(Icons.send_rounded),
-                    onPressed: isSubmitting
-                        ? null
-                        : () async {
-                            final commentText = commentController.text;
-                            final authService = AuthService();
-                            final user = await authService.currentUser();
+                    icon:
+                        isSubmitting
+                            ? const SizedBox(
+                              width: 24.0,
+                              height: 24.0,
+                              child: CircularProgressIndicator.adaptive(
+                                strokeWidth: 2.0,
+                              ),
+                            )
+                            : const Icon(Icons.send_rounded),
+                    onPressed:
+                        isSubmitting
+                            ? null
+                            : () async {
+                              final commentText = commentController.text;
+                              final authService = AuthService();
+                              final user = await authService.currentUser();
 
-                            if (user != null) {
-                              if (kDebugMode) {
-                                print(
-                                    "Usuário autenticado: ${user.displayName}");
+                              if (user != null) {
+                                if (kDebugMode) {
+                                  print(
+                                    "Usuário autenticado: ${user.displayName}",
+                                  );
+                                }
+                                final authorName =
+                                    user.displayName ??
+                                    // ignore: use_build_context_synchronously
+                                    AppLocalizations.of(context)!.human;
+                                final authorAvatar =
+                                    user.photoURL ??
+                                    'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                                final commentDate = DateTime.now().toString();
+                                final postId = widget.postId;
+                                await addComment(
+                                  commentText,
+                                  authorName,
+                                  authorAvatar,
+                                  commentDate,
+                                  postId,
+                                );
+                              } else {
+                                if (kDebugMode) {
+                                  print(
+                                    "Nenhum usuário autenticado encontrado.",
+                                  );
+                                }
+                                await _showErrorDialog();
                               }
-                              final authorName = user.displayName ??
-                                  // ignore: use_build_context_synchronously
-                                  AppLocalizations.of(context)!.human;
-                              final authorAvatar = user.photoURL ??
-                                  'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                              final commentDate = DateTime.now().toString();
-                              final postId = widget.postId;
-                              await addComment(
-                                commentText,
-                                authorName,
-                                authorAvatar,
-                                commentDate,
-                                postId,
-                              );
-                            } else {
-                              if (kDebugMode) {
-                                print("Nenhum usuário autenticado encontrado.");
-                              }
-                              await _showErrorDialog();
-                            }
-                          },
+                            },
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(
-            height: 16,
-          ),
+          const SizedBox(height: 16),
         ],
       ),
     );

@@ -5,9 +5,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   static final GoogleSignIn _googleSignIn = GoogleSignIn(
-    scopes: [
-      'https://www.googleapis.com/auth/blogger',
-    ],
+    scopes: ['https://www.googleapis.com/auth/blogger'],
   );
 
   Future<User?> signInWithGoogle() async {
@@ -26,8 +24,9 @@ class AuthService {
         idToken: googleSignInAuthentication.idToken,
       );
 
-      final UserCredential authResult =
-          await _auth.signInWithCredential(credential);
+      final UserCredential authResult = await _auth.signInWithCredential(
+        credential,
+      );
       final User? user = authResult.user;
 
       if (user != null) {

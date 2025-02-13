@@ -2,6 +2,17 @@ Changelog
 
 ======================================================
 
+## [3.7.1](https://github.com/hendrilmendes/News-Droid/compare/3.7.0..3.7.1) (**-**-2025)
+
+## Alterações
+
+### Correções
+
+- Alterado animação entre as telas
+- Alterado serviço de notificações para o Firebase Messaging
+
+======================================================
+
 ## [3.7.0](https://github.com/hendrilmendes/News-Droid/compare/3.6.0..3.7.0) (04-02-2025)
 
 ## Alterações

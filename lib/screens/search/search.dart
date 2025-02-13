@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:newsdroid/api/api.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/screens/error/error.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
     'Windows 12',
     'Android 15',
     'iOS 18',
-    'GTA VI'
+    'GTA VI',
   ];
 
   @override
@@ -78,8 +78,9 @@ class _SearchScreenState extends State<SearchScreen> {
     final cachedData = prefs.getString('cachedPosts');
     if (cachedData != null) {
       final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
-      final DateTime lastCachedTime =
-          DateTime.parse(prefs.getString('cachedTime') ?? '');
+      final DateTime lastCachedTime = DateTime.parse(
+        prefs.getString('cachedTime') ?? '',
+      );
       final DateTime currentTime = DateTime.now();
       final difference = currentTime.difference(lastCachedTime).inMinutes;
       if (difference < 5) {
@@ -95,16 +96,14 @@ class _SearchScreenState extends State<SearchScreen> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100'),
+          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100',
+        ),
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         prefs.setString('cachedPosts', response.body);
-        prefs.setString(
-          'cachedTime',
-          DateTime.now().toString(),
-        );
+        prefs.setString('cachedTime', DateTime.now().toString());
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
@@ -147,10 +146,14 @@ class _SearchScreenState extends State<SearchScreen> {
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       if (mounted) {
         setState(() {
-          filteredPosts = posts
-              .where((post) =>
-                  post['title'].toLowerCase().contains(query.toLowerCase()))
-              .toList();
+          filteredPosts =
+              posts
+                  .where(
+                    (post) => post['title'].toLowerCase().contains(
+                      query.toLowerCase(),
+                    ),
+                  )
+                  .toList();
 
           searchResultsEmpty = filteredPosts.isEmpty;
         });
@@ -201,173 +204,194 @@ class _SearchScreenState extends State<SearchScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Wrap(
                   spacing: 8.0,
-                  children: allLabels.map<Widget>((label) {
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedLabel = label;
-                        });
-                        filterPostsByLabel(label);
-                      },
-                      child: Chip(
-                        label: Text(label),
-                        backgroundColor: selectedLabel == label
-                            ? Theme.of(context).colorScheme.primary.withValues()
-                            : Theme.of(context).listTileTheme.tileColor,
-                        labelStyle: TextStyle(
-                          color: selectedLabel == label
-                              ? Colors.white
-                              : Theme.of(context).textTheme.bodyLarge?.color,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          side: BorderSide(
-                            color: selectedLabel == label
-                                ? Theme.of(context).scaffoldBackgroundColor
-                                : Colors.transparent,
+                  children:
+                      allLabels.map<Widget>((label) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedLabel = label;
+                            });
+                            filterPostsByLabel(label);
+                          },
+                          child: Chip(
+                            label: Text(label),
+                            backgroundColor:
+                                selectedLabel == label
+                                    ? Theme.of(
+                                      context,
+                                    ).colorScheme.primary.withValues()
+                                    : Theme.of(context).listTileTheme.tileColor,
+                            labelStyle: TextStyle(
+                              color:
+                                  selectedLabel == label
+                                      ? Colors.white
+                                      : Theme.of(
+                                        context,
+                                      ).textTheme.bodyLarge?.color,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                              side: BorderSide(
+                                color:
+                                    selectedLabel == label
+                                        ? Theme.of(
+                                          context,
+                                        ).scaffoldBackgroundColor
+                                        : Colors.transparent,
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  }).toList(),
+                        );
+                      }).toList(),
                 ),
               ),
             ),
           Expanded(
-            child: isLoading
-                ? Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  )
-                : filteredPosts.isEmpty
+            child:
+                isLoading
+                    ? Center(child: CircularProgressIndicator.adaptive())
+                    : filteredPosts.isEmpty
                     ? Center(
-                        child: Text(
-                          AppLocalizations.of(context)!.noResult,
-                          style: const TextStyle(
-                              fontSize: 18.0, color: Colors.grey),
+                      child: Text(
+                        AppLocalizations.of(context)!.noResult,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.grey,
                         ),
-                      )
+                      ),
+                    )
                     : GridView.builder(
-                        padding: const EdgeInsets.all(16.0),
-                        gridDelegate:
-                            const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 200,
-                          mainAxisExtent: 300,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 16,
-                        ),
-                        itemCount: filteredPosts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final post = filteredPosts[index];
-                          final title = post['title'];
-                          final url = post['url'];
-                          final publishedDate = post['published'];
-                          final formattedDate = formatDate(publishedDate);
+                      padding: const EdgeInsets.all(16.0),
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            mainAxisExtent: 300,
+                            crossAxisSpacing: 16,
+                            mainAxisSpacing: 16,
+                          ),
+                      itemCount: filteredPosts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final post = filteredPosts[index];
+                        final title = post['title'];
+                        final url = post['url'];
+                        final publishedDate = post['published'];
+                        final formattedDate = formatDate(publishedDate);
 
-                          var imageUrl = post['images'] != null
-                              ? post['images'][0]['url']
-                              : null;
+                        var imageUrl =
+                            post['images'] != null
+                                ? post['images'][0]['url']
+                                : null;
 
-                          if (imageUrl == null) {
-                            final content = post['content'];
-                            final match = RegExp(r'<img[^>]+src="([^">]+)"')
-                                .firstMatch(content);
-                            if (match != null) {
-                              imageUrl = match.group(1);
-                            }
+                        if (imageUrl == null) {
+                          final content = post['content'];
+                          final match = RegExp(
+                            r'<img[^>]+src="([^">]+)"',
+                          ).firstMatch(content);
+                          if (match != null) {
+                            imageUrl = match.group(1);
                           }
+                        }
 
-                          return Card(
-                            color: Theme.of(context).listTileTheme.tileColor,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            margin: const EdgeInsets.all(8.0),
-                            child: InkWell(
-                              onTap: () async {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => PostDetailsScreen(
-                                      title: title,
-                                      imageUrl: imageUrl,
-                                      content: post['content'],
-                                      url: url,
-                                      formattedDate: formattedDate,
-                                      blogId: blogId,
-                                      postId: post['id'],
-                                    ),
+                        return Card(
+                          color: Theme.of(context).listTileTheme.tileColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          margin: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => PostDetailsScreen(
+                                        title: title,
+                                        imageUrl: imageUrl,
+                                        content: post['content'],
+                                        url: url,
+                                        formattedDate: formattedDate,
+                                        blogId: blogId,
+                                        postId: post['id'],
+                                      ),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(20.0),
+                                    bottom: Radius.circular(20.0),
                                   ),
-                                );
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.vertical(
-                                      top: Radius.circular(20.0),
-                                      bottom: Radius.circular(20.0),
-                                    ),
-                                    child: AspectRatio(
-                                      aspectRatio: 16 / 9,
-                                      child: imageUrl != null
-                                          ? CachedNetworkImage(
+                                  child: AspectRatio(
+                                    aspectRatio: 16 / 9,
+                                    child:
+                                        imageUrl != null
+                                            ? CachedNetworkImage(
                                               imageUrl: imageUrl,
                                               fit: BoxFit.cover,
-                                              placeholder: (context, url) =>
-                                                  Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[100]!,
-                                                child: Container(
-                                                    color: Colors.white),
-                                              ),
+                                              placeholder:
+                                                  (context, url) =>
+                                                      Shimmer.fromColors(
+                                                        baseColor:
+                                                            Colors.grey[300]!,
+                                                        highlightColor:
+                                                            Colors.grey[100]!,
+                                                        child: Container(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
                                               errorWidget:
                                                   (context, url, error) =>
                                                       const Icon(
-                                                          Icons.error_outline),
+                                                        Icons.error_outline,
+                                                      ),
                                             )
-                                          : Shimmer.fromColors(
+                                            : Shimmer.fromColors(
                                               baseColor: Colors.grey[300]!,
                                               highlightColor: Colors.grey[100]!,
                                               child: Container(
-                                                  color: Colors.white),
-                                            ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          title,
-                                        ),
-                                        const SizedBox(height: 6),
-                                        Row(
-                                          children: [
-                                            const Icon(Icons.calendar_today,
-                                                size: 14, color: Colors.grey),
-                                            const SizedBox(width: 6),
-                                            Text(
-                                              formattedDate,
-                                              style: const TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
+                                                color: Colors.white,
                                               ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
                                   ),
-                                ],
-                              ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(title),
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.calendar_today,
+                                            size: 14,
+                                            color: Colors.grey,
+                                          ),
+                                          const SizedBox(width: 6),
+                                          Text(
+                                            formattedDate,
+                                            style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
+                    ),
           ),
           if (showSearchBarAtBottom)
             Padding(
@@ -381,10 +405,13 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void filterPostsByLabel(String label) {
     setState(() {
-      filteredPosts = posts
-          .where((post) =>
-              post['labels'] != null && post['labels'].contains(label))
-          .toList();
+      filteredPosts =
+          posts
+              .where(
+                (post) =>
+                    post['labels'] != null && post['labels'].contains(label),
+              )
+              .toList();
       searchResultsEmpty = filteredPosts.isEmpty;
     });
   }
@@ -393,9 +420,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Card(
       color: Theme.of(context).listTileTheme.tileColor,
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(100.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100.0)),
       child: TextField(
         controller: _searchController,
         onChanged: (value) {
@@ -405,25 +430,23 @@ class _SearchScreenState extends State<SearchScreen> {
         textAlignVertical: TextAlignVertical.center,
         decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 1.5,
-              color: Colors.transparent,
-            ),
+            borderSide: BorderSide(width: 1.5, color: Colors.transparent),
           ),
           prefixIcon: const Icon(Icons.search_outlined),
           border: InputBorder.none,
           hintText:
               '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
-          suffixIcon: searchQuery.value.isNotEmpty
-              ? IconButton(
-                  icon: const Icon(Icons.close_outlined),
-                  onPressed: () {
-                    _searchController.clear();
-                    searchQuery.value = '';
-                    searchPosts('');
-                  },
-                )
-              : null,
+          suffixIcon:
+              searchQuery.value.isNotEmpty
+                  ? IconButton(
+                    icon: const Icon(Icons.close_outlined),
+                    onPressed: () {
+                      _searchController.clear();
+                      searchQuery.value = '';
+                      searchPosts('');
+                    },
+                  )
+                  : null,
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.search,

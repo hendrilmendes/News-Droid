@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/screens/error/error.dart';
 import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/widgets/home/post_list.dart';
@@ -66,8 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
     final cachedData = prefs.getString('cachedPosts');
     if (cachedData != null) {
       final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
-      final DateTime lastCachedTime =
-          DateTime.parse(prefs.getString('cachedTime') ?? '');
+      final DateTime lastCachedTime = DateTime.parse(
+        prefs.getString('cachedTime') ?? '',
+      );
       final DateTime currentTime = DateTime.now();
       final difference = currentTime.difference(lastCachedTime).inMinutes;
       if (difference < 5) {
@@ -83,16 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       final response = await http.get(
         Uri.parse(
-            'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100'),
+          'https://www.googleapis.com/blogger/v3/blogs/$blogId/posts?key=$apiKey&maxResults=100',
+        ),
       );
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         prefs.setString('cachedPosts', response.body);
-        prefs.setString(
-          'cachedTime',
-          DateTime.now().toString(),
-        );
+        prefs.setString('cachedTime', DateTime.now().toString());
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
@@ -149,22 +148,21 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
       ),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator.adaptive(),
-            )
-          : PostListWidget(
-              filteredPosts: filteredPosts,
-              currentPage: _currentPage,
-              pageController: _pageController,
-              onPageChanged: (int page) {
-                setState(() {
-                  _currentPage = page;
-                });
-              },
-              onRefresh: _refreshPosts,
-              formatDate: formatDate,
-            ),
+      body:
+          isLoading
+              ? Center(child: CircularProgressIndicator.adaptive())
+              : PostListWidget(
+                filteredPosts: filteredPosts,
+                currentPage: _currentPage,
+                pageController: _pageController,
+                onPageChanged: (int page) {
+                  setState(() {
+                    _currentPage = page;
+                  });
+                },
+                onRefresh: _refreshPosts,
+                formatDate: formatDate,
+              ),
     );
   }
 }
