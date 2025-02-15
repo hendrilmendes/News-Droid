@@ -2,7 +2,7 @@ Changelog
 
 ======================================================
 
-## [3.7.1](https://github.com/hendrilmendes/News-Droid/compare/3.7.0..3.7.1) (**-**-2025)
+## [3.7.1](https://github.com/hendrilmendes/News-Droid/compare/3.7.0..3.7.1) (15-02-2025)
 
 ## Alterações
 
