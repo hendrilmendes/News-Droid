@@ -1,2 +1,0 @@
-/home/Hendril/Documents/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/3k4f3813/x86/CMakeFiles/edit_cache.dir
-/home/Hendril/Documents/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/3k4f3813/x86/CMakeFiles/rebuild_cache.dir
