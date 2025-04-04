@@ -45,7 +45,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get ok => 'OK';
 
   @override
-  String get noComment => 'Nenhum comentário disponível 😅';
+  String get noComment => 'Nenhum comentário disponível';
 
   @override
   String get hintTextComment => 'Digite seu comentário...';
@@ -66,10 +66,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get delete => 'Apagar';
 
   @override
-  String get noFavorites => 'Nenhuma postagem encontrada 😕';
+  String get noFavorites => 'Nenhuma postagem encontrada';
 
   @override
-  String get noConnection => 'Sem conexão com a internet 😵';
+  String get noConnection => 'Sem conexão com a internet';
 
   @override
   String get noConnectionSub => 'Verifique se você esta conectado a uma rede';
@@ -78,7 +78,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get refresh => 'Recarregar';
 
   @override
-  String get noResult => 'Nenhum resultado encontrado 😱';
+  String get noResult => 'Nenhum resultado encontrado';
 
   @override
   String get about => 'Sobre';
@@ -168,7 +168,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get noUpdate => 'Nenhuma atualização disponível';
 
   @override
-  String get noUpdateSub => 'Tudo em dias parceiro 🤠';
+  String get noUpdateSub => 'Você já está usando a versão mais recente';
 
   @override
   String get removedFavorite => 'Postagem Removida';
@@ -183,7 +183,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get readLoud => 'Ler em voz alta';
 
   @override
-  String get homeLogin => 'Bem vindo ao nosso app, aproveite 😁';
+  String get homeLogin => 'Bem vindo ao nosso app, aproveite';
 
   @override
   String get googleLogin => 'Entrar com Google';

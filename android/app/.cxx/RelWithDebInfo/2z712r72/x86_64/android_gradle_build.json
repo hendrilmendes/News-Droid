@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/home/hendril/.shorebird/bin/cache/flutter/b14323b05f28b2c72b34f57c8059ec3001d65712/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/hendril/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/2z712r72/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/hendril/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/2z712r72/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/home/hendril/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/home/hendril/Android/Sdk/ndk/26.3.11579264/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

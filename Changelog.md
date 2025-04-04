@@ -2,6 +2,16 @@ Changelog
 
 ======================================================
 
+## [3.7.2](https://github.com/hendrilmendes/News-Droid/compare/3.7.1..3.7.2) (04-04-2025)
+
+## Alterações
+
+### Correções
+
+- Melhorias na tela de comentários
+
+======================================================
+
 ## [3.7.1](https://github.com/hendrilmendes/News-Droid/compare/3.7.0..3.7.1) (15-02-2025)
 
 ## Alterações

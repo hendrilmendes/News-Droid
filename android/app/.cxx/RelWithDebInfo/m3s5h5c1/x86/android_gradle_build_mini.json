@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/hendril/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/hendril/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/m3s5h5c1/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/hendril/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/RelWithDebInfo/m3s5h5c1/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

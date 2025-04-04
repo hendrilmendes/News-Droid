@@ -22,18 +22,13 @@ class LoginScreen extends StatelessWidget {
               clipBehavior: Clip.antiAlias,
               child: SizedBox(
                 width: 150,
-                child: Image(
-                  image: AssetImage('assets/img/ic_launcher.png'),
-                ),
+                child: Image(image: AssetImage('assets/img/ic_launcher.png')),
               ),
             ),
             const SizedBox(height: 30),
             Text(
               AppLocalizations.of(context)!.appName,
-              style: const TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 50),
             Center(
@@ -43,9 +38,7 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            const SizedBox(
-              height: 100,
-            ),
+            const SizedBox(height: 100),
             ElevatedButton(
               onPressed: () async {
                 final user = await authService.signInWithGoogle();
@@ -75,8 +68,10 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

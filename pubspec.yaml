@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.7.1+371
+version: 3.7.2+372
 
 environment:
   sdk: ^3.7.0
@@ -71,7 +71,7 @@ dependencies:
   permission_handler: ^11.4.0
 
 # Provider
-  provider: ^6.1.2
+  provider: ^6.1.4
   
 # Review  
   in_app_review: ^2.0.10
@@ -80,7 +80,7 @@ dependencies:
   share_plus: ^10.1.4
 
 # Shared Preferences
-  shared_preferences: ^2.5.2
+  shared_preferences: ^2.5.3
 
 # Shimer
   shimmer: ^3.0.0

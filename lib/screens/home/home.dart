@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<dynamic> posts = [];
   List<dynamic> filteredPosts = [];
-
   bool isOnline = true;
   bool isLoading = false;
   late PageController _pageController;
@@ -35,12 +34,20 @@ class _HomeScreenState extends State<HomeScreen> {
     checkConnectivity();
     _pageController = PageController(initialPage: 0);
     timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (_currentPage < 2) {
-        _currentPage++;
-      } else {
-        _currentPage = 0;
+      if (!mounted) {
+        timer.cancel();
+        return;
       }
+
       if (_pageController.hasClients) {
+        setState(() {
+          if (_currentPage < 2) {
+            _currentPage++;
+          } else {
+            _currentPage = 0;
+          }
+        });
+
         _pageController.animateToPage(
           _currentPage,
           duration: const Duration(milliseconds: 500),
@@ -52,18 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
-    _pageController.dispose();
     timer.cancel();
+    _pageController.dispose();
     super.dispose();
   }
 
-  // GET API
   Future<void> fetchPosts() async {
+    if (!mounted) return;
     setState(() {
       isLoading = true;
     });
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     final cachedData = prefs.getString('cachedPosts');
+
     if (cachedData != null) {
       final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
       final DateTime lastCachedTime = DateTime.parse(
@@ -71,8 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
       );
       final DateTime currentTime = DateTime.now();
       final difference = currentTime.difference(lastCachedTime).inMinutes;
+
       if (difference < 5) {
-        // reutiliza os dados em cache se forem menos de 5 minutos de idade
+        if (!mounted) return;
         setState(() {
           posts = cachedPosts['items'];
           filteredPosts = posts;
@@ -81,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return;
       }
     }
+
     try {
       final response = await http.get(
         Uri.parse(
@@ -92,6 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
         final Map<String, dynamic> data = jsonDecode(response.body);
         prefs.setString('cachedPosts', response.body);
         prefs.setString('cachedTime', DateTime.now().toString());
+
+        if (!mounted) return;
         setState(() {
           posts = data['items'];
           filteredPosts = posts;
@@ -101,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
         throw Exception("Falha ao buscar postagens");
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
@@ -118,6 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> checkConnectivity() async {
     final connectivityResult = await (Connectivity().checkConnectivity());
+    if (!mounted) return;
     setState(() {
       isOnline = !connectivityResult.contains(ConnectivityResult.none);
     });
@@ -132,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (!isOnline) {
       return ErrorScreen(
         onReload: () {
+          if (!mounted) return;
           setState(() {
             isOnline = true;
           });
@@ -156,6 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 currentPage: _currentPage,
                 pageController: _pageController,
                 onPageChanged: (int page) {
+                  if (!mounted) return;
                   setState(() {
                     _currentPage = page;
                   });

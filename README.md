@@ -29,7 +29,7 @@
 ## 🛠️ Recursos
 
 - **Multiplataforma**: Desenvolvido em Flutter, o app está disponível para iOS e Android.
-- **Integração com Firebase**: Utilizado para monitoramento de desempenho, relatórios de erros e autenticação.
+- **Integração com Firebase**: Utilizado para monitoramento de desempenho, relatórios de erros, autenticação e notificações.
 - **Notificações Push**: Integração com OneSignal para envio de notificações.
 - **Salvar Postagens**: Funcionalidade para salvar postagens favoritas.
 - **Comentários**: Permite que os usuários comentem nas postagens.

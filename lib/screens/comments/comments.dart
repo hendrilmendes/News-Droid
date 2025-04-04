@@ -274,10 +274,16 @@ class _CommentScreenState extends State<CommentScreen> {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.comments,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onSurface,
+          ),
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       body: Column(
         children: [
@@ -287,144 +293,218 @@ class _CommentScreenState extends State<CommentScreen> {
                     ? Center(child: CircularProgressIndicator.adaptive())
                     : comments.isEmpty
                     ? Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.noComment,
-                        style: const TextStyle(fontSize: 16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.mode_comment_outlined,
+                            size: 64,
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            AppLocalizations.of(context)!.noComment,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
+                          ),
+                        ],
                       ),
                     )
-                    : ListView.builder(
+                    : ListView.separated(
+                      padding: const EdgeInsets.all(16),
                       itemCount: comments.length,
+                      separatorBuilder:
+                          (context, index) => const SizedBox(height: 12),
                       itemBuilder: (context, index) {
                         final comment = comments[index];
-                        return Card(
-                          clipBehavior: Clip.hardEdge,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                        return Container(
+                          decoration: BoxDecoration(
+                            color:
+                                Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                comment.authorAvatar,
-                              ),
-                            ),
-                            title: Text(comment.authorName),
-                            subtitle: Column(
+                          child: Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(comment.content),
                                 Row(
                                   children: [
-                                    const Icon(
-                                      Icons.calendar_month_outlined,
-                                      size: 12,
-                                      color: Colors.grey,
+                                    CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                        comment.authorAvatar,
+                                      ),
+                                      radius: 18,
                                     ),
-                                    const SizedBox(width: 4),
+                                    const SizedBox(width: 8),
+                                    Text(
+                                      comment.authorName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onSurface,
+                                      ),
+                                    ),
+                                    const Spacer(),
                                     Text(
                                       DateFormat(
-                                        'dd/MM/yyyy - HH:mm',
+                                        'HH:mm • dd/MM/yy',
                                       ).format(comment.postDate.toLocal()),
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontSize: 12,
-                                        color: Colors.grey,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.outline,
                                       ),
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  comment.content,
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(
+                                          context,
+                                        ).colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.delete_outline,
+                                      size: 20,
+                                      color:
+                                          Theme.of(context).colorScheme.error,
+                                    ),
+                                    onPressed: () async {
+                                      final authService = AuthService();
+                                      final user =
+                                          await authService.currentUser();
+                                      if (user != null &&
+                                          user.displayName ==
+                                              comment.authorName) {
+                                        await deleteComment(comment.id);
+                                      } else {
+                                        _showErrorDelete();
+                                      }
+                                    },
+                                  ),
+                                ),
                               ],
-                            ),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.delete_outline_outlined),
-                              onPressed: () async {
-                                final authService = AuthService();
-                                final user = await authService.currentUser();
-                                if (user != null &&
-                                    user.displayName == comment.authorName) {
-                                  await deleteComment(comment.id);
-                                } else {
-                                  _showErrorDelete();
-                                }
-                              },
                             ),
                           ),
                         );
                       },
                     ),
           ),
-          Card(
-            color: Theme.of(context).listTileTheme.tileColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(100.0),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: commentController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: AppLocalizations.of(context)!.hintTextComment,
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon:
-                        isSubmitting
-                            ? const SizedBox(
-                              width: 24.0,
-                              height: 24.0,
-                              child: CircularProgressIndicator.adaptive(
-                                strokeWidth: 2.0,
-                              ),
-                            )
-                            : const Icon(Icons.send_rounded),
-                    onPressed:
-                        isSubmitting
-                            ? null
-                            : () async {
-                              final commentText = commentController.text;
-                              final authService = AuthService();
-                              final user = await authService.currentUser();
-
-                              if (user != null) {
-                                if (kDebugMode) {
-                                  print(
-                                    "Usuário autenticado: ${user.displayName}",
-                                  );
-                                }
-                                final authorName =
-                                    user.displayName ??
-                                    // ignore: use_build_context_synchronously
-                                    AppLocalizations.of(context)!.human;
-                                final authorAvatar =
-                                    user.photoURL ??
-                                    'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                                final commentDate = DateTime.now().toString();
-                                final postId = widget.postId;
-                                await addComment(
-                                  commentText,
-                                  authorName,
-                                  authorAvatar,
-                                  commentDate,
-                                  postId,
-                                );
-                              } else {
-                                if (kDebugMode) {
-                                  print(
-                                    "Nenhum usuário autenticado encontrado.",
-                                  );
-                                }
-                                await _showErrorDialog();
-                              }
-                            },
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: [
+                  BoxShadow(
+                    // ignore: deprecated_member_use
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 8,
+                    offset: const Offset(0, -2),
                   ),
                 ],
               ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: commentController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText:
+                              AppLocalizations.of(context)!.hintTextComment,
+                          hintStyle: TextStyle(
+                            color: Theme.of(context).colorScheme.outline,
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                        ),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      child: IconButton(
+                        icon:
+                            isSubmitting
+                                ? SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                )
+                                : Icon(
+                                  Icons.send,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                        onPressed:
+                            isSubmitting
+                                ? null
+                                : () async {
+                                  final commentText = commentController.text;
+                                  final authService = AuthService();
+                                  final user = await authService.currentUser();
+
+                                  if (user != null) {
+                                    final authorName =
+                                        user.displayName ??
+                                        // ignore: use_build_context_synchronously
+                                        AppLocalizations.of(context)!.human;
+                                    final authorAvatar =
+                                        user.photoURL ??
+                                        'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                                    final commentDate =
+                                        DateTime.now().toString();
+                                    final postId = widget.postId;
+                                    await addComment(
+                                      commentText,
+                                      authorName,
+                                      authorAvatar,
+                                      commentDate,
+                                      postId,
+                                    );
+                                  } else {
+                                    await _showErrorDialog();
+                                  }
+                                },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: 16),
         ],
       ),
     );

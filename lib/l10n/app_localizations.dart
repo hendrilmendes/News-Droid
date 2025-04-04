@@ -168,7 +168,7 @@ abstract class AppLocalizations {
   /// No description provided for @noComment.
   ///
   /// In pt, this message translates to:
-  /// **'Nenhum comentário disponível 😅'**
+  /// **'Nenhum comentário disponível'**
   String get noComment;
 
   /// No description provided for @hintTextComment.
@@ -210,13 +210,13 @@ abstract class AppLocalizations {
   /// No description provided for @noFavorites.
   ///
   /// In pt, this message translates to:
-  /// **'Nenhuma postagem encontrada 😕'**
+  /// **'Nenhuma postagem encontrada'**
   String get noFavorites;
 
   /// No description provided for @noConnection.
   ///
   /// In pt, this message translates to:
-  /// **'Sem conexão com a internet 😵'**
+  /// **'Sem conexão com a internet'**
   String get noConnection;
 
   /// No description provided for @noConnectionSub.
@@ -234,7 +234,7 @@ abstract class AppLocalizations {
   /// No description provided for @noResult.
   ///
   /// In pt, this message translates to:
-  /// **'Nenhum resultado encontrado 😱'**
+  /// **'Nenhum resultado encontrado'**
   String get noResult;
 
   /// No description provided for @about.
@@ -414,7 +414,7 @@ abstract class AppLocalizations {
   /// No description provided for @noUpdateSub.
   ///
   /// In pt, this message translates to:
-  /// **'Tudo em dias parceiro 🤠'**
+  /// **'Você já está usando a versão mais recente'**
   String get noUpdateSub;
 
   /// No description provided for @removedFavorite.
@@ -444,7 +444,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeLogin.
   ///
   /// In pt, this message translates to:
-  /// **'Bem vindo ao nosso app, aproveite 😁'**
+  /// **'Bem vindo ao nosso app, aproveite'**
   String get homeLogin;
 
   /// No description provided for @googleLogin.

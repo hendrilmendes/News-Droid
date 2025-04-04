@@ -1,0 +1,2 @@
+/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/Debug/16m5w5e1/armeabi-v7a/CMakeFiles/edit_cache.dir
+/home/hendril/Documentos/GitHub/News-Droid/android/app/.cxx/Debug/16m5w5e1/armeabi-v7a/CMakeFiles/rebuild_cache.dir

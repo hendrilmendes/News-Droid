@@ -47,10 +47,13 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     _initializeTts();
 
     // Verificar se o post atual já está nos favoritos ao entrar na tela
-    final favoritePostsModel =
-        Provider.of<FavoritePostsModel>(context, listen: false);
-    _isFavorite = favoritePostsModel.favoritePosts
-        .any((post) => post.postId == widget.postId);
+    final favoritePostsModel = Provider.of<FavoritePostsModel>(
+      context,
+      listen: false,
+    );
+    _isFavorite = favoritePostsModel.favoritePosts.any(
+      (post) => post.postId == widget.postId,
+    );
   }
 
   void _initializeTts() async {
@@ -136,8 +139,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   }
 
   void _toggleFavorite(BuildContext context) {
-    final favoritePostsModel =
-        Provider.of<FavoritePostsModel>(context, listen: false);
+    final favoritePostsModel = Provider.of<FavoritePostsModel>(
+      context,
+      listen: false,
+    );
 
     final post = FavoritePost(
       postId: widget.postId,
@@ -161,9 +166,9 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   }
 
   void _showToast(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ));
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -187,8 +192,10 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                 fit: StackFit.expand,
                 children: [
                   FutureBuilder(
-                    future:
-                        precacheImage(NetworkImage(widget.imageUrl), context),
+                    future: precacheImage(
+                      NetworkImage(widget.imageUrl),
+                      context,
+                    ),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         return ClipRRect(
@@ -210,9 +217,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                               bottomLeft: Radius.circular(40),
                               bottomRight: Radius.circular(40),
                             ),
-                            child: Container(
-                              color: Colors.white,
-                            ),
+                            child: Container(color: Colors.white),
                           ),
                         );
                       }
@@ -257,32 +262,31 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
           SliverPadding(
             padding: const EdgeInsets.all(16.0),
             sliver: SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Row(
-                    children: [
-                      const Icon(Icons.calendar_month_outlined,
-                          size: 12, color: Colors.grey),
-                      const SizedBox(width: 4),
-                      Text(
-                        widget.formattedDate,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  const Divider(),
-                  const SizedBox(height: 16),
-                  HtmlWidget(
-                    widget.content,
-                    textStyle: TextStyle(fontSize: _fontSize),
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+              delegate: SliverChildListDelegate([
+                Row(
+                  children: [
+                    const Icon(
+                      Icons.calendar_month_outlined,
+                      size: 12,
+                      color: Colors.grey,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      widget.formattedDate,
+                      style: const TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                const Divider(),
+                const SizedBox(height: 16),
+                HtmlWidget(
+                  widget.content,
+                  textStyle: TextStyle(fontSize: _fontSize),
+                  enableCaching: true,
+                ),
+                const SizedBox(height: 16),
+              ]),
             ),
           ),
         ],

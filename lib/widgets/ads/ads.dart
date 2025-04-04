@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
@@ -12,6 +11,7 @@ class AdBanner extends StatefulWidget {
 
 class _AdBannerState extends State<AdBanner> {
   BannerAd? _bannerAd;
+  bool _isAdLoaded = false;
 
   @override
   void initState() {
@@ -26,14 +26,19 @@ class _AdBannerState extends State<AdBanner> {
       request: AdRequest(),
       listener: BannerAdListener(
         onAdLoaded: (Ad ad) {
-          if (kDebugMode) {
-            print('Ad loaded.');
+          if (mounted) {
+            setState(() {
+              _isAdLoaded = true;
+            });
           }
         },
         onAdFailedToLoad: (Ad ad, LoadAdError error) {
-          if (kDebugMode) {
-            print('Ad failed to load: $error');
+          if (mounted) {
+            setState(() {
+              _isAdLoaded = false;
+            });
           }
+          ad.dispose();
         },
       ),
     )..load();
@@ -41,13 +46,15 @@ class _AdBannerState extends State<AdBanner> {
 
   @override
   Widget build(BuildContext context) {
-    return _bannerAd != null
-        ? SizedBox(
-          height: _bannerAd!.size.height.toDouble(),
-          width: _bannerAd!.size.width.toDouble(),
-          child: AdWidget(ad: _bannerAd!),
-        )
-        : SizedBox.shrink();
+    if (!_isAdLoaded) {
+      return SizedBox.shrink();
+    }
+
+    return SizedBox(
+      height: _bannerAd!.size.height.toDouble(),
+      width: _bannerAd!.size.width.toDouble(),
+      child: AdWidget(ad: _bannerAd!),
+    );
   }
 
   @override

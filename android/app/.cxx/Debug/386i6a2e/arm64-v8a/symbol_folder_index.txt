@@ -1,0 +1,1 @@
+/home/hendril/Documentos/GitHub/News-Droid/build/app/intermediates/cxx/Debug/386i6a2e/obj/arm64-v8a
