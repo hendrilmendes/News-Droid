@@ -46,14 +46,14 @@ dependencies:
 # Google Sign
   google_fonts: ^6.2.1
   google_sign_in: ^6.3.0
-  google_mobile_ads: ^5.3.1
+  google_mobile_ads: ^6.0.0
 
 # Hive  
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
 # HTML
-  html: ^0.15.5
+  html: ^0.15.5+1
 
 # HTTP
   http: ^1.3.0
@@ -68,7 +68,7 @@ dependencies:
   path_provider: ^2.1.5
 
 # Permission Handler
-  permission_handler: ^11.4.0
+  permission_handler: ^12.0.0+1
 
 # Provider
   provider: ^6.1.4
