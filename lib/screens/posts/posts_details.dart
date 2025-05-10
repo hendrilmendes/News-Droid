@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'package:newsdroid/screens/comments/comments.dart';
+import 'package:newsdroid/widgets/ads/ads.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
@@ -122,7 +123,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
   // Metodo para compartilhar os posts
   void sharePost(String shared) {
-    Share.share(widget.url);
+    SharePlus.instance.share(ShareParams(text: widget.url));
   }
 
   // Metodo para aumentar e diminuir tamanho do texto nos posts
@@ -279,6 +280,8 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                 ),
                 const SizedBox(height: 16),
                 const Divider(),
+                const SizedBox(height: 16),
+                Column(children: [AdBanner()]),
                 const SizedBox(height: 16),
                 HtmlWidget(
                   widget.content,

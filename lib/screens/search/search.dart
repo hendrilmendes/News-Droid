@@ -9,6 +9,7 @@ import 'package:newsdroid/api/api.dart';
 import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/screens/error/error.dart';
 import 'package:newsdroid/screens/posts/posts_details.dart';
+import 'package:newsdroid/widgets/ads/ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -246,6 +247,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
               ),
             ),
+          Column(children: [AdBanner()]),
           Expanded(
             child:
                 isLoading
