@@ -125,6 +125,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
+  bool _updateChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +145,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: _buildHome(authService),
+            home: _buildHome(context),
             routes: {
               '/login': (context) => LoginScreen(authService: authService),
             },
@@ -154,12 +155,16 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget _buildHome(AuthService authService) {
+  Widget _buildHome(BuildContext context) {
     return FutureBuilder<User?>(
       future: authService.currentUser(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          Updater.checkUpdateApp(context);
+          if (!_updateChecked) {
+            _updateChecked = true;
+            Updater.checkUpdateApp(context);
+          }
+
           if (snapshot.hasData) {
             return const BottomNavigationContainer();
           } else {

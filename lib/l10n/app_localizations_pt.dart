@@ -39,13 +39,14 @@ class AppLocalizationsPt extends AppLocalizations {
   String get errorComments => 'Erro ao enviar comentário';
 
   @override
-  String get errorCommentsSub => 'Não foi possível enviar o comentário. Por favor, tente novamente mais tarde.';
+  String get errorCommentsSub =>
+      'Não foi possível enviar o comentário. Por favor, tente novamente mais tarde.';
 
   @override
   String get ok => 'OK';
 
   @override
-  String get noComment => 'Nenhum comentário disponível';
+  String get noComment => 'Sem comentários disponíveis';
 
   @override
   String get hintTextComment => 'Digite seu comentário...';
@@ -57,7 +58,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get deleteFavorites => 'Apagar Favoritos';
 
   @override
-  String get deleteFavoritesSub => 'Tem certeza de que deseja apagar todos os favoritos?';
+  String get deleteFavoritesSub =>
+      'Tem certeza de que deseja apagar todos os favoritos?';
 
   @override
   String get cancel => 'Cancelar';
@@ -78,7 +80,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get refresh => 'Recarregar';
 
   @override
-  String get noResult => 'Nenhum resultado encontrado';
+  String get noResult => 'Sem resultados para sua busca';
 
   @override
   String get about => 'Sobre';
@@ -108,13 +110,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get openSource => 'Licenças de Código Aberto';
 
   @override
-  String get openSourceSub => 'Softwares de terceiros usados na construção do app';
+  String get openSourceSub =>
+      'Softwares de terceiros usados na construção do app';
 
   @override
   String get notification => 'Notificações';
 
   @override
-  String get notificationSub => 'Você receberá notificações sempre que novos posts forem publicados';
+  String get notificationSub =>
+      'Você receberá notificações sempre que novos posts forem publicados';
 
   @override
   String get theme => 'Tema';
@@ -183,7 +187,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get readLoud => 'Ler em voz alta';
 
   @override
-  String get homeLogin => 'Bem vindo ao nosso app, aproveite';
+  String get homeLogin =>
+      'Bem-vindo ao News-Droid! Explore as notícias e aproveite a experiência.';
 
   @override
   String get googleLogin => 'Entrar com Google';
@@ -198,7 +203,8 @@ class AppLocalizationsPt extends AppLocalizations {
   String get errorCommentsDelete => 'Erro ao apagar comentário';
 
   @override
-  String get errorCommentsDeleteSub => 'Não é possível apagar os comentários de outros usuários.';
+  String get errorCommentsDeleteSub =>
+      'Não é possível apagar os comentários de outros usuários.';
 
   @override
   String get confirmDelete => 'Apagar Comentário';
@@ -231,5 +237,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get dynamicColors => 'Dynamic Colors';
 
   @override
-  String get dynamicColorsSub => 'Proporciona uma interface agradável de acordo com o seu papel de parede';
+  String get dynamicColorsSub =>
+      'Proporciona uma interface agradável de acordo com o seu papel de parede';
 }

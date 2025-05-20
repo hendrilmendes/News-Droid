@@ -98,7 +98,6 @@ class ThemeModel extends ChangeNotifier {
       _prefs?.getString('themeMode') ?? ThemeModeType.system.toString(),
     );
 
-    // Certifique-se de que os esquemas de cores dinâmicos sejam carregados
     await _loadDynamicColors();
     notifyListeners();
   }

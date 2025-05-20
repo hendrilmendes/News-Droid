@@ -35,7 +35,7 @@ android {
 
     namespace 'com.github.hendrilmendes.news'
     compileSdk 36
-    ndkVersion flutter.ndkVersion
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -54,7 +54,7 @@ android {
         applicationId "com.github.hendrilmendes.news"
         minSdkVersion 26
         targetSdk 36
-        ndkVersion flutter.ndkVersion
+        ndkVersion = "27.0.12077973"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
