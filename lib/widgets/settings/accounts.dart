@@ -12,7 +12,7 @@ class AccountUser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: Theme.of(context).listTileTheme.tileColor,
       child: Padding(
         padding: const EdgeInsets.all(16.0),

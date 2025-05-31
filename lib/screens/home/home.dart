@@ -32,7 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     fetchPosts();
     checkConnectivity();
-    _pageController = PageController(initialPage: 0);
+    _pageController = PageController(viewportFraction: 0.8);
+    _startAutoCarousel();
+  }
+
+  void _startAutoCarousel() {
     timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
       if (!mounted) {
         timer.cancel();
@@ -76,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (cachedData != null) {
       final Map<String, dynamic> cachedPosts = jsonDecode(cachedData);
       final DateTime lastCachedTime = DateTime.parse(
-        prefs.getString('cachedTime') ?? '',
+        prefs.getString('cachedTime') ?? DateTime(1970).toString(),
       );
       final DateTime currentTime = DateTime.now();
       final difference = currentTime.difference(lastCachedTime).inMinutes;
@@ -146,12 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     if (!isOnline) {
       return ErrorScreen(
-        onReload: () {
-          if (!mounted) return;
-          setState(() {
-            isOnline = true;
-          });
-          _refreshPosts();
+        onReload: () async {
+          await checkConnectivity();
+          if (isOnline) {
+            _refreshPosts();
+          }
         },
       );
     }
@@ -160,26 +163,29 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.appName,
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
       ),
-      body:
-          isLoading
-              ? Center(child: CircularProgressIndicator.adaptive())
-              : PostListWidget(
-                filteredPosts: filteredPosts,
-                currentPage: _currentPage,
-                pageController: _pageController,
-                onPageChanged: (int page) {
-                  if (!mounted) return;
-                  setState(() {
-                    _currentPage = page;
-                  });
-                },
-                onRefresh: _refreshPosts,
-                formatDate: formatDate,
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator.adaptive(
+                backgroundColor: Theme.of(context).colorScheme.primary,
               ),
+            )
+          : PostListWidget(
+              filteredPosts: filteredPosts,
+              currentPage: _currentPage,
+              pageController: _pageController,
+              onPageChanged: (int page) {
+                if (!mounted) return;
+                setState(() {
+                  _currentPage = page;
+                });
+              },
+              onRefresh: _refreshPosts,
+              formatDate: formatDate,
+            ),
     );
   }
 }

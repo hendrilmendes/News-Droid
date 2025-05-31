@@ -1,4 +1,6 @@
-import 'package:flutter/foundation.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/models/favorite_model.dart';
@@ -47,7 +49,6 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     flutterTts = FlutterTts();
     _initializeTts();
 
-    // Verificar se o post atual já está nos favoritos ao entrar na tela
     final favoritePostsModel = Provider.of<FavoritePostsModel>(
       context,
       listen: false,
@@ -58,40 +59,16 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
   }
 
   void _initializeTts() async {
-    // Configurar handlers
-    flutterTts.setStartHandler(() {
-      if (kDebugMode) {
-        print("Iniciando a leitura do texto...");
-      }
-    });
-
-    flutterTts.setCompletionHandler(() {
-      if (kDebugMode) {
-        print("Leitura do texto completada");
-      }
-    });
-
+    flutterTts.setStartHandler(() {});
+    flutterTts.setCompletionHandler(() {});
     flutterTts.setErrorHandler((msg) {
-      if (kDebugMode) {
-        print("Erro ao ler o texto: $msg");
-      }
       _showToast("Erro ao ler o texto: $msg");
     });
 
-    var languages = await flutterTts.getLanguages;
-    if (kDebugMode) {
-      print("Idiomas disponíveis: $languages");
-    }
-
     var isLanguageAvailable = await flutterTts.isLanguageAvailable("pt-BR");
-    if (kDebugMode) {
-      print("Idioma pt-BR está disponível: $isLanguageAvailable");
-    }
-
     if (isLanguageAvailable) {
       await flutterTts.setLanguage("pt-BR");
     }
-
     await flutterTts.setSpeechRate(0.6);
   }
 
@@ -101,41 +78,25 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     super.dispose();
   }
 
-  // Metodo para ler o texto em voz alta
   void _readTextAloud() async {
-    if (kDebugMode) {
-      print("Tentando ler o texto em voz alta");
-    }
     var document = html_parser.parse(widget.content);
     var text = document.body?.text ?? widget.content;
-    var result = await flutterTts.speak(text);
-    if (result == 1) {
-      if (kDebugMode) {
-        print("Texto lido com sucesso");
-      }
-    } else {
-      if (kDebugMode) {
-        print("Falha ao ler o texto: $result");
-      }
-      _showToast("Falha ao ler o texto: $result");
-    }
+    await flutterTts.speak(text);
   }
 
-  // Metodo para compartilhar os posts
   void sharePost(String shared) {
     SharePlus.instance.share(ShareParams(text: widget.url));
   }
 
-  // Metodo para aumentar e diminuir tamanho do texto nos posts
   void _decrementFontSize() {
     setState(() {
-      _fontSize -= 2.0;
+      _fontSize = (_fontSize - 2.0).clamp(12.0, 28.0);
     });
   }
 
   void _incrementFontSize() {
     setState(() {
-      _fontSize += 2.0;
+      _fontSize = (_fontSize + 2.0).clamp(12.0, 28.0);
     });
   }
 
@@ -162,7 +123,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
     }
 
     setState(() {
-      _isFavorite = !_isFavorite; // Alternar o estado do post favorito
+      _isFavorite = !_isFavorite;
     });
   }
 
@@ -174,144 +135,243 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 300,
-            floating: false,
-            pinned: true,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.mic_none_outlined),
-                onPressed: _readTextAloud,
-                tooltip: AppLocalizations.of(context)!.readLoud,
-              ),
-            ],
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                fit: StackFit.expand,
-                children: [
-                  FutureBuilder(
-                    future: precacheImage(
-                      NetworkImage(widget.imageUrl),
-                      context,
-                    ),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(40),
-                            bottomRight: Radius.circular(40),
-                          ),
-                          child: Image.network(
-                            widget.imageUrl,
-                            fit: BoxFit.cover,
-                          ),
-                        );
-                      } else {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              bottomLeft: Radius.circular(40),
-                              bottomRight: Radius.circular(40),
+      backgroundColor: isDark ? Colors.black : Colors.grey[50],
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          return CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                backgroundColor: isDark ? Colors.black : Colors.white,
+                expandedHeight: size.height * (size.width < 600 ? 0.32 : 0.24),
+                floating: false,
+                pinned: true,
+                elevation: 0,
+                surfaceTintColor: Colors.transparent,
+                actions: [
+                  IconButton(
+                    icon: Icon(Icons.mic_none_rounded),
+                    onPressed: _readTextAloud,
+                    tooltip: AppLocalizations.of(context)!.readLoud,
+                  ),
+                ],
+                flexibleSpace: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final double top = constraints.biggest.height;
+                    final bool isCollapsed =
+                        top <=
+                        kToolbarHeight +
+                            MediaQuery.of(context).padding.top +
+                            10;
+                    return Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        if (!isCollapsed)
+                          Hero(
+                            tag: widget.imageUrl,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(28),
+                                bottomRight: Radius.circular(28),
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.imageUrl,
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(color: Colors.white),
+                                    ),
+                                errorWidget: (context, url, error) => Container(
+                                  color: Colors.grey[200],
+                                  child: Icon(
+                                    Icons.broken_image_rounded,
+                                    color: Colors.grey[400],
+                                    size: 56,
+                                  ),
+                                ),
+                              ),
                             ),
-                            child: Container(color: Colors.white),
                           ),
-                        );
-                      }
-                    },
-                  ),
-                  Container(
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                        bottomRight: Radius.circular(40),
-                      ),
-                      gradient: LinearGradient(
-                        begin: Alignment.bottomCenter,
-                        end: Alignment.center,
-                        colors: [Colors.black54, Colors.transparent],
-                      ),
+                        if (!isCollapsed)
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                bottomLeft: Radius.circular(28),
+                                bottomRight: Radius.circular(28),
+                              ),
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomCenter,
+                                end: Alignment.topCenter,
+                                colors: [
+                                  Colors.black.withOpacity(0.7),
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        if (!isCollapsed)
+                          Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(24, 0, 24, 28),
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.surface.withOpacity(0.85),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.vertical,
+                                  child: Text(
+                                    widget.title,
+                                    style: theme.textTheme.headlineSmall
+                                        ?.copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: size.width < 600 ? 22 : 28,
+                                          letterSpacing: -0.5,
+                                        ),
+                                    maxLines: null,
+                                    overflow: TextOverflow.visible,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (isCollapsed)
+                          Container(
+                            alignment: Alignment.bottomLeft,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 72,
+                              vertical: 12,
+                            ),
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Text(
+                                widget.title,
+                                style: theme.textTheme.titleLarge?.copyWith(
+                                  color: isDark ? Colors.white : Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                  letterSpacing: -0.5,
+                                  overflow: TextOverflow.visible,
+                                ),
+                                maxLines: null,
+                                softWrap: false,
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 16,
+                ),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate([
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.calendar_month_outlined,
+                          size: 16,
+                          color: Colors.grey[500],
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          widget.formattedDate,
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: Colors.grey[500],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  Positioned(
-                    bottom: 16,
-                    left: 16,
-                    right: 16,
-                    child: Text(
-                      widget.title,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        color: Colors.white,
-                        shadows: [
-                          Shadow(
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 3.0,
-                            color: Color.fromARGB(150, 0, 0, 0),
+                    const SizedBox(height: 18),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: isDark ? Colors.grey[900] : Colors.white,
+                        borderRadius: BorderRadius.circular(18),
+                        boxShadow: [
+                          if (!isDark)
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.08),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(18),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AdBanner(),
+                          const SizedBox(height: 20),
+                          HtmlWidget(
+                            widget.content,
+                            textStyle: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: _fontSize,
+                              height: 1.6,
+                              color: isDark
+                                  ? Colors.grey[100]
+                                  : Colors.grey[900],
+                            ),
+                            enableCaching: true,
                           ),
+                          const SizedBox(height: 20),
+                          AdBanner(),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 24),
+                  ]),
+                ),
               ),
-            ),
-          ),
-          SliverPadding(
-            padding: const EdgeInsets.all(16.0),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate([
-                Row(
-                  children: [
-                    const Icon(
-                      Icons.calendar_month_outlined,
-                      size: 12,
-                      color: Colors.grey,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      widget.formattedDate,
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16),
-                const Divider(),
-                const SizedBox(height: 16),
-                Column(children: [AdBanner()]),
-                const SizedBox(height: 16),
-                HtmlWidget(
-                  widget.content,
-                  textStyle: TextStyle(fontSize: _fontSize),
-                  enableCaching: true,
-                ),
-                const SizedBox(height: 16),
-              ]),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
-
-      // Botão flutuante na parte inferior
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _toggleFavorite(context);
-        },
+        elevation: 2,
+        backgroundColor: isDark ? Colors.white10 : Colors.white,
+        onPressed: () => _toggleFavorite(context),
         child: Icon(
           _isFavorite ? Icons.favorite : Icons.favorite_border_outlined,
-          color: _isFavorite ? Colors.red : null,
+          color: _isFavorite ? Colors.red : theme.colorScheme.primary,
         ),
       ),
-
-      // Menu de ações na parte inferior
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: isDark ? Colors.black : Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 12,
+              offset: const Offset(0, -2),
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        child: SafeArea(
+          top: false,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -337,6 +397,7 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                   showModalBottomSheet(
                     context: context,
                     isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
                     builder: (_) {
                       return DraggableScrollableSheet(
                         initialChildSize: 0.9,
@@ -345,24 +406,23 @@ class _PostDetailsScreenState extends State<PostDetailsScreen> {
                         expand: false,
                         builder: (_, controller) {
                           return Container(
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
+                            decoration: BoxDecoration(
+                              color: isDark ? Colors.grey[900] : Colors.white,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(24),
+                                topRight: Radius.circular(24),
                               ),
                             ),
                             child: ListView(
                               controller: controller,
                               children: [
                                 SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.9,
-                                  width: MediaQuery.of(context).size.width,
+                                  height: size.height * 0.9,
+                                  width: size.width,
                                   child: ClipRRect(
                                     borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
+                                      topLeft: Radius.circular(24),
+                                      topRight: Radius.circular(24),
                                     ),
                                     child: CommentScreen(postId: widget.postId),
                                   ),

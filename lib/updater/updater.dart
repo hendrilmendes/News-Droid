@@ -20,9 +20,6 @@ class Updater {
         if (_isNewerVersion(latestVersion, currentVersion)) {
           // ignore: use_build_context_synchronously
           _showUpdateAvailableModal(context, releaseInfo['body']);
-        } else {
-          // ignore: use_build_context_synchronously
-          _showNoUpdateModal(context);
         }
       } else if (kDebugMode) {
         print("Erro ao buscar versão: Nenhuma resposta válida do servidor.");
@@ -69,105 +66,53 @@ class Updater {
     final AppLocalizations? localizations = AppLocalizations.of(context);
     final String titleText = localizations?.newUpdate ?? '';
 
-    showModalBottomSheet(
+    showDialog(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-      ),
-      isScrollControlled: true,
       builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(titleText, style: Theme.of(context).textTheme.titleLarge),
-              const SizedBox(height: 16),
-              Text(
-                localizations?.news ?? '',
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.6,
-                ),
-                child: SingleChildScrollView(child: Text(releaseNotes)),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+        return AlertDialog(
+          title: Text(titleText),
+          content: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.6,
+              maxWidth: 400,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(localizations?.after ?? ''),
+                  Text(
+                    localizations?.news ?? '',
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(width: 8),
-                  FilledButton(
-                    onPressed: () {
-                      final Uri uri =
-                          Platform.isAndroid
-                              ? Uri.parse(
-                                'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news',
-                              )
-                              : Uri.parse(
-                                'https://github.com/hendrilmendes/Tarefas/releases/latest',
-                              );
-
-                      launchUrl(uri);
-                      Navigator.pop(context); // Fecha o modal
-                    },
-                    child: Text(localizations?.download ?? ''),
-                  ),
+                  const SizedBox(height: 8),
+                  Text(releaseNotes),
                 ],
               ),
-            ],
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(localizations?.after ?? ''),
+            ),
+            FilledButton(
+              onPressed: () {
+                final Uri uri = Platform.isAndroid
+                    ? Uri.parse(
+                        'https://play.google.com/store/apps/details?id=com.github.hendrilmendes.news',
+                      )
+                    : Uri.parse(
+                        'https://github.com/hendrilmendes/News-Droid/releases/latest',
+                      );
+                launchUrl(uri);
+                Navigator.pop(context);
+              },
+              child: Text(localizations?.download ?? ''),
+            ),
+          ],
         );
       },
     );
-  }
-
-  // Modal para "Nenhuma atualização disponível"
-  static void _showNoUpdateModal(BuildContext context) {
-    final AppLocalizations? localizations = AppLocalizations.of(context);
-    if (localizations != null) {
-      showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-        ),
-        builder: (context) {
-          return Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  localizations.noUpdate,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  localizations.noUpdateSub,
-                  style: const TextStyle(fontSize: 16.0),
-                ),
-                const SizedBox(height: 16),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: FilledButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(localizations.ok),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      );
-    }
   }
 
   static Future<void> checkUpdateApp(BuildContext context) async {

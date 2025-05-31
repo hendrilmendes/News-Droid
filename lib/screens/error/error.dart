@@ -25,7 +25,7 @@ class ErrorScreen extends StatelessWidget {
                 AppLocalizations.of(context)!.noConnection,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).textTheme.titleLarge?.color,
                 ),
@@ -47,7 +47,7 @@ class ErrorScreen extends StatelessWidget {
                 onPressed: onReload,
                 child: Text(
                   AppLocalizations.of(context)!.refresh,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ),
             ],

@@ -147,14 +147,12 @@ class _SearchScreenState extends State<SearchScreen> {
     _debounceTimer = Timer(const Duration(milliseconds: 500), () {
       if (mounted) {
         setState(() {
-          filteredPosts =
-              posts
-                  .where(
-                    (post) => post['title'].toLowerCase().contains(
-                      query.toLowerCase(),
-                    ),
-                  )
-                  .toList();
+          filteredPosts = posts
+              .where(
+                (post) =>
+                    post['title'].toLowerCase().contains(query.toLowerCase()),
+              )
+              .toList();
 
           searchResultsEmpty = filteredPosts.isEmpty;
         });
@@ -173,12 +171,19 @@ class _SearchScreenState extends State<SearchScreen> {
     });
   }
 
+   Future<void> _refreshPosts() async {
+    await fetchPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!isOnline) {
       return ErrorScreen(
-        onReload: () {
-          fetchPosts();
+        onReload: () async {
+          await checkConnectivity();
+          if (isOnline) {
+            _refreshPosts();
+          }
         },
       );
     }
@@ -205,195 +210,173 @@ class _SearchScreenState extends State<SearchScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Wrap(
                   spacing: 8.0,
-                  children:
-                      allLabels.map<Widget>((label) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedLabel = label;
-                            });
-                            filterPostsByLabel(label);
-                          },
-                          child: Chip(
-                            label: Text(label),
-                            backgroundColor:
-                                selectedLabel == label
-                                    ? Theme.of(
-                                      context,
-                                    ).colorScheme.primary.withValues()
-                                    : Theme.of(context).listTileTheme.tileColor,
-                            labelStyle: TextStyle(
-                              color:
-                                  selectedLabel == label
-                                      ? Colors.white
-                                      : Theme.of(
-                                        context,
-                                      ).textTheme.bodyLarge?.color,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                              side: BorderSide(
-                                color:
-                                    selectedLabel == label
-                                        ? Theme.of(
-                                          context,
-                                        ).scaffoldBackgroundColor
-                                        : Colors.transparent,
-                              ),
-                            ),
+                  children: allLabels.map<Widget>((label) {
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          selectedLabel = label;
+                        });
+                        filterPostsByLabel(label);
+                      },
+                      child: Chip(
+                        label: Text(label),
+                        backgroundColor: selectedLabel == label
+                            ? Theme.of(context).colorScheme.primary.withValues()
+                            : Theme.of(context).listTileTheme.tileColor,
+                        labelStyle: TextStyle(
+                          color: selectedLabel == label
+                              ? Colors.white
+                              : Theme.of(context).textTheme.bodyLarge?.color,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(100),
+                          side: BorderSide(
+                            color: selectedLabel == label
+                                ? Theme.of(context).scaffoldBackgroundColor
+                                : Colors.transparent,
                           ),
-                        );
-                      }).toList(),
+                        ),
+                      ),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
           Column(children: [AdBanner()]),
           Expanded(
-            child:
-                isLoading
-                    ? Center(child: CircularProgressIndicator.adaptive())
-                    : filteredPosts.isEmpty
-                    ? Center(
-                      child: Text(
-                        AppLocalizations.of(context)!.noResult,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          color: Colors.grey,
-                        ),
+            child: isLoading
+                ? Center(child: CircularProgressIndicator.adaptive())
+                : filteredPosts.isEmpty
+                ? Center(
+                    child: Text(
+                      AppLocalizations.of(context)!.noResult,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        color: Colors.grey,
                       ),
-                    )
-                    : GridView.builder(
-                      padding: const EdgeInsets.all(16.0),
-                      gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                            maxCrossAxisExtent: 200,
-                            mainAxisExtent: 300,
-                            crossAxisSpacing: 16,
-                            mainAxisSpacing: 16,
-                          ),
-                      itemCount: filteredPosts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final post = filteredPosts[index];
-                        final title = post['title'];
-                        final url = post['url'];
-                        final publishedDate = post['published'];
-                        final formattedDate = formatDate(publishedDate);
+                    ),
+                  )
+                : GridView.builder(
+                    padding: const EdgeInsets.all(16.0),
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          mainAxisExtent: 300,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                        ),
+                    itemCount: filteredPosts.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final post = filteredPosts[index];
+                      final title = post['title'];
+                      final url = post['url'];
+                      final publishedDate = post['published'];
+                      final formattedDate = formatDate(publishedDate);
 
-                        var imageUrl =
-                            post['images'] != null
-                                ? post['images'][0]['url']
-                                : null;
+                      var imageUrl = post['images'] != null
+                          ? post['images'][0]['url']
+                          : null;
 
-                        if (imageUrl == null) {
-                          final content = post['content'];
-                          final match = RegExp(
-                            r'<img[^>]+src="([^">]+)"',
-                          ).firstMatch(content);
-                          if (match != null) {
-                            imageUrl = match.group(1);
-                          }
+                      if (imageUrl == null) {
+                        final content = post['content'];
+                        final match = RegExp(
+                          r'<img[^>]+src="([^">]+)"',
+                        ).firstMatch(content);
+                        if (match != null) {
+                          imageUrl = match.group(1);
                         }
+                      }
 
-                        return Card(
-                          color: Theme.of(context).listTileTheme.tileColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          margin: const EdgeInsets.all(8.0),
-                          child: InkWell(
-                            onTap: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => PostDetailsScreen(
-                                        title: title,
-                                        imageUrl: imageUrl,
-                                        content: post['content'],
-                                        url: url,
-                                        formattedDate: formattedDate,
-                                        blogId: blogId,
-                                        postId: post['id'],
-                                      ),
+                      return Card(
+                        color: Theme.of(context).listTileTheme.tileColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        clipBehavior: Clip.hardEdge,
+                        margin: const EdgeInsets.all(8.0),
+                        child: InkWell(
+                          onTap: () async {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PostDetailsScreen(
+                                  title: title,
+                                  imageUrl: imageUrl,
+                                  content: post['content'],
+                                  url: url,
+                                  formattedDate: formattedDate,
+                                  blogId: blogId,
+                                  postId: post['id'],
                                 ),
-                              );
-                            },
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.vertical(
-                                    top: Radius.circular(20.0),
-                                    bottom: Radius.circular(20.0),
-                                  ),
-                                  child: AspectRatio(
-                                    aspectRatio: 16 / 9,
-                                    child:
-                                        imageUrl != null
-                                            ? CachedNetworkImage(
-                                              imageUrl: imageUrl,
-                                              fit: BoxFit.cover,
-                                              placeholder:
-                                                  (context, url) =>
-                                                      Shimmer.fromColors(
-                                                        baseColor:
-                                                            Colors.grey[300]!,
-                                                        highlightColor:
-                                                            Colors.grey[100]!,
-                                                        child: Container(
-                                                          color: Colors.white,
-                                                        ),
-                                                      ),
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      const Icon(
-                                                        Icons.error_outline,
-                                                      ),
-                                            )
-                                            : Shimmer.fromColors(
-                                              baseColor: Colors.grey[300]!,
-                                              highlightColor: Colors.grey[100]!,
-                                              child: Container(
-                                                color: Colors.white,
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(20.0),
+                                  bottom: Radius.circular(20.0),
+                                ),
+                                child: AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: imageUrl != null
+                                      ? CachedNetworkImage(
+                                          imageUrl: imageUrl,
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              Shimmer.fromColors(
+                                                baseColor: Colors.grey[300]!,
+                                                highlightColor:
+                                                    Colors.grey[100]!,
+                                                child: Container(
+                                                  color: Colors.white,
+                                                ),
                                               ),
-                                            ),
-                                  ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error_outline),
+                                        )
+                                      : Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(color: Colors.white),
+                                        ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(title),
-                                      const SizedBox(height: 6),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.calendar_today,
-                                            size: 14,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(title),
+                                    const SizedBox(height: 6),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.calendar_today,
+                                          size: 14,
+                                          color: Colors.grey,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          formattedDate,
+                                          style: const TextStyle(
+                                            fontSize: 12,
                                             color: Colors.grey,
                                           ),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            formattedDate,
-                                            style: const TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
+                  ),
           ),
           if (showSearchBarAtBottom)
             Padding(
@@ -407,13 +390,11 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void filterPostsByLabel(String label) {
     setState(() {
-      filteredPosts =
-          posts
-              .where(
-                (post) =>
-                    post['labels'] != null && post['labels'].contains(label),
-              )
-              .toList();
+      filteredPosts = posts
+          .where(
+            (post) => post['labels'] != null && post['labels'].contains(label),
+          )
+          .toList();
       searchResultsEmpty = filteredPosts.isEmpty;
     });
   }
@@ -438,17 +419,16 @@ class _SearchScreenState extends State<SearchScreen> {
           border: InputBorder.none,
           hintText:
               '${AppLocalizations.of(context)!.searchFor} "${trendWords[trendIndex]}"',
-          suffixIcon:
-              searchQuery.value.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.close_outlined),
-                    onPressed: () {
-                      _searchController.clear();
-                      searchQuery.value = '';
-                      searchPosts('');
-                    },
-                  )
-                  : null,
+          suffixIcon: searchQuery.value.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.close_outlined),
+                  onPressed: () {
+                    _searchController.clear();
+                    searchQuery.value = '';
+                    searchPosts('');
+                  },
+                )
+              : null,
         ),
         keyboardType: TextInputType.text,
         textInputAction: TextInputAction.search,

@@ -22,7 +22,7 @@ import 'package:newsdroid/models/favorite_model.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
 import 'firebase_options.dart';
 
-main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -137,7 +137,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider<ThemeModel>(create: (_) => ThemeModel()),
       ],
       child: Consumer<ThemeModel>(
-        builder: (_, themeModel, __) {
+        builder: (_, themeModel, _) {
           return MaterialApp(
             theme: themeModel.lightTheme,
             darkTheme: themeModel.darkTheme,

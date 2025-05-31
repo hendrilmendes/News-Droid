@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.7.2+372
+version: 3.8.0+380
 
 environment:
   sdk: ^3.8.0
@@ -86,7 +86,7 @@ dependencies:
   shimmer: ^3.0.0
 
 # Shorebird
-  shorebird_code_push: ^2.0.3
+  shorebird_code_push: ^2.0.4
 
 # TTS
   flutter_tts: ^4.2.2
@@ -104,7 +104,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 flutter:
   generate: true

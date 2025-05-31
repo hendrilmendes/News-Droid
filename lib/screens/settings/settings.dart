@@ -56,38 +56,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
         ),
         centerTitle: true,
       ),
-      body: ListView(
-        children: [
-          AccountUser(user: _user),
-          const SizedBox(height: 8),
-          _buildSectionCard(context, const NotificationSettings()),
-          const SizedBox(height: 8),
-          _buildSectionCard(
-            context,
-            Column(
-              children: [
-                ThemeSettings(themeModel: themeModel),
-                SearchBarSetting(),
-                if (_isAndroid12) const DynamicColorsSettings(),
-              ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: [
+            AccountUser(user: _user),
+            const SizedBox(height: 8),
+            _buildSectionCard(context, const NotificationSettings()),
+            const SizedBox(height: 8),
+            _buildSectionCard(
+              context,
+              Column(
+                children: [
+                  ThemeSettings(themeModel: themeModel),
+                  SearchBarSetting(),
+                  if (_isAndroid12) const DynamicColorsSettings(),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          _buildSectionCard(
-            context,
-            Column(
-              children: [
-                buildReviewSettings(context),
-                buildSupportSettings(context),
-              ],
+            const SizedBox(height: 8),
+            _buildSectionCard(
+              context,
+              Column(
+                children: [
+                  buildReviewSettings(context),
+                  buildSupportSettings(context),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          _buildSectionCard(
-            context,
-            Column(children: [buildAboutSettings(context)]),
-          ),
-        ],
+            const SizedBox(height: 8),
+            _buildSectionCard(
+              context,
+              Column(children: [buildAboutSettings(context)]),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -169,12 +169,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get download => 'BAIXAR';
 
   @override
-  String get noUpdate => 'Nenhuma atualização disponível';
-
-  @override
-  String get noUpdateSub => 'Você já está usando a versão mais recente';
-
-  @override
   String get removedFavorite => 'Postagem Removida';
 
   @override
@@ -187,8 +181,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get readLoud => 'Ler em voz alta';
 
   @override
-  String get homeLogin =>
-      'Bem-vindo ao News-Droid! Explore as notícias e aproveite a experiência.';
+  String get homeLogin => 'Bem vindo ao nosso app, aproveite';
 
   @override
   String get googleLogin => 'Entrar com Google';
@@ -239,4 +232,7 @@ class AppLocalizationsPt extends AppLocalizations {
   @override
   String get dynamicColorsSub =>
       'Proporciona uma interface agradável de acordo com o seu papel de parede';
+
+  @override
+  String get acceptTerms => 'Ao continuar, você concorda com a nossa ';
 }

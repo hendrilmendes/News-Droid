@@ -104,10 +104,6 @@
     "@after": {},
     "download": "BAIXAR",
     "@download": {},
-    "noUpdate": "Nenhuma atualização disponível",
-    "@noUpdate": {},
-    "noUpdateSub": "Você já está usando a versão mais recente",
-    "@noUpdateSub": {},
     "removedFavorite": "Postagem Removida",
     "@removedFavorite": {},
     "addFavorite": "Postagem Salva",
@@ -149,5 +145,7 @@
     "dynamicColors": "Dynamic Colors",
     "@dynamicColors": {},
     "dynamicColorsSub": "Proporciona uma interface agradável de acordo com o seu papel de parede",
-    "@dynamicColorsSub": {}
+    "@dynamicColorsSub": {},
+    "acceptTerms": "Ao continuar, você concorda com a nossa ",
+    "@acceptTerms": {}
 }

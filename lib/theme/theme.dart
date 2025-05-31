@@ -58,12 +58,6 @@ class ThemeModel extends ChangeNotifier {
         textTheme: Typography().black.apply(
           fontFamily: GoogleFonts.openSans().fontFamily,
         ),
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-            TargetPlatform.values,
-            value: (_) => const FadeForwardsPageTransitionsBuilder(),
-          ),
-        ),
       );
     }
     return ThemeModel.getLightTheme();
@@ -78,12 +72,6 @@ class ThemeModel extends ChangeNotifier {
         ),
         textTheme: Typography().white.apply(
           fontFamily: GoogleFonts.openSans().fontFamily,
-        ),
-        pageTransitionsTheme: PageTransitionsTheme(
-          builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-            TargetPlatform.values,
-            value: (_) => const FadeForwardsPageTransitionsBuilder(),
-          ),
         ),
       );
     }
@@ -152,12 +140,6 @@ class ThemeModel extends ChangeNotifier {
         backgroundColor: Colors.white,
         selectedItemColor: Colors.blue,
       ),
-      pageTransitionsTheme: PageTransitionsTheme(
-        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-          TargetPlatform.values,
-          value: (_) => const FadeForwardsPageTransitionsBuilder(),
-        ),
-      ),
     );
   }
 
@@ -172,14 +154,9 @@ class ThemeModel extends ChangeNotifier {
       ),
       bottomAppBarTheme: BottomAppBarTheme(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+        enableFeedback: true,
         backgroundColor: Colors.black,
         selectedItemColor: Colors.blue,
-      ),
-      pageTransitionsTheme: PageTransitionsTheme(
-        builders: Map<TargetPlatform, PageTransitionsBuilder>.fromIterable(
-          TargetPlatform.values,
-          value: (_) => const FadeForwardsPageTransitionsBuilder(),
-        ),
       ),
     );
   }

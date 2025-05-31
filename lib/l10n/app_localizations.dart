@@ -406,18 +406,6 @@ abstract class AppLocalizations {
   /// **'BAIXAR'**
   String get download;
 
-  /// No description provided for @noUpdate.
-  ///
-  /// In pt, this message translates to:
-  /// **'Nenhuma atualização disponível'**
-  String get noUpdate;
-
-  /// No description provided for @noUpdateSub.
-  ///
-  /// In pt, this message translates to:
-  /// **'Você já está usando a versão mais recente'**
-  String get noUpdateSub;
-
   /// No description provided for @removedFavorite.
   ///
   /// In pt, this message translates to:
@@ -445,7 +433,7 @@ abstract class AppLocalizations {
   /// No description provided for @homeLogin.
   ///
   /// In pt, this message translates to:
-  /// **'Bem-vindo ao News-Droid! Explore as notícias e aproveite a experiência.'**
+  /// **'Bem vindo ao nosso app, aproveite'**
   String get homeLogin;
 
   /// No description provided for @googleLogin.
@@ -543,6 +531,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Proporciona uma interface agradável de acordo com o seu papel de parede'**
   String get dynamicColorsSub;
+
+  /// No description provided for @acceptTerms.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ao continuar, você concorda com a nossa '**
+  String get acceptTerms;
 }
 
 class _AppLocalizationsDelegate

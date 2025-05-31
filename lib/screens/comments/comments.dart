@@ -45,13 +45,11 @@ class _CommentScreenState extends State<CommentScreen> {
 
       setState(() {
         if (commentsData != null && commentsData.isNotEmpty) {
-          comments =
-              commentsData
-                  .map(
-                    (commentData) =>
-                        Comment.fromJson(commentData, widget.postId),
-                  )
-                  .toList();
+          comments = commentsData
+              .map(
+                (commentData) => Comment.fromJson(commentData, widget.postId),
+              )
+              .toList();
           isLoading = false;
         } else {
           comments = [];
@@ -87,7 +85,8 @@ class _CommentScreenState extends State<CommentScreen> {
       final accessToken = googleAuth.accessToken;
 
       final commentId = _generateUniqueId();
-      final commentData = '''
+      final commentData =
+          '''
       <entry xmlns='http://www.w3.org/2005/Atom'>
         <id>$commentId</id>
         <content type='text'>$commentText</content>
@@ -288,124 +287,118 @@ class _CommentScreenState extends State<CommentScreen> {
       body: Column(
         children: [
           Expanded(
-            child:
-                isLoading
-                    ? Center(child: CircularProgressIndicator.adaptive())
-                    : comments.isEmpty
-                    ? Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.mode_comment_outlined,
-                            size: 64,
+            child: isLoading
+                ? Center(child: CircularProgressIndicator.adaptive())
+                : comments.isEmpty
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.mode_comment_outlined,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          AppLocalizations.of(context)!.noComment,
+                          style: TextStyle(
+                            fontSize: 16,
                             color: Theme.of(context).colorScheme.outline,
                           ),
-                          const SizedBox(height: 16),
-                          Text(
-                            AppLocalizations.of(context)!.noComment,
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Theme.of(context).colorScheme.outline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                    : ListView.separated(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: comments.length,
-                      separatorBuilder:
-                          (context, index) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        final comment = comments[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            color:
-                                Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        comment.authorAvatar,
-                                      ),
-                                      radius: 18,
-                                    ),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      comment.authorName,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.onSurface,
-                                      ),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      DateFormat(
-                                        'HH:mm • dd/MM/yy',
-                                      ).format(comment.postDate.toLocal()),
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.outline,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  comment.content,
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(
-                                          context,
-                                        ).colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.delete_outline,
-                                      size: 20,
-                                      color:
-                                          Theme.of(context).colorScheme.error,
-                                    ),
-                                    onPressed: () async {
-                                      final authService = AuthService();
-                                      final user =
-                                          await authService.currentUser();
-                                      if (user != null &&
-                                          user.displayName ==
-                                              comment.authorName) {
-                                        await deleteComment(comment.id);
-                                      } else {
-                                        _showErrorDelete();
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
+                  )
+                : ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: comments.length,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final comment = comments[index];
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                      comment.authorAvatar,
+                                    ),
+                                    radius: 18,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    comment.authorName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    DateFormat(
+                                      'HH:mm • dd/MM/yy',
+                                    ).format(comment.postDate.toLocal()),
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.outline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                comment.content,
+                                style: TextStyle(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.delete_outline,
+                                    size: 20,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
+                                  onPressed: () async {
+                                    final authService = AuthService();
+                                    final user = await authService
+                                        .currentUser();
+                                    if (user != null &&
+                                        user.displayName ==
+                                            comment.authorName) {
+                                      await deleteComment(comment.id);
+                                    } else {
+                                      _showErrorDelete();
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -431,8 +424,9 @@ class _CommentScreenState extends State<CommentScreen> {
                         controller: commentController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText:
-                              AppLocalizations.of(context)!.hintTextComment,
+                          hintText: AppLocalizations.of(
+                            context,
+                          )!.hintTextComment,
                           hintStyle: TextStyle(
                             color: Theme.of(context).colorScheme.outline,
                           ),
@@ -452,52 +446,49 @@ class _CommentScreenState extends State<CommentScreen> {
                         color: Theme.of(context).colorScheme.primary,
                       ),
                       child: IconButton(
-                        icon:
-                            isSubmitting
-                                ? SizedBox(
-                                  width: 20,
-                                  height: 20,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                  ),
-                                )
-                                : Icon(
-                                  Icons.send,
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
+                        icon: isSubmitting
+                            ? SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
                                 ),
-                        onPressed:
-                            isSubmitting
-                                ? null
-                                : () async {
-                                  final commentText = commentController.text;
-                                  final authService = AuthService();
-                                  final user = await authService.currentUser();
+                              )
+                            : Icon(
+                                Icons.send,
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                        onPressed: isSubmitting
+                            ? null
+                            : () async {
+                                final commentText = commentController.text;
+                                final authService = AuthService();
+                                final user = await authService.currentUser();
 
-                                  if (user != null) {
-                                    final authorName =
-                                        user.displayName ??
-                                        // ignore: use_build_context_synchronously
-                                        AppLocalizations.of(context)!.human;
-                                    final authorAvatar =
-                                        user.photoURL ??
-                                        'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
-                                    final commentDate =
-                                        DateTime.now().toString();
-                                    final postId = widget.postId;
-                                    await addComment(
-                                      commentText,
-                                      authorName,
-                                      authorAvatar,
-                                      commentDate,
-                                      postId,
-                                    );
-                                  } else {
-                                    await _showErrorDialog();
-                                  }
-                                },
+                                if (user != null) {
+                                  final authorName =
+                                      user.displayName ??
+                                      // ignore: use_build_context_synchronously
+                                      AppLocalizations.of(context)!.human;
+                                  final authorAvatar =
+                                      user.photoURL ??
+                                      'https://github.com/hendrilmendes/News-Droid/blob/main/assets/img/ic_launcher.png?raw=true';
+                                  final commentDate = DateTime.now().toString();
+                                  final postId = widget.postId;
+                                  await addComment(
+                                    commentText,
+                                    authorName,
+                                    authorAvatar,
+                                    commentDate,
+                                    postId,
+                                  );
+                                } else {
+                                  await _showErrorDialog();
+                                }
+                              },
                       ),
                     ),
                   ],

@@ -2,6 +2,25 @@ Changelog
 
 ======================================================
 
+## [3.8.0](https://github.com/hendrilmendes/News-Droid/compare/3.7.2..3.8.0) (**-06-2025)
+
+## Alterações
+
+- Alterado animação de transição entre telas
+- Na tela de login, agora exibe informações sobre a política de privacidade
+- Ajustes no design do PageView da Home
+
+### Correções
+
+- Corrigido bug relacionado a buscas por atualizações
+
+## Features
+
+- Novo design para visualização de posts
+
+
+======================================================
+
 ## [3.7.2](https://github.com/hendrilmendes/News-Droid/compare/3.7.1..3.7.2) (04-04-2025)
 
 ## Alterações

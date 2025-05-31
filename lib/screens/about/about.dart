@@ -54,10 +54,9 @@ class _AboutPageState extends State<AboutPage> {
         }
 
         setState(() {
-          releaseNotes =
-              versionRelease.isNotEmpty
-                  ? versionRelease
-                  : 'Release para esta versão não encontrada. Verifique se há uma versão correspondente no GitHub.';
+          releaseNotes = versionRelease.isNotEmpty
+              ? versionRelease
+              : 'Release para esta versão não encontrada. Verifique se há uma versão correspondente no GitHub.';
           isLoading = false;
         });
       } else {
@@ -97,23 +96,19 @@ class _AboutPageState extends State<AboutPage> {
               ),
             ],
           ),
-          content:
-              isLoading
-                  ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [CircularProgressIndicator.adaptive()],
-                  )
-                  : SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          releaseNotes,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                      ],
-                    ),
+          content: isLoading
+              ? Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [CircularProgressIndicator.adaptive()],
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(releaseNotes, style: const TextStyle(fontSize: 14)),
+                    ],
                   ),
+                ),
         );
       },
     );
@@ -148,7 +143,7 @@ class _AboutPageState extends State<AboutPage> {
             const SizedBox(height: 20),
             Center(
               child: Text(
-                'Copyright © Hendril Mendes, 2015-$currentYear',
+                'Copyright © Hendril Mendes $currentYear',
                 style: const TextStyle(fontSize: 12),
               ),
             ),
@@ -217,11 +212,11 @@ class _AboutPageState extends State<AboutPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder:
-                              (context) => LicensePage(
-                                applicationName:
-                                    AppLocalizations.of(context)!.appName,
-                              ),
+                          builder: (context) => LicensePage(
+                            applicationName: AppLocalizations.of(
+                              context,
+                            )!.appName,
+                          ),
                         ),
                       );
                     },
