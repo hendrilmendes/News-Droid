@@ -54,15 +54,10 @@ android {
         applicationId "com.github.hendrilmendes.news"
         minSdkVersion 26
         targetSdk 36
-        ndkVersion = "27.0.12077973"
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
         multiDexEnabled = true
-
-        ndk {
-            debugSymbolLevel 'FULL'
-        }
     }
 
     signingConfigs {
