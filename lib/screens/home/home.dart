@@ -170,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: isLoading
           ? Center(
               child: CircularProgressIndicator.adaptive(
-                backgroundColor: Theme.of(context).colorScheme.primary,
               ),
             )
           : PostListWidget(
