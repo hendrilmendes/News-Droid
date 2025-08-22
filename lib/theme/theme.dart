@@ -152,7 +152,7 @@ class ThemeModel extends ChangeNotifier {
       textTheme: Typography().white.apply(
         fontFamily: GoogleFonts.openSans().fontFamily,
       ),
-      bottomAppBarTheme: BottomAppBarTheme(color: Colors.black),
+      bottomAppBarTheme: const BottomAppBarThemeData(color: Colors.black),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         enableFeedback: true,
         backgroundColor: Colors.black,
