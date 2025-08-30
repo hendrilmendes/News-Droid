@@ -9,7 +9,6 @@ import 'package:newsdroid/widgets/settings/about.dart';
 import 'package:newsdroid/widgets/settings/accounts.dart';
 import 'package:newsdroid/widgets/settings/dynamic_colors.dart';
 import 'package:newsdroid/widgets/settings/notification.dart';
-import 'package:newsdroid/widgets/settings/review.dart';
 import 'package:newsdroid/widgets/settings/search.dart';
 import 'package:newsdroid/widgets/settings/support.dart';
 import 'package:newsdroid/widgets/settings/theme.dart';
@@ -79,7 +78,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               context,
               Column(
                 children: [
-                  buildReviewSettings(context),
                   buildSupportSettings(context),
                 ],
               ),

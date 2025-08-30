@@ -145,12 +145,6 @@ class AppLocalizationsPt extends AppLocalizations {
   String get supportSub => 'Encontrou um bug ou deseja sugerir algo?';
 
   @override
-  String get review => 'Avalie o App';
-
-  @override
-  String get reviewSub => 'Faça uma avaliação na loja de apps';
-
-  @override
   String get aboutSub => 'Um pouco mais sobre o app';
 
   @override

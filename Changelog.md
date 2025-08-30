@@ -2,6 +2,16 @@ Changelog
 
 ======================================================
 
+## [3.8.2](https://github.com/hendrilmendes/News-Droid/compare/3.8.1..3.8.2) (**-**-2025)
+
+
+### Correções
+
+- Correções no código
+
+
+======================================================
+
 ## [3.8.1](https://github.com/hendrilmendes/News-Droid/compare/3.8.0..3.8.1) (09-08-2025)
 
 ### Correções

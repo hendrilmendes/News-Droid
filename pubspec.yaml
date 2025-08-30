@@ -2,7 +2,7 @@ name: newsdroid
 description: Um projeto amador para um app de notícias.
 
 publish_to: 'none'
-version: 3.8.1+20250809
+version: 3.8.2+20250827
 
 environment:
   sdk: ^3.8.0
@@ -26,22 +26,12 @@ dependencies:
 # Dynamic Color
   dynamic_color: ^1.8.1
 
-# Email
-  flutter_email_sender: ^7.0.0
-
 # Firebase
   firebase_auth: ^6.0.0
   firebase_core: ^4.0.0
   firebase_crashlytics: ^5.0.0
   firebase_messaging: ^16.0.0
   firebase_performance: ^0.11.0
-
-# Feedback
-  feedback:
-      git:
-        url: https://github.com/hendrilmendes/feedback.git
-        path: feedback
-        ref: 5b2c7ae
 
 # Google Sign
   google_fonts: ^6.3.0
@@ -64,17 +54,11 @@ dependencies:
 # Package Info
   package_info_plus: ^8.3.0
 
-# Path Provider
-  path_provider: ^2.1.5
-
 # Permission Handler
   permission_handler: ^12.0.0+1
 
 # Provider
   provider: ^6.1.5
-  
-# Review  
-  in_app_review: ^2.0.10
   
 # Share Plus
   share_plus: ^11.0.0
@@ -97,6 +81,9 @@ dependencies:
 # Widget HTML
   flutter_widget_from_html: ^0.17.0
 
+# Wiredash
+  wiredash: ^2.5.0
+  
   flutter_localizations:
     sdk: flutter
 

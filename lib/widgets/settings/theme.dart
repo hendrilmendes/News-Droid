@@ -17,79 +17,39 @@ class ThemeSettings extends StatelessWidget {
             title: Text(appLocalizations.themeSelect),
             content: StatefulBuilder(
               builder: (BuildContext context, StateSetter setState) {
-                return Container(
-                  color: Colors.transparent,
+                return RadioGroup<ThemeModeType>(
+                  groupValue: themeModel.themeMode,
+                  onChanged: (ThemeModeType? value) {
+                    if (value != null) {
+                      setState(() {
+                        themeModel.changeThemeMode(value);
+                      });
+                      Navigator.pop(context);
+                    }
+                  },
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            themeModel.changeThemeMode(ThemeModeType.light);
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: ThemeModeType.light,
-                              groupValue: themeModel.themeMode,
-                              onChanged: (value) {
-                                setState(() {
-                                  themeModel.changeThemeMode(value!);
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Text(appLocalizations.lightMode),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Radio<ThemeModeType>(value: ThemeModeType.light),
+                          const SizedBox(width: 8),
+                          Text(appLocalizations.lightMode),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            themeModel.changeThemeMode(ThemeModeType.dark);
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: ThemeModeType.dark,
-                              groupValue: themeModel.themeMode,
-                              onChanged: (value) {
-                                setState(() {
-                                  themeModel.changeThemeMode(value!);
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Text(appLocalizations.darkMode),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Radio<ThemeModeType>(value: ThemeModeType.dark),
+                          const SizedBox(width: 8),
+                          Text(appLocalizations.darkMode),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            themeModel.changeThemeMode(ThemeModeType.system);
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: ThemeModeType.system,
-                              groupValue: themeModel.themeMode,
-                              onChanged: (value) {
-                                setState(() {
-                                  themeModel.changeThemeMode(value!);
-                                });
-                                Navigator.pop(context);
-                              },
-                            ),
-                            Text(appLocalizations.systemMode),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Radio<ThemeModeType>(value: ThemeModeType.system),
+                          const SizedBox(width: 8),
+                          Text(appLocalizations.systemMode),
+                        ],
                       ),
                     ],
                   ),

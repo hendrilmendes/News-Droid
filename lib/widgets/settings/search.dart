@@ -28,104 +28,77 @@ class _SearchBarSettingState extends State<SearchBarSetting> {
 
   Future<void> saveSearchBarPosition(bool value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('searchBarPosition', value);
+    await prefs.setBool('searchBarPosition', value);
     setState(() {
       showSearchBarAtBottom = value;
     });
   }
 
   void _showPositionDialog(BuildContext context) {
-    final appLocalizations = AppLocalizations.of(context);
-    if (appLocalizations != null) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(appLocalizations.searchBarPosition),
-            content: StatefulBuilder(
-              builder: (BuildContext context, StateSetter setState) {
-                return Container(
-                  color: Colors.transparent,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showSearchBarAtBottom = false;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: false,
-                              groupValue: showSearchBarAtBottom,
-                              onChanged: (bool? value) {
-                                if (value != null) {
-                                  setState(() {
-                                    showSearchBarAtBottom = value;
-                                  });
-                                }
-                              },
-                            ),
-                            Text(appLocalizations.positionTop),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            showSearchBarAtBottom = true;
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            Radio(
-                              value: true,
-                              groupValue: showSearchBarAtBottom,
-                              onChanged: (bool? value) {
-                                if (value != null) {
-                                  setState(() {
-                                    showSearchBarAtBottom = value;
-                                  });
-                                }
-                              },
-                            ),
-                            Text(appLocalizations.positionBottom),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
+    final appLocalizations = AppLocalizations.of(context)!;
+    bool? selectedPosition = showSearchBarAtBottom;
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, dialogSetState) {
+            return AlertDialog(
+              title: Text(appLocalizations.searchBarPosition),
+              // O RadioGroup agora gerencia o estado das opções de rádio
+              content: RadioGroup<bool>(
+                groupValue: selectedPosition,
+                onChanged: (value) {
+                  dialogSetState(() {
+                    selectedPosition = value;
+                  });
                 },
-                child: Text(appLocalizations.cancel),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Os RadioListTiles agora só precisam do 'value'
+                    RadioListTile<bool>(
+                      title: Text(appLocalizations.positionTop),
+                      value: false,
+                    ),
+                    RadioListTile<bool>(
+                      title: Text(appLocalizations.positionBottom),
+                      value: true,
+                    ),
+                  ],
+                ),
               ),
-              FilledButton(
-                onPressed: () {
-                  saveSearchBarPosition(showSearchBarAtBottom);
-                  Navigator.of(context).pop();
-                },
-                child: Text(appLocalizations.ok),
-              ),
-            ],
-          );
-        },
-      );
-    }
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(appLocalizations.cancel),
+                ),
+                FilledButton(
+                  onPressed: () {
+                    if (selectedPosition != null) {
+                      saveSearchBarPosition(selectedPosition!);
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(appLocalizations.ok),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    final positionText = showSearchBarAtBottom
+        ? AppLocalizations.of(context)!.positionBottom
+        : AppLocalizations.of(context)!.positionTop;
+
     return ListTile(
       title: Text(AppLocalizations.of(context)!.searchPosition),
-      subtitle: Text(AppLocalizations.of(context)!.searchPositionSub),
+      subtitle: Text(positionText),
       leading: const Icon(Icons.search_outlined),
       tileColor: Theme.of(context).listTileTheme.tileColor,
       onTap: () {

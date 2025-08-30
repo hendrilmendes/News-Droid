@@ -1,11 +1,9 @@
-import 'package:feedback/feedback.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -20,6 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/models/favorite_model.dart';
 import 'package:shorebird_code_push/shorebird_code_push.dart';
+import 'package:wiredash/wiredash.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -33,20 +32,7 @@ Future<void> main() async {
   // AdMob
   await MobileAds.instance.initialize();
 
-  runApp(
-    BetterFeedback(
-      theme: FeedbackThemeData.light(),
-      darkTheme: FeedbackThemeData.dark(),
-      localizationsDelegates: [
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalFeedbackLocalizationsDelegate(),
-      ],
-      localeOverride: const Locale('pt'),
-      child: const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 
   // Favoritos
   await Hive.initFlutter();
@@ -138,17 +124,21 @@ class _MyAppState extends State<MyApp> {
       ],
       child: Consumer<ThemeModel>(
         builder: (_, themeModel, _) {
-          return MaterialApp(
-            theme: themeModel.lightTheme,
-            darkTheme: themeModel.darkTheme,
-            themeMode: _getThemeMode(themeModel.themeMode),
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
-            supportedLocales: AppLocalizations.supportedLocales,
-            home: _buildHome(context),
-            routes: {
-              '/login': (context) => LoginScreen(authService: authService),
-            },
+          return Wiredash(
+            projectId: 'news-droid-22zr3ow',
+            secret: 'RXIF1RTjF1cWsjHFm3dpdiI4uE2qAm02',
+            child: MaterialApp(
+              theme: themeModel.lightTheme,
+              darkTheme: themeModel.darkTheme,
+              themeMode: _getThemeMode(themeModel.themeMode),
+              debugShowCheckedModeBanner: false,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: _buildHome(context),
+              routes: {
+                '/login': (context) => LoginScreen(authService: authService),
+              },
+            ),
           );
         },
       ),

@@ -358,18 +358,6 @@ abstract class AppLocalizations {
   /// **'Encontrou um bug ou deseja sugerir algo?'**
   String get supportSub;
 
-  /// No description provided for @review.
-  ///
-  /// In pt, this message translates to:
-  /// **'Avalie o App'**
-  String get review;
-
-  /// No description provided for @reviewSub.
-  ///
-  /// In pt, this message translates to:
-  /// **'Faça uma avaliação na loja de apps'**
-  String get reviewSub;
-
   /// No description provided for @aboutSub.
   ///
   /// In pt, this message translates to:
