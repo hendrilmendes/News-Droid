@@ -15,7 +15,7 @@ dependencies:
   cached_network_image: ^3.4.1
 
 # Connectivity Plus
-  connectivity_plus: ^6.1.4
+  connectivity_plus: ^7.0.0
 
 # Crypto
   crypto: ^3.0.6
@@ -61,7 +61,7 @@ dependencies:
   provider: ^6.1.5
   
 # Share Plus
-  share_plus: ^11.0.0
+  share_plus: ^12.0.0
 
 # Shared Preferences
   shared_preferences: ^2.5.3
