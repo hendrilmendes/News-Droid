@@ -1,9 +1,12 @@
+import 'dart:async'; // Adicionado para lidar com zonas de erro se necessário
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -13,7 +16,6 @@ import 'package:newsdroid/l10n/app_localizations.dart';
 import 'package:newsdroid/screens/login/login.dart';
 import 'package:newsdroid/updater/updater.dart';
 import 'package:newsdroid/widgets/bottom_navigation.dart';
-import 'package:newsdroid/widgets/permissions/permissions.dart';
 import 'package:provider/provider.dart';
 import 'package:newsdroid/theme/theme.dart';
 import 'package:newsdroid/models/favorite_model.dart';
@@ -24,25 +26,34 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Shorebird
-  await ShorebirdUpdater().checkForUpdate();
-
-  // AdMob
-  await MobileAds.instance.initialize();
-
-  runApp(const MyApp());
-
-  // Favoritos
   await Hive.initFlutter();
   Hive.registerAdapter(FavoritePostAdapter());
   await Hive.openBox('favorite_posts');
 
-  // Data da publicacao formatada
   await initializeDateFormatting();
 
-  // Firebase Messaging
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+  runApp(const MyApp());
+
+  (() async {
+    try {
+      await ShorebirdUpdater().checkForUpdate();
+    } catch (e) {
+      if (kDebugMode) print("Erro no Shorebird: $e");
+    }
+  })();
+
+  MobileAds.instance.initialize();
+
+  _setupNotifications();
+}
+
+Future<void> _setupNotifications() async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   NotificationSettings settings = await messaging.requestPermission(
@@ -63,16 +74,7 @@ Future<void> main() async {
 
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
     if (kDebugMode) {
-      print("Recebi uma mensagem enquanto estava em primeiro plano!");
-    }
-    if (kDebugMode) {
-      print("Dados da mensagem: ${message.data}");
-    }
-
-    if (message.notification != null) {
-      if (kDebugMode) {
-        print("A mensagem continha uma notificação: ${message.notification}");
-      }
+      print("Recebi uma mensagem em primeiro plano: ${message.data}");
     }
   });
 }
@@ -82,12 +84,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   if (kDebugMode) {
     print("Lidando com uma mensagem em segundo plano: ${message.messageId}");
   }
-
-  //Permissoes
-  await requestPermissions();
-
-  // Firebase
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 }
 
 ThemeMode _getThemeMode(ThemeModeType mode) {
@@ -112,6 +108,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AuthService authService = AuthService();
   bool _updateChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +150,18 @@ class _MyAppState extends State<MyApp> {
     return FutureBuilder<User?>(
       future: authService.currentUser(),
       builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator.adaptive()),
+          );
+        }
+
         if (snapshot.connectionState == ConnectionState.done) {
           if (!_updateChecked) {
             _updateChecked = true;
-            Updater.checkUpdateApp(context);
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              Updater.checkUpdateApp(context);
+            });
           }
 
           if (snapshot.hasData) {
@@ -160,11 +169,11 @@ class _MyAppState extends State<MyApp> {
           } else {
             return LoginScreen(authService: authService);
           }
-        } else {
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator.adaptive()),
-          );
         }
+
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator.adaptive()),
+        );
       },
     );
   }
